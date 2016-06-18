@@ -26,6 +26,12 @@ return [
         'model' => 'Pingpong\Admin\Entities\Subscriber',
         'perpage' => 10
     ],
+	
+	'sqoption' => [
+        'model' => 'Pingpong\Admin\Entities\Sqoption',
+        'perpage' => 10
+    ],
+	
     'page' => [
         'perpage' => 10
     ],

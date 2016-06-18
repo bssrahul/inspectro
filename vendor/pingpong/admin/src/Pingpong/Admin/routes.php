@@ -99,6 +99,19 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
             ]
         ]);
 		
+		Route::resource('sqoptions', 'SqoptionsController', [
+            'except' => 'show',
+            'names' => [
+                'index' => 'admin.sqoptions.index',
+                'create' => 'admin.sqoptions.create',
+                'store' => 'admin.sqoptions.store',
+                'show' => 'admin.sqoptions.show',
+                'update' => 'admin.sqoptions.update',
+                'edit' => 'admin.sqoptions.edit',
+                'destroy' => 'admin.sqoptions.destroy',
+            ]
+        ]);
+		
 		//Route::post('/categories/create', ['as' => 'admin.categories.store', 'uses' => 'CategoriesController@store']);
         Route::resource('roles', 'RolesController', [
             'except' => 'show',

@@ -31,4 +31,9 @@ Menu::create('admin-menu', function ($menu) {
         $sub->route('admin.categories.index', 'Categories Listing', [], 1);
         $sub->route('admin.categories.create', 'Add Categories', [], 2);
     }, 4, ['icon' => 'fa fa-flag']);
+	
+	$menu->dropdown('Subcategories questions options', function ($sub) {
+        $sub->route('admin.sqoptions.index', 'Subcategories questions options Listing', [], 1);
+        $sub->route('admin.sqoptions.create', 'Add Subcategories questions options', [], 2);
+    }, 5, ['icon' => 'fa fa-flag']);
 });
