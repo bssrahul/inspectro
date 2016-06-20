@@ -2,17 +2,16 @@
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-
-use Pingpong\Admin\Entities\Category;
-use Pingpong\Admin\Repositories\Categories\CategoryRepository;
-use Pingpong\Admin\Validation\Category\Create;
-use Pingpong\Admin\Validation\Category\Update;
-
-class CategoriesController extends BaseController
+use Pingpong\Admin\Entities\Sqoption;
+use Pingpong\Admin\Repositories\Sqoptions\SqoptionRepository;
+use Pingpong\Admin\Validation\Sqoption\Create;
+use Pingpong\Admin\Validation\Sqoption\Update;
+use DB;
+class SqoptionsController extends BaseController
 {
     protected $repository;
 
-    public function __construct(CategoryRepository $repository)
+    public function __construct(SqoptionRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -23,7 +22,7 @@ class CategoriesController extends BaseController
      */
     protected function redirectNotFound()
     {
-        return $this->redirect('categories.index');
+        return $this->redirect('sqoptions.index');
     }
 
     /**
@@ -35,10 +34,10 @@ class CategoriesController extends BaseController
     {
 			
         $categories = $this->repository->allOrSearch($request->get('q'));
-     
-        $no = $categories->firstItem();
-       //  print_R($no);exit;
-        return $this->view('categories.index', compact('categories', 'no'));
+		//echo "<pre>";print_r();
+       $no = $categories->firstItem();
+       // print_R($no);exit;
+        return $this->view('sqoptions.index', compact('categories', 'no'));
     }
 
     /**
@@ -48,8 +47,14 @@ class CategoriesController extends BaseController
      */
     public function create()
     {
-
-		return $this->view('categories.create');
+		$op_type = DB::table('option_type')->lists('op_type','id');
+		$question = DB::table('categories')->where('type','question')->lists('title','id');
+		//print_r($category);die;
+		$sel1[]='---Select Question---';
+		$question=$sel1+$question;
+		$sel[]='---Select option type---';
+		$op_type=$sel+$op_type;
+		return $this->view('Sqoptions.create',compact('op_type','question'));
 
     } 
 
@@ -61,8 +66,30 @@ class CategoriesController extends BaseController
    public function store(Create $request)
     {  
         $data = $request->all();
-	    Category::create($data);
-        return $this->redirect('categories.index');
+		$options=$data['options'];
+		$optionck=$data['optioncks'];
+		print_r($optionck);
+		foreach($options as $k=>$v)
+		{
+			echo $k;
+			if(empty($optionck[$k]))
+			{
+				$optionck[$k]=0;
+			}
+			
+			if(isset($optionck[$k]))
+			{
+				$optionsarray[]=array('status'=>$optionck[$k],'option'=>$v);
+				
+			}
+			
+		}
+		//print_r($optionck);die;
+		//echo '<pre>';
+		//print_r(json_encode($optionsarray,true));die;
+		$data['options']=json_encode($optionsarray,true);
+	    Sqoption::create($data);
+        return $this->redirect('sqoptions.index');
     } 
 
     /**
@@ -75,7 +102,7 @@ class CategoriesController extends BaseController
     {
         try {
             $category = $this->repository->findById($id);
-            return $this->view('categories.show', compact('category'));
+            return $this->view('Sqoptions.show', compact('category'));
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }
@@ -91,7 +118,7 @@ class CategoriesController extends BaseController
     {
         try {
             $category = $this->repository->findById($id);
-            return $this->view('categories.edit', compact('category'));
+            return $this->view('Sqoptions.edit', compact('category'));
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }
@@ -112,7 +139,7 @@ class CategoriesController extends BaseController
 
             $category->update($data);
 
-            return $this->redirect('categories.index');
+            return $this->redirect('Sqoptions.index');
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }
@@ -129,7 +156,7 @@ class CategoriesController extends BaseController
         try {
             $this->repository->delete($id);
 
-            return $this->redirect('categories.index');
+            return $this->redirect('Sqoptions.index');
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }

@@ -24,6 +24,7 @@ class RepositoriesServiceProvider extends ServiceProvider
         'Category',
         'Role',
         'Permission',
+        'Sqoption',
     ];
 
     /**
@@ -75,6 +76,14 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             'Pingpong\Admin\Repositories\Categories\CategoryRepository',
             'Pingpong\Admin\Repositories\Categories\EloquentCategoryRepository'
+        );
+    }
+	
+	protected function bindSqoptionRepository()
+    {
+        $this->app->bind(
+            'Pingpong\Admin\Repositories\Sqoptions\SqoptionRepository',
+            'Pingpong\Admin\Repositories\Sqoptions\EloquentSqoptionRepository'
         );
     }
 
