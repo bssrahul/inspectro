@@ -95,7 +95,38 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
                 'show' => 'admin.categories.show',
                 'update' => 'admin.categories.update',
                 'edit' => 'admin.categories.edit',
-                'destroy' => 'admin.categories.destroy',
+				'destroy' => 'admin.categories.destroy',
+            ]
+        ]);
+		
+		Route::get('service/{id}', ['as' => 'admin.categories.services', 'uses' => 'CategoriesController@services']);
+		Route::get('servicecreate/{id}', ['as' => 'admin.categories.servicecreate', 'uses' => 'CategoriesController@servicecreate']);
+		
+		
+		Route::any('servicestore', ['as' => 'admin.categories.servicestore', 'uses' => 'CategoriesController@servicestore']);
+		//Route::any('servicecreate', ['as' => 'admin.categories.servicecreate', 'uses' => 'CategoriesController@servicecreate']);
+		Route::resource('subcategories', 'SubcategoriesController', [
+            'except' => 'show',
+            'names' => [
+                'index' => 'admin.subcategories.index',
+                'create' => 'admin.subcategories.create',
+                'store' => 'admin.subcategories.store',
+                'show' => 'admin.subcategories.show',
+                'update' => 'admin.subcategories.update',
+                'edit' => 'admin.subcategories.edit',
+                'destroy' => 'admin.subcategories.destroy',
+            ]
+        ]);
+		Route::resource('services', 'ServicesController', [
+            'except' => 'show',
+            'names' => [
+                'index' => 'admin.services.index',
+                'create' => 'admin.services.create',
+                'store' => 'admin.services.store',
+                'show' => 'admin.services.show',
+                'update' => 'admin.services.update',
+                'edit' => 'admin.services.edit',
+                'destroy' => 'admin.services.destroy',
             ]
         ]);
 		
@@ -108,7 +139,9 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
                 'show' => 'admin.sqoptions.show',
                 'update' => 'admin.sqoptions.update',
                 'edit' => 'admin.sqoptions.edit',
-                'destroy' => 'admin.sqoptions.destroy',
+                'option' => 'admin.sqoptions.option',
+				'destroy' => 'admin.sqoptions.destroy',
+              
             ]
         ]);
 		

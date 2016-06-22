@@ -1,0 +1,63 @@
+<?php if(isset($model)): ?>
+<?php echo Form::model($model, ['method' => 'PUT', 'files' => true, 'route' => ['admin.subcategories.update', $model->id]]); ?>
+
+<?php else: ?>
+<?php echo Form::open(['files' => true, 'route' => 'admin.subcategories.store']); ?>
+
+<?php endif; ?>
+
+	<div class="form-group">
+		<?php echo Form::label('categoty_id', 'Category:'); ?>
+
+		<?php echo Form::text('categoty_id', null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('categoty_id', '<div class="text-danger">:message</div>'); ?>
+
+	</div>
+	<div class="form-group">
+		<?php echo Form::label('title', 'Title:'); ?>
+
+		<?php echo Form::text('title', null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('title', '<div class="text-danger">:message</div>'); ?>
+
+	</div>
+	
+	<div class="form-group">
+		<?php echo Form::label('status', 'Description:'); ?>
+
+		<?php echo Form::textarea('description', null, ['class' => 'form-control', 'id' => 'ckeditor']); ?>
+
+		<?php echo $errors->first('description', '<div class="text-danger">:message</div>'); ?>
+
+	</div>
+	<div class="form-group">
+		<?php echo Form::submit(isset($model) ? 'Update' : 'Save', ['class' => 'btn btn-primary']); ?>
+
+	</div>
+<?php echo Form::close(); ?>
+
+<?php $__env->startSection('script'); ?>
+	
+	<?php echo script('vendor/ckeditor/ckeditor.js'); ?>
+
+	<?php echo script('vendor/ckfinder/ckfinder.js'); ?>
+
+	
+	<script type="text/javascript">
+		CKEDITOR.editorConfig = function( config ) {
+			var prefix = '/<?php echo option("ckfinder.prefix"); ?>';
+
+		   config.filebrowserBrowseUrl = prefix + '/vendor/ckfinder/ckfinder.html';
+		   config.filebrowserImageBrowseUrl = prefix + '/vendor/ckfinder/ckfinder.html?type=Images';
+		   config.filebrowserFlashBrowseUrl = prefix + '/vendor/ckfinder/ckfinder.html?type=Flash';
+		   config.filebrowserUploadUrl = prefix + '/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
+		   config.filebrowserImageUploadUrl = prefix + '/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
+		   config.filebrowserFlashUploadUrl = prefix + '/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
+		};
+
+		var editor = CKEDITOR.replace( 'ckeditor' );
+		var prefix = '/<?php echo option("ckfinder.prefix"); ?>';
+		CKFinder.setupCKEditor( editor, prefix + '/vendor/ckfinder/') ;
+	</script>
+<?php $__env->stopSection(); ?>

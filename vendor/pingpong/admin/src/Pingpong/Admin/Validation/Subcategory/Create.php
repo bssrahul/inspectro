@@ -1,4 +1,4 @@
-<?php namespace Pingpong\Admin\Validation\Category;
+<?php namespace Pingpong\Admin\Validation\Subcategory;
 
 use Pingpong\Admin\Validation\Validator;
 
@@ -8,8 +8,8 @@ class Create extends Validator
     public function rules()
     {
         return [
-            'title' => 'required',
-			'type' => 'required',
+            'category_id' => 'required',
+			'title' => 'required',
             'description' => 'required|unique:categories',
         ];
     }

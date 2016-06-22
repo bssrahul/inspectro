@@ -1,6 +1,4 @@
-@extends($layout)
-
-@section('content-header')
+<?php $__env->startSection('content-header'); ?>
 	<h1>
 		All  <?php if((!empty($pid)) && (empty($sid))){
 						$id=$pid;
@@ -16,17 +14,18 @@
 						$type='category';
 						echo "Categories";
 					}
-		?>({!! $categories->count() !!})
+		?>(<?php echo $categories->count(); ?>)
 		&middot;
 		
 		
-		<small>{!! link_to_route('admin.categories.create', 'Add New',['id'=>$id,'type' => $type]) !!}
+		<small><?php echo link_to_route('admin.categories.create', 'Add New',['id'=>$id,'type' => $type]); ?>
+
 		
 		</small>
 	</h1>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 	<table class="table">
 		<thead>
@@ -39,50 +38,53 @@
 		
 		</thead>
 		<tbody>
-			@foreach ($categories as $category)
+			<?php foreach($categories as $category): ?>
 			<tr>
-				<td>{!! $no !!}</td>
-				<td>{!! $category->title !!}</td>
-				<td>{!! $category->description !!}</td>
-				<td>@if($category->status == '1')
+				<td><?php echo $no; ?></td>
+				<td><?php echo $category->title; ?></td>
+				<td><?php echo $category->description; ?></td>
+				<td><?php if($category->status == '1'): ?>
 							<span class='label label-active'>Active</span>
-					@else
+					<?php else: ?>
 					  <span class='label label-deactive '>Deactive</span>
-					@endif
+					<?php endif; ?>
 				
 				</td>
-				<td>{!! $category->created_at !!}</td>
+				<td><?php echo $category->created_at; ?></td>
 				<td class="text-center">
 			
-					<a href="{!! route('admin.categories.edit', [$category->id,'type' => $type]) !!}">Edit</a>
+					<a href="<?php echo route('admin.categories.edit', [$category->id,'type' => $type]); ?>">Edit</a>
 					&middot;
-					@include('admin::partials.modal', ['data' => $category, 'name' => 'categories'])
+					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'categories'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
 				
 				<td class="text-center">
 				<?php  if((!empty($pid)) && (empty($sid))){?>
 					
-						{!! link_to_route('admin.categories.index', 'View Question', [ 's_id' =>$category->id ]) !!}
+						<?php echo link_to_route('admin.categories.index', 'View Question', [ 's_id' =>$category->id ]); ?>
+
 					
 				<?php  }elseif(empty($sid)){ ?>
 				
 						<td class="text-center">
-							{!! link_to_route('admin.categories.index', 'View Services', [ 'p_id' =>$category->id ]) !!}
+							<?php echo link_to_route('admin.categories.index', 'View Services', [ 'p_id' =>$category->id ]); ?>
+
 						</td>	
 				<?php }?>
 				</td>	
 			</tr>
 			<?php $no++ ;?>
-			@endforeach
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 
 	<div class="text-center">
-		{!! pagination_links($categories) !!}
-	</div>
-@stop
+		<?php echo pagination_links($categories); ?>
 
-@section('style')
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('style'); ?>
 <style>
 .active{
 	color:green;
@@ -110,4 +112,5 @@
 	
 }
 </style>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,156 @@
+<?php $__env->startSection('content-header'); ?>
+	<h1>
+		All sub category option (<?php echo $categories->count(); ?>)
+		&middot;
+		<small><?php echo link_to_route('admin.sqoptions.create', 'Add New'); ?></small>
+	</h1>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+	<table class="table">
+		<thead>
+			
+			<th>Question</th>
+			
+			
+		</thead>
+		<tbody>
+
+			<?php foreach($categories as $category): ?>
+			<tr>
+				
+				<td><?php echo $category->question[0]->title; ?></td>
+				<!--<td>	<?php  $jsondata=$category->options;	$optionArr=json_decode($jsondata);
+						$option=""; $status="";
+						foreach($optionArr as $optionData){
+							echo	$option=$optionData->option."	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "; 
+							$status=$optionData->status;
+							if($status == 0){
+							 		echo "<span class='label label-active'>Active</span>"; 
+							}else{
+									echo "<span class='label label-deactive '>Deactive</span>";
+							};
+							echo "</br></br>";
+						}
+
+				?>
+						
+						
+				</td>
+				<td><?php echo $category->option_type; ?></td>-->
+				<td><?php if($category->status == '1'): ?>
+							<span class='label label-active'>Active</span>
+					<?php else: ?>
+					  <span class='label label-deactive '>Deactive</span>
+					<?php endif; ?>
+				
+				</td>
+				<td><?php echo date('F d, Y', strtotime($category->created_at)); ?></td >
+				
+				
+				
+				
+				
+			</tr>
+			
+			<?php endforeach; ?>
+			
+		</tbody>
+	</table>
+
+	</br></br></br>
+	
+	<table class="table">
+		<thead>
+			
+			<th>Options</th>
+			<th class="text-center" colspan="2">
+					<a href="<?php echo route('admin.sqoptions.edit', $category->id); ?>">Edit</a>
+					
+					&middot;
+					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'sqoptions'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?><span> ( All Option Delete ) </span>
+			</th>
+			
+		</thead>
+		<tbody>
+	
+			<?php foreach($categories as $category): ?>
+			<tr>
+				
+			
+					<?php  $jsondata=$category->options;	$optionArr=json_decode($jsondata);
+						$option=""; $status="";
+						foreach($optionArr as $k=>$optionData){
+							echo"<tr><td>";
+							echo	$option=$optionData->option."	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "; 
+							
+								$status=$optionData->status;
+								echo"</td><td>";
+							if($status == 0){
+							 		echo "<span class='label label-active'>Active</span>"; 
+							}else{
+									echo "<span class='label label-deactive '>Deactive</span>";
+							};
+							echo"</td><td>";?>
+								<a href="<?php echo route('admin.sqoptions.edit', [$category->id,'opt'=>$k]); ?>">Edit</a>
+					
+								
+							
+							<?php echo"</td></tr>";
+							//echo "</br></br>";
+						}
+
+				?>
+						
+						
+				
+				
+				
+				
+				
+				
+				
+			</tr>
+			
+			<?php endforeach; ?>
+			
+		</tbody>
+	</table>
+	
+	
+	<div class="text-center">
+		<?php echo pagination_links($categories); ?>
+
+	</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('style'); ?>
+<style>
+.active{
+	color:green;
+}
+.deactive{
+	color:red;
+}
+.label-deactive {
+    background-color: #f56954 !important;
+}
+.label-active {
+    background-color: #5cb85c;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+	
+}
+</style>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

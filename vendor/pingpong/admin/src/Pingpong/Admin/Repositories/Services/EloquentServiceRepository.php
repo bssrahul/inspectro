@@ -1,49 +1,43 @@
 <?php
 
-namespace Pingpong\Admin\Repositories\Categories;
+namespace Pingpong\Admin\Repositories\Services;
 
-use Pingpong\Admin\Entities\Category;
+use Pingpong\Admin\Entities\Service;
 
-class EloquentCategoryRepository implements CategoryRepository
+class EloquentServiceRepository implements ServiceRepository
 {
     public function perPage()
     {
-        return config('admin.category.perpage');
+        return config('admin.Services.perpage');
     }
 
     public function getModel()
     {
-        $model = config('admin.category.model');
+        $model = config('admin.Services.model');
         
         return new $model;
     }
 
-    public function allOrSearch($searchQuery = null,$pId = null)
+    public function allOrSearch($searchQuery = null)
     {
-		if(is_null($pId)){
-			$pId = 0;
-		}
-		
         if (is_null($searchQuery)) {
-            return $this->getAll($pId);
+            return $this->getAll();
         }
-        return $this->search($searchQuery, $pId);
+
+        return $this->search($searchQuery);
     }
 
-	
-    public function getAll($pId = null)
+    public function getAll()
     {
-		
-        return $this->getModel()->where('parent_id','=',$pId)->latest()->paginate($this->perPage());
+        return $this->getModel()->latest()->paginate($this->perPage());
     }
 
-    public function search($searchQuery = null,$pId = null )
+    public function search($searchQuery)
     {
         $search = "%{$searchQuery}%";
-		
-        return $this->getModel()->where('title', 'like', $search)
-            ->orWhere('title', 'like', $search)
-			->orWhere('parent_id', '=', $pId)
+        
+        return $this->getModel()->where('name', 'like', $search)
+            ->orWhere('slug', 'like', $search)
             ->paginate($this->perPage())
         ;
     }
