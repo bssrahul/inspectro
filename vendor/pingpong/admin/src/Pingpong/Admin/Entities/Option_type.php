@@ -2,14 +2,14 @@
 
 use Pingpong\Presenters\Model;
 
-class Sqoption extends Model
+class option_types extends Model
 {
 
-	 protected $table = 'sqoptions';
+	 protected $table = 'option_types';
     /**
      * @var array
      */
-    protected $fillable = ['service_question_id', 'option_type','end_pages','options'];
+    protected $fillable = ['id', 'op_type'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -19,9 +19,9 @@ class Sqoption extends Model
         return $this->hasMany(__NAMESPACE__ . '\\Article');
     } */
 
-	public function question()
+	public function sqoption()
     {
-        return $this->hasMany(__NAMESPACE__ . '\\Category','id','service_question_id');
+        return $this->hasMany('App\Models\sqoption');
     }
     /**
      * @param $query

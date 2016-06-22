@@ -18,26 +18,33 @@ class EloquentSqoptionRepository implements SqoptionRepository
         return new $model;
     }
 
-    public function allOrSearch($searchQuery = null)
+    public function allOrSearch($searchQuery = null,$quesId=null)
     {
         if (is_null($searchQuery)) {
-            return $this->getAll();
+			//  echo '<pre>';print_r($quesId);exit;
+            return $this->getAll($quesId);
         }
 
-        return $this->search($searchQuery);
+        return $this->search($searchQuery,$quesId);
     }
 
-    public function getAll()
+    public function getAll($quesId=null)
     {
-        return $this->getModel()->latest()->paginate($this->perPage());
+		if(!empty($quesId)){
+				return $this->getModel()->where('service_question_id','=',$quesId)->latest()->with('question')->paginate($this->perPage());
+		}else{
+			return $this->getModel()->latest()->with('question')->paginate($this->perPage());
+		}
+        
     }
 
-    public function search($searchQuery)
+    public function search($searchQuery,$quesId=null)
     {
         $search = "%{$searchQuery}%";
         
-        return $this->getModel()->where('name', 'like', $search)
+        return $this->getModel()->with('question')->where('name', 'like', $search)
             ->orWhere('slug', 'like', $search)
+            ->orWhere('service_question_id', '=', $quesId)
             ->paginate($this->perPage())
         ;
     }

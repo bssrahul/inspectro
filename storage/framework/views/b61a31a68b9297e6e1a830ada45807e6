@@ -1,19 +1,25 @@
-@if(isset($model))
-{!! Form::model($model, ['method' => 'PUT', 'files' => true, 'route' => ['admin.sqoptions.update', $model->id]]) !!}
-@else
-{!! Form::open(['files' => true, 'route' => 'admin.sqoptions.store']) !!}
-@endif
+<?php if(isset($model)): ?>
+<?php echo Form::model($model, ['method' => 'PUT', 'files' => true, 'route' => ['admin.sqoptions.update', $model->id]]); ?>
+
+<?php else: ?>
+<?php echo Form::open(['files' => true, 'route' => 'admin.sqoptions.store']); ?>
+
+<?php endif; ?>
 
 	<div class="form-group">
-		{!! Form::label('service_question_id', 'Service Question:') !!}		
-		{!! Form::select('service_question_id',$question, null, ['class' => 'form-control']) !!}
-		{!! $errors->first('service_question_id', '<div class="text-danger">:message</div>') !!}
+		<?php echo Form::label('service_question_id', 'Service Question:'); ?>		
+		<?php echo Form::select('service_question_id',$question, null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('service_question_id', '<div class="text-danger">:message</div>'); ?>
+
 	</div>
 
 	<div class="form-group">
-		{!! Form::label('option_type', 'Options Type:') !!}		
-		{!! Form::select('option_type',$op_type, null, ['class' => 'form-control']) !!}
-		{!! $errors->first('option_type', '<div class="text-danger">:message</div>') !!}
+		<?php echo Form::label('option_type', 'Options Type:'); ?>		
+		<?php echo Form::select('option_type',$op_type, null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('option_type', '<div class="text-danger">:message</div>'); ?>
+
 		
 	</div>
 	<div id='TextBoxesGroup'>
@@ -46,22 +52,26 @@
 	
 
 	<div class="form-group">
-		{!! Form::submit(isset($model) ? 'Update' : 'Save', ['class' => 'btn btn-primary']) !!}
+		<?php echo Form::submit(isset($model) ? 'Update' : 'Save', ['class' => 'btn btn-primary']); ?>
+
 	</div>
-{!! Form::close() !!}
+<?php echo Form::close(); ?>
 
 
 
 
 
-@section('script')
+
+<?php $__env->startSection('script'); ?>
 	
-	{!! script('vendor/ckeditor/ckeditor.js') !!}
-	{!! script('vendor/ckfinder/ckfinder.js') !!}
+	<?php echo script('vendor/ckeditor/ckeditor.js'); ?>
+
+	<?php echo script('vendor/ckfinder/ckfinder.js'); ?>
+
 	
 	<script type="text/javascript">
 		CKEDITOR.editorConfig = function( config ) {
-			var prefix = '/{!! option("ckfinder.prefix") !!}';
+			var prefix = '/<?php echo option("ckfinder.prefix"); ?>';
 
 		   config.filebrowserBrowseUrl = prefix + '/vendor/ckfinder/ckfinder.html';
 		   config.filebrowserImageBrowseUrl = prefix + '/vendor/ckfinder/ckfinder.html?type=Images';
@@ -72,7 +82,7 @@
 		};
 
 		var editor = CKEDITOR.replace( 'ckeditor' );
-		var prefix = '/{!! option("ckfinder.prefix") !!}';
+		var prefix = '/<?php echo option("ckfinder.prefix"); ?>';
 		CKFinder.setupCKEditor( editor, prefix + '/vendor/ckfinder/') ;
 	</script>
 	
@@ -81,14 +91,14 @@
 	<script type="text/javascript">
 	
 	var counter = 0;
-	<?php if(!empty(@$k)){
+	<?php if(!empty($k)){
 		?>
-		var initialCounter = "<?php echo $k; ?>";
+		var initialCounter = '<?php echo $k; ?>';
 		counter = initialCounter;
 		
 	<?php } ?>
 		
-		//console.log(counter);
+		console.log(counter);
 		// $('#TextBoxesGroup')
     $("#addButton").click(function () {
 				
@@ -149,7 +159,7 @@
 }); 
 	
 	</script>
-@stop
+<?php $__env->stopSection(); ?>
 
 
 <style>

@@ -33,11 +33,23 @@ class SqoptionsController extends BaseController
     public function index(Request $request)
     {
 			
-        $categories = $this->repository->allOrSearch($request->get('q'));
-		//echo "<pre>";print_r();
+			$quesId=$request->get('ques_id');
+					
+			 // echo '<pre>';print_r($quesId);exit;
+			$rq=$request->get('q');
+			$categories = $this->repository->allOrSearch($rq,$quesId);
+	//	$categories = \App\Models\Sqoption::with('option_type')->get();
+		//  $categories = Sqoption::Sqoption(id)->with('option_type')->get();
+		//echo "<pre>";print_r($categories);die;
        $no = $categories->firstItem();
-       // print_R($no);exit;
-        return $this->view('sqoptions.index', compact('categories', 'no'));
+       //echo '<pre>';print_r($categories);exit;
+	  if(!empty($quesId)){
+		   return $this->view('sqoptions.option', compact('categories', 'no','$quesId'));
+	  }else{
+		   return $this->view('sqoptions.index', compact('categories', 'no'));
+	  }
+	  
+       
     }
 
     /**
@@ -66,9 +78,12 @@ class SqoptionsController extends BaseController
    public function store(Create $request)
     {  
         $data = $request->all();
+		//echo "<pre>";print_r($data);die;
 		$options=$data['options'];
-		$optionck=$data['optioncks'];
-		print_r($optionck);
+		if(!empty($data['optioncks'])){
+			$optionck=$data['optioncks'];
+			
+		}
 		foreach($options as $k=>$v)
 		{
 			echo $k;
@@ -114,11 +129,26 @@ class SqoptionsController extends BaseController
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit($id,Request $request)
     {
+			$optId=$request->get('opt');
+			//	echo "<pre>";	print_r($opt);die("hello");
+
         try {
+			$op_type = DB::table('option_type')->lists('op_type','id');
+			$question = DB::table('categories')->where('type','question')->lists('title','id');
+			//print_r($category);die;
+			$sel1[]='---Select Question---';
+			$question=$sel1+$question;
+			$sel[]='---Select option type---';
+			$op_type=$sel+$op_type;	
+			//echo "<pre>";print_r($id);die;
             $category = $this->repository->findById($id);
-            return $this->view('Sqoptions.edit', compact('category'));
+			$optionJSON=$category->options;
+			$optionArr=json_decode($optionJSON);
+			
+			//echo "<pre>";print_r($optionArr);die;
+            return $this->view('sqoptions.edit', compact('category','op_type','optionArr','question','optId'));
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }
@@ -134,12 +164,37 @@ class SqoptionsController extends BaseController
     {
         try {
             $data = $request->all();
-
+			//echo "<pre>";print_r($data);
+			//echo "<hr>";
+			$options=$data['options'];
+		if(!empty($data['optioncks'])){
+			$optionck=$data['optioncks'];
+			
+		}
+		foreach($options as $k=>$v)
+		{
+			echo $k;
+			if(empty($optionck[$k]))
+			{
+				$optionck[$k]=0;
+			}
+			
+			if(isset($optionck[$k]))
+			{
+				$optionsarray[]=array('status'=>$optionck[$k],'option'=>$v);
+				
+			}
+			
+		}
+//print_r($optionck);die;
+		//echo '<pre>';
+		//print_r(json_encode($optionsarray,true));die;
+		$data['options']=json_encode($optionsarray,true);
             $category = $this->repository->findById($id);
 
             $category->update($data);
-
-            return $this->redirect('Sqoptions.index');
+		//echo "<pre>";print_r($category);die;
+		return $this->redirect('sqoptions.index');
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }
@@ -154,9 +209,8 @@ class SqoptionsController extends BaseController
     public function destroy($id)
     {
         try {
-            $this->repository->delete($id);
-
-            return $this->redirect('Sqoptions.index');
+			    $this->repository->delete($id);
+				return $this->redirect('sqoptions.index');
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }

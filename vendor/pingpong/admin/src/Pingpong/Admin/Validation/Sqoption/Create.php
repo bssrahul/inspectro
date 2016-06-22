@@ -9,8 +9,8 @@ class Create extends Validator
     {
         return [
 				'service_question_id' => 'required',
-				'option_type' => 'required'
-				
+				'option_type' => 'required',
+				'options'=>'required'			
                ];
     }
 }

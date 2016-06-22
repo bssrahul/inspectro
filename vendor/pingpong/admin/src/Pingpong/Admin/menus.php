@@ -14,13 +14,13 @@ Menu::create('admin-menu', function ($menu) {
         $sub->route('admin.pages.index', trans('admin.menus.pages.all'), [], 1);
         $sub->route('admin.pages.create', trans('admin.menus.pages.create'), [], 2);
     }, 2, ['icon' => 'fa fa-flag']); */
-    $menu->dropdown(trans('admin.menus.users.title'), function ($sub) {
+   /*  $menu->dropdown(trans('admin.menus.users.title'), function ($sub) {
         $sub->route('admin.users.index', trans('admin.menus.users.all'), [], 1);
         $sub->route('admin.users.create', trans('admin.menus.users.create'), [], 2);
        $sub->divider(3);
         $sub->route('admin.roles.index', trans('admin.menus.roles'), [], 4);
         $sub->route('admin.permissions.index', trans('admin.menus.permissions'), [], 5); 
-    }, 3, ['icon' => 'fa fa-users']);
+    }, 3, ['icon' => 'fa fa-users']); */
  
 	/*$menu->dropdown(trans('admin.menus.categories.title'), function ($sub) {
         $sub->route('admin.categories.index', trans('admin.menus.categories.all'), [], 1);
@@ -29,11 +29,21 @@ Menu::create('admin-menu', function ($menu) {
 	
 	$menu->dropdown(trans('admin.menus.categories'), function ($sub) {
         $sub->route('admin.categories.index', 'Categories Listing', [], 1);
-        $sub->route('admin.categories.create', 'Add Categories', [], 2);
-    }, 4, ['icon' => 'fa fa-flag']);
+       }, 4, ['icon' => 'fa fa-flag']);
 	
-	$menu->dropdown('Subcategories questions options', function ($sub) {
-        $sub->route('admin.sqoptions.index', 'Subcategories questions options Listing', [], 1);
-        $sub->route('admin.sqoptions.create', 'Add Subcategories questions options', [], 2);
+	/* $menu->dropdown(trans('Subcategories'), function ($sub) {
+        $sub->route('admin.subcategories.index', ' Subcategories Listing', [], 1);
+        $sub->route('admin.subcategories.create', 'Add Subcategories', [], 2);
+    }, 5, ['icon' => 'fa fa-flag']); */
+	/* $menu->dropdown('Services', function ($sub) {
+        $sub->route('admin.services.index', 'Services Listing', [], 1);
+        $sub->route('admin.services.create', 'Add Services', [], 2);
+    }, 5, ['icon' => 'fa fa-flag']); */
+
+    
+	$menu->dropdown('Questions options', function ($sub) {
+        $sub->route('admin.sqoptions.index', 'Questions options Listing', [], 1);
+        $sub->route('admin.sqoptions.create', 'Add Questions options', [], 2);
     }, 5, ['icon' => 'fa fa-flag']);
+
 });
