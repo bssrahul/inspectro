@@ -91,14 +91,14 @@
 	<script type="text/javascript">
 	
 	var counter = 0;
-	<?php if(!empty($k)){
+	<?php if(!empty(@$k)){
 		?>
-		var initialCounter = '<?php echo $k; ?>';
+		var initialCounter = "<?php echo $k; ?>";
 		counter = initialCounter;
 		
 	<?php } ?>
 		
-		console.log(counter);
+		//console.log(counter);
 		// $('#TextBoxesGroup')
     $("#addButton").click(function () {
 				

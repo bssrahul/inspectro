@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2016 at 08:48 AM
--- Server version: 10.1.9-MariaDB
--- PHP Version: 5.5.30
+-- Generation Time: Jun 22, 2016 at 02:45 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.5.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `inspectro`
+-- Database: `inspectro_new`
 --
 
 -- --------------------------------------------------------
@@ -77,7 +77,11 @@ INSERT INTO `categories` (`id`, `title`, `description`, `status`, `created_at`, 
 (3, 'Door Painting', 'Door Painting', 1, '2016-06-18 09:48:16', '2016-06-18 09:48:16', 1, 'service', 0),
 (4, 'floor polishing', 'floor polishing', 1, '2016-06-18 09:48:16', '2016-06-18 09:48:16', 2, 'service', 0),
 (5, 'how many door you have?', 'how many door you have?', 1, '2016-06-18 09:49:38', '2016-06-18 09:49:38', 3, 'question', 1),
-(6, 'how many room you have?', NULL, 1, '2016-06-18 09:49:38', '2016-06-18 09:49:38', 4, 'question', 0);
+(6, 'how many room you have?', NULL, 1, '2016-06-18 09:49:38', '2016-06-18 09:49:38', 4, 'question', 0),
+(7, 'fdssdf', 'sdffsdf', 1, '2016-06-22 09:38:26', '2016-06-22 09:38:26', 0, 'category', 0),
+(8, 'sdfdf43253', 'sdfsdfd3245345', 1, '2016-06-22 09:38:33', '2016-06-22 09:39:24', 7, 'service', 0),
+(9, 'sdfsdf3424', 'sdfsdfsdf2345235', 1, '2016-06-22 09:38:43', '2016-06-22 09:38:50', 8, 'question', 1),
+(12, 'dfhdfh', 'dfhdfhd', 1, '2016-06-22 09:42:51', '2016-06-22 09:42:51', 8, 'question', 2);
 
 -- --------------------------------------------------------
 
@@ -327,7 +331,6 @@ CREATE TABLE `sqoptions` (
   `id` int(11) NOT NULL,
   `service_question_id` int(11) NOT NULL,
   `option_type` varchar(255) NOT NULL,
-  `end_pages` varchar(255) NOT NULL,
   `options` varchar(255) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -338,13 +341,10 @@ CREATE TABLE `sqoptions` (
 -- Dumping data for table `sqoptions`
 --
 
-INSERT INTO `sqoptions` (`id`, `service_question_id`, `option_type`, `end_pages`, `options`, `status`, `created_at`, `updated_at`) VALUES
-(1, 5, '2', '', '', 1, '2016-06-18 14:42:15', '2016-06-18 14:42:15'),
-(2, 5, '2', '', '', 1, '2016-06-18 14:42:42', '2016-06-18 14:42:42'),
-(3, 6, '2', '', '["dssd","dssds","dssss"]', 1, '2016-06-18 14:52:43', '2016-06-18 14:52:43'),
-(4, 5, '2', '', '["asdfdfddf","fdfdfdfd","fdfdfdfdfd","fdfdfdfdfd"]', 1, '2016-06-18 14:57:26', '2016-06-18 14:57:26'),
-(5, 5, '2', '', '["dfgdfg","gfgfdg","fdgdfgd"]', 1, '2016-06-18 15:19:47', '2016-06-18 15:19:47'),
-(6, 6, '1', '', '[{"status":"1","option":"ro"},{"status":0,"option":"vb"},{"status":"1","option":"mj"}]', 1, '2016-06-18 15:20:52', '2016-06-18 15:20:52');
+INSERT INTO `sqoptions` (`id`, `service_question_id`, `option_type`, `options`, `status`, `created_at`, `updated_at`) VALUES
+(1, 5, '2', '[{"status":0,"option":"4"},{"status":"1","option":"5"},{"status":"1","option":"6"},{"status":0,"option":"7"}]', 1, '2016-06-22 14:52:51', '2016-06-22 14:55:36'),
+(2, 9, '1', '[{"status":0,"option":"fdgdg"},{"status":0,"option":"dfgdfg"},{"status":0,"option":"dfgdxfg"},{"status":0,"option":"fdxgdfgd"}]', 1, '2016-06-22 14:58:58', '2016-06-22 14:58:58'),
+(3, 12, '2', '[{"status":0,"option":"45"},{"status":"1","option":"4545"}]', 1, '2016-06-22 15:13:14', '2016-06-22 15:13:14');
 
 -- --------------------------------------------------------
 
@@ -494,7 +494,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `options`
 --
@@ -539,7 +539,7 @@ ALTER TABLE `role_user`
 -- AUTO_INCREMENT for table `sqoptions`
 --
 ALTER TABLE `sqoptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `subscribers`
 --

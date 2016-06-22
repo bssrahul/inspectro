@@ -60,8 +60,22 @@ class SqoptionsController extends BaseController
     public function create()
     {
 		$op_type = DB::table('option_type')->lists('op_type','id');
-		$question = DB::table('categories')->where('type','question')->lists('title','id');
-		//print_r($category);die;
+		$preQuestionData=DB::table('sqoptions')->get();
+		$preArr=array();
+		foreach($preQuestionData as $k=>$preQuestion){
+			$preArr[]=$preQuestionData[$k]->service_question_id;
+		}
+		//echo "<pre>"; print_r($preArr);die;
+		$questiondata = DB::table('categories')->where('type','question')->lists('title','id');
+		$question=array();
+		foreach($questiondata as $k=>$questionValue){
+			if(in_array($k,$preArr)){
+				echo "hello";
+			}else{
+				$question[$k]=$questionValue;
+			}
+		}
+		//echo "<pre>"; print_r($finalquestionArr);die;
 		$sel1[]='---Select Question---';
 		$question=$sel1+$question;
 		$sel[]='---Select option type---';
@@ -136,12 +150,31 @@ class SqoptionsController extends BaseController
 
         try {
 			$op_type = DB::table('option_type')->lists('op_type','id');
-			$question = DB::table('categories')->where('type','question')->lists('title','id');
-			//print_r($category);die;
+			$preQuestionData=DB::table('sqoptions')->get();
+			$currentQuestionData=DB::table('sqoptions')->where('id',$id)->get();
+			$currentQueId=$currentQuestionData[0]->service_question_id;
+			//echo "<pre>"; print_r($currentQuestionData[0]->service_question_id);die;
+			$preArr=array();
+			foreach($preQuestionData as $k=>$preQuestion){
+				$preArr[]=$preQuestionData[$k]->service_question_id;
+			}
+			//echo "<pre>"; print_r($preArr);die;
+			$questiondata = DB::table('categories')->where('type','question')->lists('title','id');
+			$question=array();
+			foreach($questiondata as $k=>$questionValue){
+				
+				if((in_array($k,$preArr))&&($currentQueId != $k) ) {
+				
+				}else{
+					$question[$k]=$questionValue;
+				}
+			}
+			
+			//echo "<pre>"; print_r($question);die;
 			$sel1[]='---Select Question---';
 			$question=$sel1+$question;
 			$sel[]='---Select option type---';
-			$op_type=$sel+$op_type;	
+			$op_type=$sel+$op_type;
 			//echo "<pre>";print_r($id);die;
             $category = $this->repository->findById($id);
 			$optionJSON=$category->options;
