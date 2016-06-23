@@ -53,24 +53,24 @@
 				</td>
 				<td>{!! $category->created_at !!}</td>
 				<td class="text-center">
-			
+					<?php  if((!empty($pid)) && (empty($sid))){?>
+					
+						{!! link_to_route('admin.categories.index', 'View Question', [ 's_id' =>$category->id ]) !!}
+					
+					<?php  }elseif(empty($sid)){ ?>
+				
+						<td class="text-center">
+							{!! link_to_route('admin.categories.index', 'View Services', [ 'p_id' =>$category->id ]) !!}
+						</td>	
+					<?php }?>
+					&middot;
+					
 					<a href="{!! route('admin.categories.edit', [$category->id,'type' => $type]) !!}">Edit</a>
 					&middot;
 					@include('admin::partials.modal', ['data' => $category, 'name' => 'categories'])
 				</td>
 				
-				<td class="text-center">
-				<?php  if((!empty($pid)) && (empty($sid))){?>
-					
-						{!! link_to_route('admin.categories.index', 'View Question', [ 's_id' =>$category->id ]) !!}
-					
-				<?php  }elseif(empty($sid)){ ?>
 				
-						<td class="text-center">
-							{!! link_to_route('admin.categories.index', 'View Services', [ 'p_id' =>$category->id ]) !!}
-						</td>	
-				<?php }?>
-				</td>	
 			</tr>
 			<?php $no++ ;?>
 			@endforeach

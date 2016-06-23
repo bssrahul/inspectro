@@ -1,6 +1,8 @@
 <?php $__env->startSection('content-header'); ?>
 	<h1>
-		All sub category option (<?php echo $categories->count(); ?>)
+		<?php if(empty($quesId)){ ?>
+			All Question Option 
+		<?php }?>(<?php echo $categories->count(); ?>)
 		&middot;
 		<small><?php echo link_to_route('admin.sqoptions.create', 'Add New'); ?></small>
 	</h1>

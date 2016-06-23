@@ -36,10 +36,22 @@ public function index(Request $request)
    
 	$pid=$request->get('p_id');
 	$sid=$request->get('s_id');
+	$sertype=$request->get('type');
+	//print_r($sertype);die;
 	if(empty($pid) && (!empty($sid))){
 		$pid=$sid;
+		
+	}
+	
+	if($sertype == 'service'){
+		//echo "ddssd";die;
+		 //print_r($sertype); die;
+		 $pid=$sertype;
+		
 	}
 	$categories = $this->repository->allOrSearch($request->get('q'),$pid);
+	//echo "<pre>"; print_R($categories);exit;
+	
 	
 	
 	$no = $categories->firstItem();

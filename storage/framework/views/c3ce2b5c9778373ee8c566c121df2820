@@ -1,8 +1,10 @@
 <?php $__env->startSection('content-header'); ?>
 	<h1>
-		All sub category option (<?php echo $categories->count(); ?>)
+		
+		
+		All Question (<?php echo count($categories); ?>)
 		&middot;
-		<small><?php echo link_to_route('admin.sqoptions.create', 'Add New'); ?></small>
+	
 	</h1>
 <?php $__env->stopSection(); ?>
 
@@ -17,11 +19,11 @@
 			<th class="text-center">Action</th>
 		</thead>
 		<tbody>
-<?php //echo '<pre>';print_r($categories);exit; ?>
-			<?php foreach($categories as $category): ?>
+
+			<?php foreach($categories as $k=>$category): ?>
 			<tr>
-				<td><?php echo $no; ?></td>
-				<td><?php echo $category->question[0]->title; ?></td>
+				<td><?php echo $k+1; ?></td>
+				<td><?php echo $category->title; ?></td>
 				
 				<td><?php if($category->status == '1'): ?>
 							<span class='label label-active'>Active</span>
@@ -35,17 +37,22 @@
 				
 				
 				<td class="text-center">
-					<a href="<?php echo route('admin.sqoptions.edit', $category->id); ?>">Edit</a>
+					<a href="<?php echo route('admin.categories.edit', $category->id); ?>">Edit</a>
 					&middot;
 					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'sqoptions'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
 				<td class="text-center">
-					<?php echo link_to_route('admin.sqoptions.index', 'View Options', [ 'ques_id' =>$category->service_question_id ]); ?>
+				<?php 	
+						if(in_array($category->id,$catIdArr)){ ?>
+								<?php echo link_to_route('admin.sqoptions.index', 'View Options', [ 'ques_id' =>$category->id ]); ?>
 
-					
+						<?php }else{ ?>
+								<?php echo link_to_route('admin.sqoptions.index', 'Add Options', [ 'ques_id' =>$category->id ]); ?>
+
+						<?php } ?>
 				</td>
 			</tr>
-			<?php $no++ ;?>
+			
 			<?php endforeach; ?>
 		</tbody>
 	</table>

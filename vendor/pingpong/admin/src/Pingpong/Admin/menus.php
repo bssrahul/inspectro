@@ -40,10 +40,14 @@ Menu::create('admin-menu', function ($menu) {
         $sub->route('admin.services.create', 'Add Services', [], 2);
     }, 5, ['icon' => 'fa fa-flag']); */
 
-    
-	$menu->dropdown('Questions options', function ($sub) {
-        $sub->route('admin.sqoptions.index', 'Questions options Listing', [], 1);
-        $sub->route('admin.sqoptions.create', 'Add Questions options', [], 2);
+    $menu->dropdown('Service', function ($sub) {
+        $sub->route('admin.categories.index', 'Service  Listing', ['type' => 'service'], 1);
+     
     }, 5, ['icon' => 'fa fa-flag']);
+
+	$menu->dropdown('Questions Options', function ($sub) {
+        $sub->route('admin.sqoptions.index', 'Questions  Listing', [], 1);
+     
+    }, 6, ['icon' => 'fa fa-flag']);
 
 });

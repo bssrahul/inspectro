@@ -2,9 +2,11 @@
 
 @section('content-header')
 	<h1>
-		All sub category option ({!! $categories->count() !!})
+		
+		
+		All Question ({!! count($categories) !!})
 		&middot;
-		<small>{!! link_to_route('admin.sqoptions.create', 'Add New') !!}</small>
+	
 	</h1>
 @stop
 
@@ -19,11 +21,11 @@
 			<th class="text-center">Action</th>
 		</thead>
 		<tbody>
-<?php //echo '<pre>';print_r($categories);exit; ?>
-			@foreach ($categories as $category)
+
+			@foreach ($categories as $k=>$category)
 			<tr>
-				<td>{!! $no !!}</td>
-				<td>{!! $category->question[0]->title !!}</td>
+				<td>{!! $k+1 !!}</td>
+				<td>{!! $category->title !!}</td>
 				
 				<td>@if($category->status == '1')
 							<span class='label label-active'>Active</span>
@@ -37,16 +39,20 @@
 				
 				
 				<td class="text-center">
-					<a href="{!! route('admin.sqoptions.edit', $category->id) !!}">Edit</a>
+					<a href="{!! route('admin.categories.edit', $category->id) !!}">Edit</a>
 					&middot;
 					@include('admin::partials.modal', ['data' => $category, 'name' => 'sqoptions'])
 				</td>
 				<td class="text-center">
-					{!! link_to_route('admin.sqoptions.index', 'View Options', [ 'ques_id' =>$category->service_question_id ]) !!}
-					
+				<?php 	
+						if(in_array($category->id,$catIdArr)){ ?>
+								{!! link_to_route('admin.sqoptions.index', 'View Options', [ 'ques_id' =>$category->id ]) !!}
+						<?php }else{ ?>
+								{!! link_to_route('admin.sqoptions.index', 'Add Options', [ 'ques_id' =>$category->id ]) !!}
+						<?php } ?>
 				</td>
 			</tr>
-			<?php $no++ ;?>
+			
 			@endforeach
 		</tbody>
 	</table>

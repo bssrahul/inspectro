@@ -116,17 +116,19 @@
 	 $(document).on("click",".address .inputRemove",function(){
 	   $(this).closest(".address").remove(); 
 	   counter--;
-	   if(counter==0){
+	   
+	   	if((counter==0 )){
 		   $('.inputRemove').hide();
-	   } 
+		} 
 	 
 	 });
 	</script>
 	
 	<script type="text/javascript">
 	$(document).ready(function(){
-	<?php if(!empty($optId)){ ?>
+	<?php if((isset($optId))){ ?>
    var optId = "<?php echo $optId;  ?>";
+
    function hideElements()
 	{
 		$('.hclass,#addButton').hide();

@@ -2,7 +2,9 @@
 
 @section('content-header')
 	<h1>
-		All sub category option ({!! $categories->count() !!})
+		<?php if(empty($quesId)){ ?>
+			All Question Option 
+		<?php }?>({!! $categories->count() !!})
 		&middot;
 		<small>{!! link_to_route('admin.sqoptions.create', 'Add New') !!}</small>
 	</h1>

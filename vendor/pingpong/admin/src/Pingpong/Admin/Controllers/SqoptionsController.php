@@ -37,16 +37,49 @@ class SqoptionsController extends BaseController
 					
 			 // echo '<pre>';print_r($quesId);exit;
 			$rq=$request->get('q');
-			$categories = $this->repository->allOrSearch($rq,$quesId);
-	//	$categories = \App\Models\Sqoption::with('option_type')->get();
-		//  $categories = Sqoption::Sqoption(id)->with('option_type')->get();
-		//echo "<pre>";print_r($categories);die;
-       $no = $categories->firstItem();
+			if(!empty($quesId)){
+						$sqData=DB :: table('sqoptions')->where('service_question_id',$quesId)->get();
+					
+			}
+			if((empty($sqData)) && (!empty($quesId))){
+					$QueData=DB :: table('categories')->where('id',$quesId)->lists('title','id');
+					$op_type = DB::table('option_type')->lists('op_type','id');
+					$sel[]='---Select option type---';
+					$op_type=$sel+$op_type;
+					$question=$QueData;
+					return $this->view('sqoptions.create', compact('categories','question','op_type'));
+					//echo "<pre>";print_r($QueData);die;
+					
+			}else{
+					$categories = $this->repository->allOrSearch($rq,$quesId);
+			}
+			
+		//	echo "<pre>";print_r($sqData);die;
+			
+			$catIdArr=array();
+			foreach($categories as $category){
+				$catIdArr[]=$category->service_question_id;
+			}
+		
+			$QuestionData=DB :: table('categories')->where('type','question')->paginate(12);
+			if(empty($quesId)){
+					$categories=$QuestionData;
+
+			}
+				
+				
+			
+			//echo"<hr>";
+			//echo "<pre>";print_r($categories);die;
+      // $no = $categories->firstItem();
        //echo '<pre>';print_r($categories);exit;
-	  if(!empty($quesId)){
-		   return $this->view('sqoptions.option', compact('categories', 'no','$quesId'));
+	  if((!empty($quesId)) && (empty($QueData))){
+		   return $this->view('sqoptions.option', compact('categories','$quesId','catIdArr'));
+	  }elseif(!empty($QueData)){
+		  $Question=$QueData;
+		   return $this->view('sqoptions.create', compact('categories','Question'));
 	  }else{
-		   return $this->view('sqoptions.index', compact('categories', 'no'));
+		   return $this->view('sqoptions.index', compact('categories','catIdArr'));
 	  }
 	  
        
@@ -70,7 +103,7 @@ class SqoptionsController extends BaseController
 		$question=array();
 		foreach($questiondata as $k=>$questionValue){
 			if(in_array($k,$preArr)){
-				echo "hello";
+				
 			}else{
 				$question[$k]=$questionValue;
 			}
@@ -118,7 +151,7 @@ class SqoptionsController extends BaseController
 		//print_r(json_encode($optionsarray,true));die;
 		$data['options']=json_encode($optionsarray,true);
 	    Sqoption::create($data);
-        return $this->redirect('sqoptions.index');
+		return $this->redirect('sqoptions.index');
     } 
 
     /**
@@ -146,7 +179,7 @@ class SqoptionsController extends BaseController
     public function edit($id,Request $request)
     {
 			$optId=$request->get('opt');
-			//	echo "<pre>";	print_r($opt);die("hello");
+				//echo "<pre>";	print_r($optId);die("hello");
 
         try {
 			$op_type = DB::table('option_type')->lists('op_type','id');
