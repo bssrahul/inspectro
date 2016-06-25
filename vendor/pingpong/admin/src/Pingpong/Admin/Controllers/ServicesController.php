@@ -11,7 +11,7 @@ class ServicesController extends BaseController
 {
     protected $repository;
 
-    public function __construct(ServicesRepository $repository)
+    public function __construct(ServiceRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -22,7 +22,7 @@ class ServicesController extends BaseController
      */
     protected function redirectNotFound()
     {
-        return $this->redirect('Services.index');
+        return $this->redirect('services.index');
     }
 
     /**
@@ -33,11 +33,11 @@ class ServicesController extends BaseController
     public function index(Request $request)
     {
 			
-        $Services = $this->repository->allOrSearch($request->get('q'));
+        $services = $this->repository->allOrSearch($request->get('q'));
      
-        $no = $Services->firstItem();
-       //  print_R($no);exit;
-        return $this->view('Services.index', compact('Services', 'no'));
+        $no = $services->firstItem();
+   
+        return $this->view('services.index', compact('services', 'no'));
     }
 
     /**
@@ -48,7 +48,7 @@ class ServicesController extends BaseController
     public function create()
     {
 
-		return $this->view('Services.create');
+		return $this->view('services.create');
 
     } 
 
@@ -60,8 +60,8 @@ class ServicesController extends BaseController
    public function store(Create $request)
     {  
         $data = $request->all();
-	    Services::create($data);
-        return $this->redirect('Services.index');
+	    Service::create($data);
+        return $this->redirect('services.index');
     } 
 
     /**
@@ -73,8 +73,8 @@ class ServicesController extends BaseController
     public function show($id)
     {
         try {
-            $Services = $this->repository->findById($id);
-            return $this->view('Services.show', compact('Services'));
+            $services = $this->repository->findById($id);
+            return $this->view('services.show', compact('services'));
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }
@@ -89,8 +89,8 @@ class ServicesController extends BaseController
     public function edit($id)
     {
         try {
-            $Services = $this->repository->findById($id);
-            return $this->view('Services.edit', compact('Services'));
+            $services = $this->repository->findById($id);
+            return $this->view('services.edit', compact('services'));
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }
@@ -107,11 +107,11 @@ class ServicesController extends BaseController
         try {
             $data = $request->all();
 
-            $Services = $this->repository->findById($id);
+            $services = $this->repository->findById($id);
 
-            $Services->update($data);
+            $services->update($data);
 
-            return $this->redirect('Services.index');
+            return $this->redirect('services.index');
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }
@@ -128,7 +128,7 @@ class ServicesController extends BaseController
         try {
             $this->repository->delete($id);
 
-            return $this->redirect('Services.index');
+            return $this->redirect('services.index');
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }

@@ -36,5 +36,5 @@ return [
     'category' => [
         'model' => 'Pingpong\Admin\Entities\Category',
         'perpage' => 10
-    ],
+    ]
 ];

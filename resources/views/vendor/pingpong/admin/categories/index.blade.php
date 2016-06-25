@@ -5,12 +5,14 @@
 		All  <?php if((!empty($pid)) && (empty($sid))){
 						$id=$pid;
 						$type='service';
-						echo "Services";}
-			
+						echo "Services";
+						
+				}
 				elseif((empty($pid)) && (!empty($sid))){
 						$id=$sid;
 						$type='question';
 						echo "Questions";
+					
 				}else{
 						$id=0;
 						$type='category';
@@ -19,10 +21,17 @@
 		?>({!! $categories->count() !!})
 		&middot;
 		
-		
-		<small>{!! link_to_route('admin.categories.create', 'Add New',['id'=>$id,'type' => $type]) !!}
-		
-		</small>
+		<?php 
+		if((strval($sertype) != 'service') && (empty($sertype))) {?>
+		<small>{!! link_to_route('admin.categories.create', 'Add New',['id'=>$id,'type' => $type]) !!}	</small>
+		<?php } ?>
+			
+		 <?php if((!empty($pid)) && (empty($sid) && (strval($sertype) != 'service'))){
+				echo "<small><input action='action' type='button' value='Back' onclick='history.go(-1);' /></small>";
+			}
+			elseif((empty($pid)) && (!empty($sid)  )){
+					echo "<small><input action='action' type='button' value='Back' onclick='history.go(-1);' /></small>";
+			}?>
 	</h1>
 @stop
 
@@ -59,9 +68,9 @@
 					
 					<?php  }elseif(empty($sid)){ ?>
 				
-						<td class="text-center">
+						
 							{!! link_to_route('admin.categories.index', 'View Services', [ 'p_id' =>$category->id ]) !!}
-						</td>	
+						
 					<?php }?>
 					&middot;
 					

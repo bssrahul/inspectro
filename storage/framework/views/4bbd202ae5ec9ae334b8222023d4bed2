@@ -1,0 +1,68 @@
+<?php if(isset($model)): ?>
+<?php echo Form::model($model, ['method' => 'PUT', 'files' => true, 'route' => ['admin.questions.update', $model->id]]); ?>
+
+<?php else: ?>
+<?php echo Form::open(['files' => true, 'route' => 'admin.questions.store']); ?>
+
+<?php endif; ?>
+	
+	<div class="form-group">
+	
+		<?php echo Form::label('service_id', 'Service:'); ?>		
+		<?php echo Form::select('service_id',$serviceArr, null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('service_id', '<div class="text-danger">:message</div>'); ?>
+
+		
+		
+		
+	</div>
+	
+	<div class="form-group">
+		<?php echo Form::label('title', 'Title:'); ?>
+
+		<?php echo Form::text('title', null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('title', '<div class="text-danger">:message</div>'); ?>
+
+	</div>
+	<div class="form-group">
+	
+		<?php echo Form::label('form_type_id', 'Form Type:'); ?>		
+		<?php echo Form::select('form_type_id',$formTypeArr, null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('form_type_id', '<div class="text-danger">:message</div>'); ?>
+
+		
+	</div>
+	<div class="form-group">
+		<?php echo Form::label('description_1', 'Description 1:'); ?>
+
+		<?php echo Form::textarea('description_1', null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('description_1', '<div class="text-danger">:message</div>'); ?>
+
+	</div>
+	<div class="form-group">
+		<?php echo Form::label('description_2', 'Description 2:'); ?>
+
+		<?php echo Form::textarea('description_2', null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('description_2', '<div class="text-danger">:message</div>'); ?>
+
+	</div>
+	
+	<div class="form-group">
+		<?php echo Form::submit(isset($model) ? 'Update' : 'Save', ['class' => 'btn btn-primary']); ?>
+
+	</div>
+<?php echo Form::close(); ?>
+
+
+<?php $__env->startSection('style'); ?>
+<style>
+textarea.form-control {
+    height: 100px;
+}
+</style>
+<?php $__env->stopSection(); ?>

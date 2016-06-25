@@ -9,7 +9,7 @@ class Sqoption extends Model
     /**
      * @var array
      */
-    protected $fillable = ['service_question_id', 'option_type','end_pages','options'];
+    protected $fillable = ['service_question_id', 'option_type','inputbox','options'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -23,6 +23,8 @@ class Sqoption extends Model
     {
         return $this->hasMany(__NAMESPACE__ . '\\Category','id','service_question_id');
     }
+	
+
     /**
      * @param $query
      * @return mixed

@@ -14,6 +14,7 @@
 		<thead>
 			<th>No</th>
 			<th>Question</th>
+			<th> Services </th>
 			<th>Status</th>
 			<th>Created Date</th>
 			<th class="text-center">Action</th>
@@ -37,20 +38,21 @@
 				
 				
 				<td class="text-center">
-					<a href="<?php echo route('admin.categories.edit', $category->id); ?>">Edit</a>
-					&middot;
-					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'sqoptions'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-				</td>
-				<td class="text-center">
-				<?php 	
+				
+					<?php 	
 						if(in_array($category->id,$catIdArr)){ ?>
 								<?php echo link_to_route('admin.sqoptions.index', 'View Options', [ 'ques_id' =>$category->id ]); ?>
 
 						<?php }else{ ?>
-								<?php echo link_to_route('admin.sqoptions.index', 'Add Options', [ 'ques_id' =>$category->id ]); ?>
+								<?php echo link_to_route('admin.sqoptions.index', 'Add Options', [ 'que_id' =>$category->id ]); ?>
 
 						<?php } ?>
+					&middot;
+						<a href="<?php echo route('admin.categories.edit', [$category->id,'type' => 'question']); ?>">Edit</a>
+					&middot;
+					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'categories'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
+				
 			</tr>
 			
 			<?php endforeach; ?>

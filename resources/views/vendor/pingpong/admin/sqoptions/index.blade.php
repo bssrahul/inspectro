@@ -16,6 +16,7 @@
 		<thead>
 			<th>No</th>
 			<th>Question</th>
+			<th> Services </th>
 			<th>Status</th>
 			<th>Created Date</th>
 			<th class="text-center">Action</th>
@@ -39,18 +40,19 @@
 				
 				
 				<td class="text-center">
-					<a href="{!! route('admin.categories.edit', $category->id) !!}">Edit</a>
-					&middot;
-					@include('admin::partials.modal', ['data' => $category, 'name' => 'sqoptions'])
-				</td>
-				<td class="text-center">
-				<?php 	
+				
+					<?php 	
 						if(in_array($category->id,$catIdArr)){ ?>
 								{!! link_to_route('admin.sqoptions.index', 'View Options', [ 'ques_id' =>$category->id ]) !!}
 						<?php }else{ ?>
-								{!! link_to_route('admin.sqoptions.index', 'Add Options', [ 'ques_id' =>$category->id ]) !!}
+								{!! link_to_route('admin.sqoptions.index', 'Add Options', [ 'que_id' =>$category->id ]) !!}
 						<?php } ?>
+					&middot;
+						<a href="{!! route('admin.categories.edit', [$category->id,'type' => 'question']) !!}">Edit</a>
+					&middot;
+					@include('admin::partials.modal', ['data' => $category, 'name' => 'categories'])
 				</td>
+				
 			</tr>
 			
 			@endforeach

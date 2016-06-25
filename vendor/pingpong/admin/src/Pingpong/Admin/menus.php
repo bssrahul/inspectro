@@ -27,8 +27,8 @@ Menu::create('admin-menu', function ($menu) {
         $sub->route('admin.categories.create', trans('admin.menus.categories.create'), [], 2);
     }, 4, ['icon' => 'fa fa-flag']);*/
 	
-	$menu->dropdown(trans('admin.menus.categories'), function ($sub) {
-        $sub->route('admin.categories.index', 'Categories Listing', [], 1);
+	$menu->dropdown(trans('admin.menus.services.title'), function ($sub) {
+        $sub->route('admin.services.index', trans('admin.menus.services.all'), [], 1);
        }, 4, ['icon' => 'fa fa-flag']);
 	
 	/* $menu->dropdown(trans('Subcategories'), function ($sub) {
@@ -40,14 +40,17 @@ Menu::create('admin-menu', function ($menu) {
         $sub->route('admin.services.create', 'Add Services', [], 2);
     }, 5, ['icon' => 'fa fa-flag']); */
 
-    $menu->dropdown('Service', function ($sub) {
+   /*  $menu->dropdown('Service', function ($sub) {
         $sub->route('admin.categories.index', 'Service  Listing', ['type' => 'service'], 1);
      
-    }, 5, ['icon' => 'fa fa-flag']);
-
+    }, 5, ['icon' => 'fa fa-flag']); */
+	$menu->dropdown(trans('admin.menus.questions.title'), function ($sub) {
+        $sub->route('admin.questions.index',  trans('admin.menus.questions.all'), ['type' => 'question'], 1);
+     
+    }, 6, ['icon' => 'fa fa-flag']);
 	$menu->dropdown('Questions Options', function ($sub) {
         $sub->route('admin.sqoptions.index', 'Questions  Listing', [], 1);
      
-    }, 6, ['icon' => 'fa fa-flag']);
+    }, 7, ['icon' => 'fa fa-flag']);
 
 });

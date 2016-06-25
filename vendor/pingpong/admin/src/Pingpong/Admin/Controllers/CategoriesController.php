@@ -50,8 +50,8 @@ public function index(Request $request)
 		
 	}
 	$categories = $this->repository->allOrSearch($request->get('q'),$pid);
-	//echo "<pre>"; print_R($categories);exit;
-	
+	//echo "<pre>"; print_R(count($categories));exit;
+	$catCount=count($categories);
 	
 	
 	$no = $categories->firstItem();
@@ -59,12 +59,12 @@ public function index(Request $request)
 	
 	if((!empty($pid)) && (empty($sid))){
 			
-			return $this->view('categories.index', compact('categories', 'no','pid'));
+			return $this->view('categories.index', compact('categories', 'no','pid','sertype','catCount'));
 	}elseif(!empty($sid)){
 		
-		return $this->view('categories.index', compact('categories', 'no','sid'));
+		return $this->view('categories.index', compact('categories', 'no','sid','sertype','catCount'));
 	}else{
-		return $this->view('categories.index', compact('categories', 'no'));
+		return $this->view('categories.index', compact('categories', 'no','sertype','catCount'));
 	}
 	
 }
@@ -147,8 +147,9 @@ return $this->redirectNotFound();
 public function edit($id,REQUEST $request)
 {
 	$data = $request->all();
-	
+	 
 	   $type=$data['type'];
+	 
 		try {
 				$category = $this->repository->findById($id);
 				return $this->view('categories.edit', compact('category','type'));
@@ -208,5 +209,12 @@ $this->repository->delete($id);
 } catch (ModelNotFoundException $e) {
 return $this->redirectNotFound();
 }
+}
+
+public function getTotalService()
+{
+	$serviceCount=DB::table("categories")->where('type','service')->get();
+	//echo"<pre>"; print_r($serviceCount);die;
+	
 }
 }

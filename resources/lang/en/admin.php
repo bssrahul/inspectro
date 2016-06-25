@@ -28,6 +28,16 @@ return [
 			'all' => 'All Reviews'
 			
 		],
+		'services' => [
+			'title' => 'Services',
+			'all' => 'All Services'
+			
+		],
+		'questions' => [
+			'title' => 'Questions',
+			'all' => 'All Questions'
+			
+		],
 		'roles' => 'Roles',
 		'permissions' => 'Permissions',
 		'categories' => 'Categories'

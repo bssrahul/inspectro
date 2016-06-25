@@ -2,7 +2,7 @@
 	<h1>
 		Add New
 		&middot;
-		<small><?php echo link_to_route('admin.sqoptions.index', 'Back'); ?></small>
+		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 	</h1>
 <?php $__env->stopSection(); ?>
 

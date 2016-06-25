@@ -88,7 +88,8 @@ class UsersController extends BaseController
 						->where('role_id','2')
 						->paginate(config('admin.user.perpage'));
 		}
-		
+		$service = DB :: table('categories')->where('type','service')->get();
+		echo "<pre>"; print_r($service);die;
 		$no = $users->firstItem();
         return $this->view('users.index', compact('users', 'no'));
     }
