@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2016 at 06:10 AM
+-- Generation Time: Jun 25, 2016 at 01:44 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -27,27 +27,27 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `answers` (
-  `id` int(11) NOT NULL COMMENT 'id of the answer',
+  `id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL COMMENT 'the question_id for which this is an answer',
-  `answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'text of the answer',
-  `custom_answer` tinyint(1) NOT NULL COMMENT 'if this is 1 the user will be allowed to enter an individual answer text -> the answer text will be stored in quote_requests_answers',
+  `answers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'text of the answer',
+  `custom_answer` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'if this is 1 the user will be allowed to enter an individual answer text -> the answer text will be stored in quote_requests_answers',
   `sort` int(11) NOT NULL COMMENT 'defines in which order the anser is displayed at the form',
-  `next_question_id` int(11) NOT NULL COMMENT 'question_id of the next question if this answer is selected'
+  `next_question_id` int(11) NOT NULL COMMENT 'question_id of the next question if this answer is selected',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `answers`
 --
 
-INSERT INTO `answers` (`id`, `question_id`, `answer`, `custom_answer`, `sort`, `next_question_id`) VALUES
-(1000, 100, 'Oil change', 0, 1, 200),
-(2000, 100, 'tires', 0, 2, 300),
-(3000, 200, 'yes', 0, 1, 400),
-(4000, 200, 'no', 0, 2, 400),
-(5000, 300, 'yes', 0, 1, 400),
-(6000, 300, 'no', 0, 2, 400),
-(7000, 400, 'yes', 0, 1, 0),
-(8000, 400, 'no', 0, 2, 0);
+INSERT INTO `answers` (`id`, `question_id`, `answers`, `custom_answer`, `sort`, `next_question_id`, `created_at`, `updated_at`) VALUES
+(1, 2, '$0 - $100', 0, 1, 0, '2016-06-25 14:09:51', '2016-06-25 14:09:51'),
+(2, 2, '$101 - $200', 0, 2, 0, '2016-06-25 14:09:51', '2016-06-25 14:09:51'),
+(3, 2, '$201 - $500', 0, 0, 0, '2016-06-25 14:09:51', '2016-06-25 14:09:51'),
+(4, 4, '$10', 0, 0, 0, '2016-06-25 14:12:38', '2016-06-25 14:12:38'),
+(5, 4, '$50', 0, 0, 0, '2016-06-25 14:12:38', '2016-06-25 14:12:38'),
+(6, 4, '$100', 0, 0, 0, '2016-06-25 14:12:38', '2016-06-25 14:12:38');
 
 -- --------------------------------------------------------
 
@@ -331,7 +331,10 @@ CREATE TABLE `questions` (
 --
 
 INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `description_2`, `form_type_id`, `created_at`, `updated_at`) VALUES
-(4, 20, 'Hello  ksjdfhkjsd f lskdjfh sdfgdfgdfg', 'Jjds fsd fsdfh ksd f sdfhfdgfg', 'sdfsdkjfhsd f sdklfjh sdfh sdkjfdfgdfg', 2, '2016-06-24 15:16:17', '2016-06-24 15:36:40');
+(1, 1, 'What kind of repair you want?', 'What kind of repair you want?', 'What kind of repair you want?', 1, '2016-06-25 14:08:06', '2016-06-25 14:08:06'),
+(2, 1, 'What is your budget?', 'What is your budget?', 'What is your budget?', 1, '2016-06-25 14:08:39', '2016-06-25 14:08:39'),
+(3, 2, 'What kind of style you want?', 'What kind of style you want?', 'What kind of style you want?', 1, '2016-06-25 14:10:30', '2016-06-25 14:10:30'),
+(4, 2, 'Please Choose Budget', 'Please Choose Budget', 'Please Choose Budget', 1, '2016-06-25 14:10:58', '2016-06-25 14:12:11');
 
 -- --------------------------------------------------------
 
@@ -430,10 +433,8 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `title`, `description`, `status`, `created_at`, `updated_at`, `parent_id`, `sort`) VALUES
-(1, 'car repair', 'car repair', 1, '2016-06-18 02:16:09', '2016-06-18 02:16:09', 0, 0),
-(20, 'Truck Repairing sdfsdf', 'Truck Repairing', 1, '2016-06-24 11:21:58', '2016-06-24 11:30:48', 0, 0),
-(22, 'fdgdfg', 'dfgfdg', 1, '2016-06-24 12:28:06', '2016-06-24 12:28:06', 0, 0),
-(23, 'sdfsd', 'sdgsdg', 1, '2016-06-24 12:29:42', '2016-06-24 12:29:42', 0, 0);
+(1, 'Car Repair', 'Car Repair', 1, '2016-06-25 14:07:01', '2016-06-25 14:07:01', 0, 0),
+(2, 'Hair Saloon', 'Hair Saloon', 1, '2016-06-25 14:07:23', '2016-06-25 14:07:23', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -457,7 +458,7 @@ CREATE TABLE `sqoptions` (
 --
 
 INSERT INTO `sqoptions` (`id`, `service_question_id`, `option_type`, `inputbox`, `options`, `status`, `created_at`, `updated_at`) VALUES
-(1, 5, '5', 1, '[{"status":"1","option":"4 door"},{"status":"1","option":"5 doorfrg"},{"status":0,"option":"6 door"},{"status":"1","option":"7 door"}]', 1, '2016-06-22 14:52:51', '2016-06-24 08:38:58'),
+(1, 5, '2', 1, '[{"status":"1","option":"4 door"},{"status":"1","option":"5 doorfrg"},{"status":0,"option":"6 door"},{"status":"1","option":"7 door"}]', 1, '2016-06-22 14:52:51', '2016-06-25 11:30:33'),
 (2, 9, '1', 1, '[{"status":"1","option":"fdgdg"},{"status":"1","option":"dfgdfg"},{"status":"1","option":"dfgdxfg"},{"status":"1","option":"fdxgdfgd"}]', 1, '2016-06-22 14:58:58', '2016-06-24 08:14:41'),
 (4, 6, '5', 0, '[{"status":0,"option":"dsfsddfgfddffdsdds"},{"status":"1","option":"sdfsdf43543dfdfdf"},{"status":0,"option":"3333333333333"},{"status":0,"option":"4444444444444444fsdds"},{"status":0,"option":"w432235rtrtrtrt"}]', 1, '2016-06-23 08:17:16', '2016-06-24 08:32:02');
 
@@ -510,8 +511,7 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `remember_toke
 -- Indexes for table `answers`
 --
 ALTER TABLE `answers`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `answer_id` (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `articles`
@@ -627,6 +627,11 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
@@ -690,7 +695,7 @@ ALTER TABLE `role_user`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sqoptions`
 --

@@ -34,38 +34,30 @@ return $this->redirect('questions.index');
 public function index(Request $request)
 {
    
-	$pid=$request->get('p_id');
-	$sid=$request->get('s_id');
-	$sertype=$request->get('type');
-	//print_r($sertype);die;
-	if(empty($pid) && (!empty($sid))){
-		$pid=$sid;
+	
+	
 		
+
+	$questions = $this->repository->allOrSearch($request->get('q'));
+	$answerData= DB :: Table('answers')->get();
+	$answerArr=array();
+	foreach($answerData as $answer){
+		$answerArr[]=$answer->question_id;
 	}
 	
-	if($sertype == 'service'){
-		//echo "ddssd";die;
-		 //print_r($sertype); die;
-		 $pid=$sertype;
+	foreach($questions as $k=>$question){
 		
+		if(in_array($question->id,$answerArr)){
+			$questions[$k]['avail']=1;
+		}else{
+			$questions[$k]['avail']=0;
+		}
 	}
-	$questions = $this->repository->allOrSearch($request->get('q'),$pid);
-	
-	$catCount=count($questions);
-	
-	
+	//echo "<pre>"; print_R($questions);die;
 	$no = $questions->firstItem();
-	// print_R($no);exit;
 	
-	if((!empty($pid)) && (empty($sid))){
-			
-			return $this->view('questions.index', compact('questions', 'no','pid','sertype','catCount'));
-	}elseif(!empty($sid)){
-		
-		return $this->view('questions.index', compact('questions', 'no','sid','sertype','catCount'));
-	}else{
-		return $this->view('questions.index', compact('questions', 'no','sertype','catCount'));
-	}
+	return $this->view('questions.index', compact('questions', 'no','pid','sertype','catCount'));
+	
 	
 }
 

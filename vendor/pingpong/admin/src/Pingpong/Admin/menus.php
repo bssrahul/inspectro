@@ -29,7 +29,7 @@ Menu::create('admin-menu', function ($menu) {
 	
 	$menu->dropdown(trans('admin.menus.services.title'), function ($sub) {
         $sub->route('admin.services.index', trans('admin.menus.services.all'), [], 1);
-       }, 4, ['icon' => 'fa fa-flag']);
+       }, 4, ['icon' => 'fa fa-list']);
 	
 	/* $menu->dropdown(trans('Subcategories'), function ($sub) {
         $sub->route('admin.subcategories.index', ' Subcategories Listing', [], 1);
@@ -47,10 +47,16 @@ Menu::create('admin-menu', function ($menu) {
 	$menu->dropdown(trans('admin.menus.questions.title'), function ($sub) {
         $sub->route('admin.questions.index',  trans('admin.menus.questions.all'), ['type' => 'question'], 1);
      
-    }, 6, ['icon' => 'fa fa-flag']);
-	$menu->dropdown('Questions Options', function ($sub) {
+    }, 6, ['icon' => 'fa fa-question-circle']);
+	
+	$menu->dropdown(trans('admin.menus.answers.title'), function ($sub) {
+        $sub->route('admin.answers.index',  trans('admin.menus.answers.all'), [], 1);
+     
+    }, 7, ['icon' => 'fa fa-list-alt']);
+	
+	/* $menu->dropdown('Questions Options', function ($sub) {
         $sub->route('admin.sqoptions.index', 'Questions  Listing', [], 1);
      
-    }, 7, ['icon' => 'fa fa-flag']);
+    }, 8, ['icon' => 'fa fa-flag']); */
 
 });

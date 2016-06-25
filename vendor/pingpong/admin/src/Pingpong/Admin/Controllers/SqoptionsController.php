@@ -68,9 +68,9 @@ class SqoptionsController extends BaseController
 			}
 			$serviceData=DB :: table('categories')->where('type','service')->paginate(12);	
 				
-			echo "<pre>";print_r($QuestionData);die;
+			//echo "<pre>";print_r($QuestionData);die;
 			//echo"<hr>";
-			echo "<pre>";print_r($QuestionData);die;
+			//echo "<pre>";print_r($QuestionData);die;
       // $no = $categories->firstItem();
       // echo '<pre>';print_r($categories);exit;
 	  if((!empty($quesId)) && (empty($QueData))){
@@ -150,7 +150,7 @@ class SqoptionsController extends BaseController
 		//echo '<pre>';
 		//print_r(json_encode($optionsarray,true));die;
 		$data['options']=json_encode($optionsarray,true);
-		//echo "<pre>";print_r($data);die;	   
+		echo "<pre>";print_r($data);die;	   
 		Sqoption::create($data);
 		$qid=$data['service_question_id'];
 		return $this->redirect('sqoptions.index',['ques_id'=>$qid]);

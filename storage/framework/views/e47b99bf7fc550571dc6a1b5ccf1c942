@@ -1,22 +1,28 @@
-@if(isset($model))
+<?php if(isset($model)): ?>
 	
-		{!! Form::model($model, ['method' => 'PUT', 'files' => true, 'route' => ['admin.answers.update', $model->id]]) !!}
+		<?php echo Form::model($model, ['method' => 'PUT', 'files' => true, 'route' => ['admin.answers.update', $model->id]]); ?>
+
 	
-@else
-{!! Form::open(['files' => true, 'route' => 'admin.answers.store']) !!}
-@endif
+<?php else: ?>
+<?php echo Form::open(['files' => true, 'route' => 'admin.answers.store']); ?>
+
+<?php endif; ?>
 	
 	<div class="form-group">
-	@if(!empty($qid))
-		{!! Form::label('question_id', 'Qusetion:') !!}		
-		{!! Form::select('question_id',$questionArr, $qid, ['class' => 'form-control']) !!}
-		{!! $errors->first('question_id', '<div class="text-danger">:message</div>') !!}
-	@else
-		{!! Form::label('question_id', 'Qusetion:') !!}		
-		{!! Form::select('question_id',$questionArr, null, ['class' => 'form-control']) !!}
-		{!! $errors->first('question_id', '<div class="text-danger">:message</div>') !!}
+	<?php if(!empty($qid)): ?>
+		<?php echo Form::label('question_id', 'Qusetion:'); ?>		
+		<?php echo Form::select('question_id',$questionArr, $qid, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('question_id', '<div class="text-danger">:message</div>'); ?>
+
+	<?php else: ?>
+		<?php echo Form::label('question_id', 'Qusetion:'); ?>		
+		<?php echo Form::select('question_id',$questionArr, null, ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('question_id', '<div class="text-danger">:message</div>'); ?>
+
 	
-	@endif
+	<?php endif; ?>
 		
 		
 	</div>
@@ -61,11 +67,13 @@
 	
 	<div class="form-group">
 	
-		{!! Form::submit(isset($model) ? 'Update' : 'Save', ['class' => 'btn btn-primary']) !!}
-	</div>
-{!! Form::close() !!}
+		<?php echo Form::submit(isset($model) ? 'Update' : 'Save', ['class' => 'btn btn-primary']); ?>
 
-@section('style')
+	</div>
+<?php echo Form::close(); ?>
+
+
+<?php $__env->startSection('style'); ?>
 <style>
 textarea.form-control {
     height: 100px;
@@ -77,10 +85,10 @@ textarea.form-control {
 	margin: 0 2% 1% 0;
 }
 </style>
-@stop
+<?php $__env->stopSection(); ?>
 
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 	
 	<script type="text/javascript">
 	
@@ -174,7 +182,7 @@ textarea.form-control {
 }); 
 	
 	</script>
-@stop
+<?php $__env->stopSection(); ?>
 
 
 <style>

@@ -18,39 +18,37 @@ class EloquentAnswerRepository implements AnswerRepository
         return new $model;
     }
 
-    public function allOrSearch($searchQuery = null,$pId = null)
+    public function allOrSearch($searchQuery = null,$qid = null)
     {
-		if(is_null($pId)){
-			$pId = 0;
-		}
 		
         if (is_null($searchQuery)) {
-            return $this->getAll($pId);
+            return $this->getAll($qid);
         }
-        return $this->search($searchQuery, $pId);
+        return $this->search($searchQuery, $qid);
     }
 
 	
-    public function getAll($pId = null)
+    public function getAll($qid = null)
     {
 		
-		if(strval($pId) == 'service'){
-			//echo "df" ;die;
-			 return $this->getModel()->latest()->paginate($this->perPage());
+		if(!empty($qid)){
+				return $this->getModel()->where('question_id','=',$qid)->latest()->with('question','nextQuestion')->paginate($this->perPage());
 		}else{
-			//print_r($pId);die;
-			return $this->getModel()->latest()->paginate($this->perPage());
+				return $this->getModel()->latest()->with('question','nextQuestion')->paginate($this->perPage());
 		}
+			
+			
+		
         
     }
 
-    public function search($searchQuery = null,$pId = null )
+    public function search($searchQuery = null,$qid = null )
     {
         $search = "%{$searchQuery}%";
 		
-        return $this->getModel()->where('title', 'like', $search)
+        return $this->getModel()->with('question','nextQuestion')->where('title', 'like', $search)
             ->orWhere('title', 'like', $search)
-			->orWhere('parent_id', '=', $pId)
+			->orWhere('parent_id', '=', $qid)
             ->paginate($this->perPage())
         ;
     }

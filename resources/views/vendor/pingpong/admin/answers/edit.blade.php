@@ -4,14 +4,14 @@
 	<h1>
 		Edit Question
 		&middot;
-		<small>{!! link_to_route('admin.questions.index', 'Back') !!}</small>
+		<small>{!! link_to_route('admin.answers.index', 'Back') !!}</small>
 	</h1>
 @stop
 
 @section('content')
 	
 	<div>
-		@include('admin::questions.form', array('model' => $question))
+		@include('admin::answers.form', array('model' => $answer))
 	</div>
 
 @stop
