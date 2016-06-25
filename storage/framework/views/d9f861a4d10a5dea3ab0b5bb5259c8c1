@@ -3,12 +3,14 @@
 		All  <?php if((!empty($pid)) && (empty($sid))){
 						$id=$pid;
 						$type='service';
-						echo "Services";}
-			
+						echo "Services";
+						
+				}
 				elseif((empty($pid)) && (!empty($sid))){
 						$id=$sid;
 						$type='question';
 						echo "Questions";
+					
 				}else{
 						$id=0;
 						$type='category';
@@ -17,11 +19,17 @@
 		?>(<?php echo $categories->count(); ?>)
 		&middot;
 		
-		
-		<small><?php echo link_to_route('admin.categories.create', 'Add New',['id'=>$id,'type' => $type]); ?>
-
-		
-		</small>
+		<?php 
+		if((strval($sertype) != 'service') && (empty($sertype))) {?>
+		<small><?php echo link_to_route('admin.categories.create', 'Add New',['id'=>$id,'type' => $type]); ?>	</small>
+		<?php } ?>
+			
+		 <?php if((!empty($pid)) && (empty($sid) && (strval($sertype) != 'service'))){
+				echo "<small><input action='action' type='button' value='Back' onclick='history.go(-1);' /></small>";
+			}
+			elseif((empty($pid)) && (!empty($sid)  )){
+					echo "<small><input action='action' type='button' value='Back' onclick='history.go(-1);' /></small>";
+			}?>
 	</h1>
 <?php $__env->stopSection(); ?>
 
@@ -52,26 +60,26 @@
 				</td>
 				<td><?php echo $category->created_at; ?></td>
 				<td class="text-center">
-			
+					<?php  if((!empty($pid)) && (empty($sid))){?>
+					
+						<?php echo link_to_route('admin.categories.index', 'View Question', [ 's_id' =>$category->id ]); ?>
+
+					
+					<?php  }elseif(empty($sid)){ ?>
+				
+						
+							<?php echo link_to_route('admin.categories.index', 'View Services', [ 'p_id' =>$category->id ]); ?>
+
+						
+					<?php }?>
+					&middot;
+					
 					<a href="<?php echo route('admin.categories.edit', [$category->id,'type' => $type]); ?>">Edit</a>
 					&middot;
 					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'categories'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
 				
-				<td class="text-center">
-				<?php  if((!empty($pid)) && (empty($sid))){?>
-					
-						<?php echo link_to_route('admin.categories.index', 'View Question', [ 's_id' =>$category->id ]); ?>
-
-					
-				<?php  }elseif(empty($sid)){ ?>
 				
-						<td class="text-center">
-							<?php echo link_to_route('admin.categories.index', 'View Services', [ 'p_id' =>$category->id ]); ?>
-
-						</td>	
-				<?php }?>
-				</td>	
 			</tr>
 			<?php $no++ ;?>
 			<?php endforeach; ?>

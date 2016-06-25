@@ -8,36 +8,50 @@ class EloquentServiceRepository implements ServiceRepository
 {
     public function perPage()
     {
-        return config('admin.Services.perpage');
+	
+        return config('admin.service.perpage');
     }
 
     public function getModel()
     {
-        $model = config('admin.Services.model');
+        $model = config('admin.service.model');
         
         return new $model;
     }
 
-    public function allOrSearch($searchQuery = null)
+    public function allOrSearch($searchQuery = null,$pId = null)
     {
+		if(is_null($pId)){
+			$pId = 0;
+		}
+		
         if (is_null($searchQuery)) {
-            return $this->getAll();
+            return $this->getAll($pId);
         }
-
-        return $this->search($searchQuery);
+        return $this->search($searchQuery, $pId);
     }
 
-    public function getAll()
+	
+    public function getAll($pId = null)
     {
-        return $this->getModel()->latest()->paginate($this->perPage());
+		
+		if(strval($pId) == 'service'){
+			//echo "df" ;die;
+			 return $this->getModel()->where('type','=',$pId)->latest()->paginate($this->perPage());
+		}else{
+			//print_r($pId);die;
+			return $this->getModel()->where('parent_id','=',$pId)->latest()->paginate($this->perPage());
+		}
+        
     }
 
-    public function search($searchQuery)
+    public function search($searchQuery = null,$pId = null )
     {
         $search = "%{$searchQuery}%";
-        
-        return $this->getModel()->where('name', 'like', $search)
-            ->orWhere('slug', 'like', $search)
+		
+        return $this->getModel()->where('title', 'like', $search)
+            ->orWhere('title', 'like', $search)
+			->orWhere('parent_id', '=', $pId)
             ->paginate($this->perPage())
         ;
     }

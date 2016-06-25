@@ -1,4 +1,4 @@
-<?php namespace Pingpong\Admin\Validation\Services;
+<?php namespace Pingpong\Admin\Validation\Service;
 
 use Pingpong\Admin\Validation\Validator;
 
@@ -9,7 +9,7 @@ class Create extends Validator
     {
         return [
             'title' => 'required',
-            'description' => 'required|unique:categories',
+            'description' => 'required'
         ];
     }
 }

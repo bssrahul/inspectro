@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 22, 2016 at 02:45 PM
+-- Generation Time: Jun 25, 2016 at 06:10 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -19,6 +19,35 @@ SET time_zone = "+00:00";
 --
 -- Database: `inspectro_new`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answers`
+--
+
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL COMMENT 'id of the answer',
+  `question_id` int(11) NOT NULL COMMENT 'the question_id for which this is an answer',
+  `answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'text of the answer',
+  `custom_answer` tinyint(1) NOT NULL COMMENT 'if this is 1 the user will be allowed to enter an individual answer text -> the answer text will be stored in quote_requests_answers',
+  `sort` int(11) NOT NULL COMMENT 'defines in which order the anser is displayed at the form',
+  `next_question_id` int(11) NOT NULL COMMENT 'question_id of the next question if this answer is selected'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `answers`
+--
+
+INSERT INTO `answers` (`id`, `question_id`, `answer`, `custom_answer`, `sort`, `next_question_id`) VALUES
+(1000, 100, 'Oil change', 0, 1, 200),
+(2000, 100, 'tires', 0, 2, 300),
+(3000, 200, 'yes', 0, 1, 400),
+(4000, 200, 'no', 0, 2, 400),
+(5000, 300, 'yes', 0, 1, 400),
+(6000, 300, 'no', 0, 2, 400),
+(7000, 400, 'yes', 0, 1, 0),
+(8000, 400, 'no', 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -61,7 +90,7 @@ CREATE TABLE `categories` (
   `description` text COLLATE utf8_unicode_ci,
   `status` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sorting_key` int(11) DEFAULT '0'
@@ -81,7 +110,32 @@ INSERT INTO `categories` (`id`, `title`, `description`, `status`, `created_at`, 
 (7, 'fdssdf', 'sdffsdf', 1, '2016-06-22 09:38:26', '2016-06-22 09:38:26', 0, 'category', 0),
 (8, 'sdfdf43253', 'sdfsdfd3245345', 1, '2016-06-22 09:38:33', '2016-06-22 09:39:24', 7, 'service', 0),
 (9, 'sdfsdf3424', 'sdfsdfsdf2345235', 1, '2016-06-22 09:38:43', '2016-06-22 09:38:50', 8, 'question', 1),
-(12, 'dfhdfh', 'dfhdfhd', 1, '2016-06-22 09:42:51', '2016-06-22 09:42:51', 8, 'question', 2);
+(12, 'dfhdfh', 'dfhdfhd', 1, '2016-06-22 09:42:51', '2016-06-22 09:42:51', 8, 'question', 2),
+(13, 'dfgfdg', 'gdfgdfgd', 1, '2016-06-23 09:06:16', '2016-06-23 09:06:16', 8, 'question', 3),
+(14, 'fdgfgd4554', 'dfgdfg4545', 1, '2016-06-23 10:15:00', '2016-06-24 07:39:41', 0, 'category', 0),
+(15, 'dfgdfg5454er', 'dfgdfgdfrereerer343', 1, '2016-06-23 10:15:22', '2016-06-24 07:40:30', 14, 'service', 0),
+(16, 'dfgdfg4535er', 'dfgfdgdfg4545rerdfgdf4r', 1, '2016-06-23 10:15:37', '2016-06-24 08:05:10', 15, 'question', 3),
+(17, 'wall painting', 'wall painting', 1, '2016-06-24 07:58:26', '2016-06-24 07:58:26', 1, 'service', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `form_types`
+--
+
+CREATE TABLE `form_types` (
+  `form_type_id` int(11) NOT NULL,
+  `op_type` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `form_types`
+--
+
+INSERT INTO `form_types` (`form_type_id`, `op_type`) VALUES
+(1, 'multi Select'),
+(2, 'single Select'),
+(5, 'Drop Down');
 
 -- --------------------------------------------------------
 
@@ -162,12 +216,9 @@ CREATE TABLE `option_type` (
 --
 
 INSERT INTO `option_type` (`id`, `op_type`) VALUES
-(1, 'multi Select'),
-(2, 'single Select'),
-(3, 'multi Select with image'),
-(4, 'single  Select with image'),
-(5, 'Drop Down'),
-(7, 'without option textbox');
+(1, 'Single  Select'),
+(2, 'Multi Select'),
+(3, 'Drop Down');
 
 -- --------------------------------------------------------
 
@@ -261,6 +312,30 @@ INSERT INTO `permission_role` (`id`, `permission_id`, `role_id`, `created_at`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL COMMENT 'id of the question',
+  `service_id` int(11) NOT NULL COMMENT 'id of the service, related to the services-table',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'question title',
+  `description_1` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the top',
+  `description_2` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the bottom',
+  `form_type_id` int(11) NOT NULL COMMENT 'this is the id of form type -> table form_types',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `description_2`, `form_type_id`, `created_at`, `updated_at`) VALUES
+(4, 20, 'Hello  ksjdfhkjsd f lskdjfh sdfgdfgdfg', 'Jjds fsd fsdfh ksd f sdfhfdgfg', 'sdfsdkjfhsd f sdklfjh sdfh sdkjfdfgdfg', 2, '2016-06-24 15:16:17', '2016-06-24 15:36:40');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `quote_requests`
 --
 
@@ -272,6 +347,18 @@ CREATE TABLE `quote_requests` (
   `status` int(2) NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quote_requests_answers`
+--
+
+CREATE TABLE `quote_requests_answers` (
+  `quote_requests_id` int(11) NOT NULL,
+  `answer_id` int(11) NOT NULL,
+  `custom_answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -324,6 +411,33 @@ INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `services`
+--
+
+CREATE TABLE `services` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT 'id of the service. this is the key identification for the service',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `parent_id` int(11) DEFAULT '0',
+  `sort` int(11) DEFAULT '0' COMMENT 'specifies how the services are ordered when displayed in a list (select etc.)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`id`, `title`, `description`, `status`, `created_at`, `updated_at`, `parent_id`, `sort`) VALUES
+(1, 'car repair', 'car repair', 1, '2016-06-18 02:16:09', '2016-06-18 02:16:09', 0, 0),
+(20, 'Truck Repairing sdfsdf', 'Truck Repairing', 1, '2016-06-24 11:21:58', '2016-06-24 11:30:48', 0, 0),
+(22, 'fdgdfg', 'dfgfdg', 1, '2016-06-24 12:28:06', '2016-06-24 12:28:06', 0, 0),
+(23, 'sdfsd', 'sdgsdg', 1, '2016-06-24 12:29:42', '2016-06-24 12:29:42', 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sqoptions`
 --
 
@@ -331,6 +445,7 @@ CREATE TABLE `sqoptions` (
   `id` int(11) NOT NULL,
   `service_question_id` int(11) NOT NULL,
   `option_type` varchar(255) NOT NULL,
+  `inputbox` int(11) NOT NULL DEFAULT '0',
   `options` varchar(255) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -341,10 +456,10 @@ CREATE TABLE `sqoptions` (
 -- Dumping data for table `sqoptions`
 --
 
-INSERT INTO `sqoptions` (`id`, `service_question_id`, `option_type`, `options`, `status`, `created_at`, `updated_at`) VALUES
-(1, 5, '2', '[{"status":0,"option":"4"},{"status":"1","option":"5"},{"status":"1","option":"6"},{"status":0,"option":"7"}]', 1, '2016-06-22 14:52:51', '2016-06-22 14:55:36'),
-(2, 9, '1', '[{"status":0,"option":"fdgdg"},{"status":0,"option":"dfgdfg"},{"status":0,"option":"dfgdxfg"},{"status":0,"option":"fdxgdfgd"}]', 1, '2016-06-22 14:58:58', '2016-06-22 14:58:58'),
-(3, 12, '2', '[{"status":0,"option":"45"},{"status":"1","option":"4545"}]', 1, '2016-06-22 15:13:14', '2016-06-22 15:13:14');
+INSERT INTO `sqoptions` (`id`, `service_question_id`, `option_type`, `inputbox`, `options`, `status`, `created_at`, `updated_at`) VALUES
+(1, 5, '5', 1, '[{"status":"1","option":"4 door"},{"status":"1","option":"5 doorfrg"},{"status":0,"option":"6 door"},{"status":"1","option":"7 door"}]', 1, '2016-06-22 14:52:51', '2016-06-24 08:38:58'),
+(2, 9, '1', 1, '[{"status":"1","option":"fdgdg"},{"status":"1","option":"dfgdfg"},{"status":"1","option":"dfgdxfg"},{"status":"1","option":"fdxgdfgd"}]', 1, '2016-06-22 14:58:58', '2016-06-24 08:14:41'),
+(4, 6, '5', 0, '[{"status":0,"option":"dsfsddfgfddffdsdds"},{"status":"1","option":"sdfsdf43543dfdfdf"},{"status":0,"option":"3333333333333"},{"status":0,"option":"4444444444444444fsdds"},{"status":0,"option":"w432235rtrtrtrt"}]', 1, '2016-06-23 08:17:16', '2016-06-24 08:32:02');
 
 -- --------------------------------------------------------
 
@@ -382,7 +497,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `last_logged_in`) VALUES
-(1, 'Sukant', 'Sharma', 'sukant@mobilyte.com', '$2y$10$Eva3EAN0C98hPr46/6TZOu52VtThQWNXtqkThYmaTJFSWtXHeit3u', 'owEb8zsXnDcf0OvUYMl96emkmWLD6husb4UL7s4HRgqfHF5oTuym77yN1aA8', '2015-12-11 07:07:11', '2016-06-16 12:33:54', '2016-06-14 06:15:43'),
+(1, 'Sukant', 'Sharma', 'sukant@mobilyte.com', '$2y$10$Eva3EAN0C98hPr46/6TZOu52VtThQWNXtqkThYmaTJFSWtXHeit3u', 'npFjbSOFz6WPTHtWK1on7WEgvUhrEUnpBDzlFUcdzBeBTQZ018lV0ckQSxQF', '2015-12-11 07:07:11', '2016-06-24 07:57:09', '2016-06-14 06:15:43'),
 (2, 'Rahul', 'Jain', 'rahul.jain@mobilyte.com', '$2y$10$aRVWvTnMQJxjYnCV4fLAN.8O5ZpWK.glY296t5wpKUf0MLIIIdTEq', NULL, '2016-06-15 10:05:23', '2016-06-15 10:09:17', '0000-00-00 00:00:00'),
 (3, 'fghj', 'fghj', '26may@mailinator.com', '$2y$10$7g9fbLacyhQvNXKTVkdCtOYIrDZXSY94aJMr6D/hlzqjoyr0OW2D6', NULL, '2016-06-16 08:28:52', '2016-06-16 08:28:52', '0000-00-00 00:00:00'),
 (4, 'hjsdfgjfd', 'fdsff', 'rohitkumar.rd26@gmail.com', '$2y$10$1LLiaS1i4HuMva178gBtGOnIvxEovpIX9HN9o5/Smv/tkg6dLE4Ee', NULL, '2016-06-16 09:48:31', '2016-06-16 09:48:31', '0000-00-00 00:00:00');
@@ -390,6 +505,13 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `remember_toke
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `answer_id` (`id`);
 
 --
 -- Indexes for table `articles`
@@ -403,6 +525,12 @@ ALTER TABLE `articles`
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `parent_id` (`parent_id`);
+
+--
+-- Indexes for table `form_types`
+--
+ALTER TABLE `form_types`
+  ADD PRIMARY KEY (`form_type_id`);
 
 --
 -- Indexes for table `options`
@@ -441,6 +569,12 @@ ALTER TABLE `permission_role`
   ADD KEY `permission_role_role_id_index` (`role_id`);
 
 --
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `quote_requests`
 --
 ALTER TABLE `quote_requests`
@@ -460,6 +594,13 @@ ALTER TABLE `role_user`
   ADD PRIMARY KEY (`id`),
   ADD KEY `role_user_role_id_index` (`role_id`),
   ADD KEY `role_user_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent_id` (`parent_id`);
 
 --
 -- Indexes for table `sqoptions`
@@ -494,7 +635,12 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `form_types`
+--
+ALTER TABLE `form_types`
+  MODIFY `form_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `options`
 --
@@ -504,7 +650,7 @@ ALTER TABLE `options`
 -- AUTO_INCREMENT for table `option_type`
 --
 ALTER TABLE `option_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `password_resets`
 --
@@ -521,6 +667,11 @@ ALTER TABLE `permissions`
 ALTER TABLE `permission_role`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question', AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT for table `quote_requests`
 --
 ALTER TABLE `quote_requests`
@@ -536,10 +687,15 @@ ALTER TABLE `roles`
 ALTER TABLE `role_user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT for table `services`
+--
+ALTER TABLE `services`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=24;
+--
 -- AUTO_INCREMENT for table `sqoptions`
 --
 ALTER TABLE `sqoptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `subscribers`
 --

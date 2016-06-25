@@ -26,6 +26,7 @@ class Category extends Model
 	{
 		return $this->belongsTo('option_types');
 	}
+	
     /* public function scopeOptions($query)
     {
         return $query->lists('name', 'id');

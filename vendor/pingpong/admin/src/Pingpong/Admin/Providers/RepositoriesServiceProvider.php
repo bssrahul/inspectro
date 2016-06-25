@@ -25,7 +25,9 @@ class RepositoriesServiceProvider extends ServiceProvider
         'Role',
         'Permission',
 		'Service',
+		'Question',
 	    'Sqoption',
+	    'Answer',
 
     ];
 
@@ -48,13 +50,7 @@ class RepositoriesServiceProvider extends ServiceProvider
             'Pingpong\Admin\Repositories\Universities\EloquentUniversityRepository'
         );
     }
-	protected function bindServiceRepository()
-    {
-        $this->app->bind(
-            'Pingpong\Admin\Repositories\Services\ServiceRepository',
-            'Pingpong\Admin\Repositories\Services\EloquentServiceRepository'
-        );
-    }
+	
 	
     protected function bindArticleRepository()
     {
@@ -85,6 +81,29 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             'Pingpong\Admin\Repositories\Categories\CategoryRepository',
             'Pingpong\Admin\Repositories\Categories\EloquentCategoryRepository'
+        );
+    }
+	
+	protected function bindServiceRepository()
+    {
+        $this->app->bind(
+            'Pingpong\Admin\Repositories\Services\ServiceRepository',
+            'Pingpong\Admin\Repositories\Services\EloquentServiceRepository'
+        );
+    }
+	
+	protected function bindQuestionRepository()
+    {
+        $this->app->bind(
+            'Pingpong\Admin\Repositories\Questions\QuestionRepository',
+            'Pingpong\Admin\Repositories\Questions\EloquentQuestionRepository'
+        );
+    }
+	protected function bindAnswerRepository()
+    {
+        $this->app->bind(
+            'Pingpong\Admin\Repositories\Questions\AnswerRepository',
+            'Pingpong\Admin\Repositories\Questions\EloquentAnswerRepository'
         );
     }
 	

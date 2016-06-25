@@ -11,9 +11,23 @@
 	</div>
 
 	<div class="form-group">
+	
 		{!! Form::label('option_type', 'Options Type:') !!}		
 		{!! Form::select('option_type',$op_type, null, ['class' => 'form-control']) !!}
 		{!! $errors->first('option_type', '<div class="text-danger">:message</div>') !!}
+		
+	</div>
+	
+	<div class="form-group">
+		
+		
+		
+		{!! Form::label('inputbox', '  Other Input Field  :  ') !!}	
+		&nbsp;&nbsp;&nbsp;
+		{!! Form::checkbox('inputbox') !!} 
+		</br>
+		<span> <?php echo"( If you need Other Input field, Please check above box )";?> </span>
+		{!! $errors->first('inputbox', '<div class="text-danger">:message</div>') !!}
 		
 	</div>
 	<div id='TextBoxesGroup'>
@@ -116,20 +130,35 @@
 	 $(document).on("click",".address .inputRemove",function(){
 	   $(this).closest(".address").remove(); 
 	   counter--;
-	   if(counter==0){
+	   
+	   	if((counter==0 )){
 		   $('.inputRemove').hide();
-	   } 
+		} 
 	 
 	 });
 	</script>
 	
 	<script type="text/javascript">
 	$(document).ready(function(){
-	<?php if(!empty($optId)){ ?>
+	<?php if((isset($optId))){ ?>
    var optId = "<?php echo $optId;  ?>";
+
    function hideElements()
 	{
 		$('.hclass,#addButton').hide();
+		// for disable a Option Type
+		var $dropDown = $('#option_type') ,
+		name = $dropDown.prop('name') ,
+		$form = $dropDown.parent('form');
+		$dropDown.data('original-name',name); 
+		$dropDown.addClass('disabled').prop({'name' : name + "_1" , disabled : true});
+		// for disable a Question
+		var $selectdropDown = $('#service_question_id') ,
+		name = $selectdropDown.prop('name') ,
+		$form = $selectdropDown.parent('form');
+		$selectdropDown.data('original-name',name); 
+		$selectdropDown.addClass('disabled').prop({'name' : name + "_1" , disabled : true});
+		 
 	}
 	function showElements(optId)
 	{
@@ -153,6 +182,10 @@
 
 
 <style>
+
+select.disabled {
+    color: e1e1e1;
+}
 .space{
 	height:15px !important;
 	width:100%;}

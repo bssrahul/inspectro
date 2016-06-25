@@ -58,4 +58,16 @@ return [
         'model' => 'Pingpong\Admin\Entities\Category',
         'perpage' => 10
     ],
+    'service' => [
+        'model' => 'Pingpong\Admin\Entities\Service',
+        'perpage' => 10
+    ],
+	'question' => [
+        'model' => 'Pingpong\Admin\Entities\Question',
+        'perpage' => 10
+    ],
+	'answer' => [
+        'model' => 'Pingpong\Admin\Entities\Answer',
+        'perpage' => 10
+    ],
 ];

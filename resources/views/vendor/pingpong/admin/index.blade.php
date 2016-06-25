@@ -92,7 +92,7 @@
 		<div class="small-box bg-red">
 			<div class="inner">
 				<h3>
-					0
+				{!! category()->count() !!}
 				</h3>
 
 				<p>

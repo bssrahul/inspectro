@@ -7,7 +7,12 @@
 		&middot;
 		<small>{!! link_to_route('admin.users.create', 'Add New') !!}</small>
 		<span style="float:right;width: 24%;">
-		<form role="form"  id="searchform" action="{{ url('/admin/users') }}" method="get">	<input type="hidden" name="_token" value="{{ csrf_token() }}"><div  class="form-group"><span style="width: 30%; float: left;">Search:</span><input type="text" value="<?php echo (@$_REQUEST['search']); ?>" name="search" class="form-control" style="height:26px;height:26px;width: 65%;"/> </div>
+		<form role="form"  id="searchform" action="{{ url('/admin/users') }}" method="get">	
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<div  class="form-group">
+				<span style="width: 30%; float: left;">Search:</span>
+				<input type="text" value="<?php echo (@$_REQUEST['search']); ?>" name="search" class="form-control" style="height:26px;height:26px;width: 65%;"/> 
+			</div>
 		</span>
 	</h1>
 <div style="clear:both"></div>

@@ -34,7 +34,14 @@ class EloquentCategoryRepository implements CategoryRepository
     public function getAll($pId = null)
     {
 		
-        return $this->getModel()->where('parent_id','=',$pId)->latest()->paginate($this->perPage());
+		if(strval($pId) == 'service'){
+			//echo "df" ;die;
+			 return $this->getModel()->where('type','=',$pId)->latest()->paginate($this->perPage());
+		}else{
+			//print_r($pId);die;
+			return $this->getModel()->where('parent_id','=',$pId)->latest()->paginate($this->perPage());
+		}
+        
     }
 
     public function search($searchQuery = null,$pId = null )

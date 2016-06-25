@@ -10,7 +10,7 @@ class Update extends Validator
     {
         return [
             'title' => 'required',
-            'description' => 'required:categories'
+            'description' => 'required'
         ];
     }
 }

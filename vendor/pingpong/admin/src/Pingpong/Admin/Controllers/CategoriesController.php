@@ -36,10 +36,22 @@ public function index(Request $request)
    
 	$pid=$request->get('p_id');
 	$sid=$request->get('s_id');
+	$sertype=$request->get('type');
+	//print_r($sertype);die;
 	if(empty($pid) && (!empty($sid))){
 		$pid=$sid;
+		
+	}
+	
+	if($sertype == 'service'){
+		//echo "ddssd";die;
+		 //print_r($sertype); die;
+		 $pid=$sertype;
+		
 	}
 	$categories = $this->repository->allOrSearch($request->get('q'),$pid);
+	//echo "<pre>"; print_R(count($categories));exit;
+	$catCount=count($categories);
 	
 	
 	$no = $categories->firstItem();
@@ -47,12 +59,12 @@ public function index(Request $request)
 	
 	if((!empty($pid)) && (empty($sid))){
 			
-			return $this->view('categories.index', compact('categories', 'no','pid'));
+			return $this->view('categories.index', compact('categories', 'no','pid','sertype','catCount'));
 	}elseif(!empty($sid)){
 		
-		return $this->view('categories.index', compact('categories', 'no','sid'));
+		return $this->view('categories.index', compact('categories', 'no','sid','sertype','catCount'));
 	}else{
-		return $this->view('categories.index', compact('categories', 'no'));
+		return $this->view('categories.index', compact('categories', 'no','sertype','catCount'));
 	}
 	
 }
@@ -135,8 +147,9 @@ return $this->redirectNotFound();
 public function edit($id,REQUEST $request)
 {
 	$data = $request->all();
-	
+	 
 	   $type=$data['type'];
+	 
 		try {
 				$category = $this->repository->findById($id);
 				return $this->view('categories.edit', compact('category','type'));
@@ -196,5 +209,12 @@ $this->repository->delete($id);
 } catch (ModelNotFoundException $e) {
 return $this->redirectNotFound();
 }
+}
+
+public function getTotalService()
+{
+	$serviceCount=DB::table("categories")->where('type','service')->get();
+	//echo"<pre>"; print_r($serviceCount);die;
+	
 }
 }
