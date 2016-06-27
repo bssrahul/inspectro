@@ -1,102 +1,163 @@
-<!-- Scripts -->	
+<!--[Footer]-->
+            	<footer class="foot-wrap">
+                	<div class="container">
+                    	<div class="row">
+                        	<div class="foot-area">
+                            	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                </div>
+                            	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                	<div class="foot-box">
+                                    	<p class="fhead">Company</p>
+                                        	<ul>
+                                            <li><a href="#" title="">About</a></li>
+                                            <li><a href="#" title="">Jobs</a></li>
+                                            <li><a href="#" title=""> Team</a></li>
+                                            <li><a href="#" title=""> Blog</a></li>
+                                    </div>
+                                </div>
+                            	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                	<div class="foot-box">
+                                    	<p class="fhead">Customers</p>
+                                        	<ul>
+                                            <li><a href="#" title="">How it works</a></li>
+                                            <li><a href="#" title="">Safety</a></li>
+                                            <li><a href="#" title="">iPhone app</a></li>
+                                            <li><a href="#" title="">Services Near Me</a></li>
+                                             <li><a href="#" title="">Cost Estimates</a></li>
+                                              <li><a href="#" title="">Moving Guides</a></li>
+                                    </div>
+                                </div>
+                            	<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                <div class="foot-box">
+                                    	<p class="fhead">Pros</p>
+                                        	<ul>
+                                            <li><a href="#" title="">How it works</a></li>
+                                            <li><a href="#" title="">Sign up</a></li>
+                                            <li><a href="#" title="">Pro center</a></li>
+                                            <li><a href="#" title="">Success stories</a></li>
+                                             <li><a href="#" title="">Mobile app</a></li>
+                                        
+                                </div>
+                           
+                                </div>
+                            	<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                	   <div class="foot-box">
+                                    	<p class="fhead"> Questions? Need help?</p>
+                                        	<ul>
+                                            <li><a href="#" title="">Help center</a></li>
+                                            <li><a href="#" title="">Contact Thumbtack</a></li>
+                                            </ul>
+                                            
+                                            <p class="fhead"> Follow Us On</p>
+                                        	<ul class="s-list">
+                                            <li><a href="#" title="" class="fb"></a></li>
+                                            <li><a href="#" title="" class="tw"></a></li>
+                                            <li><a href="#" title="" class="gl"></a></li>
+                                            <li><a href="#" title="" class="pn"></a></li>
+                                            <li><a href="#" title="" class="is"></a></li>
+                                            </ul>
+                                            
+                                            
+                                          </div>
+                                </div>                       
+                            	<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                </div>                                                                                                                                         
+                            </div>
+                        </div>
+                        
+                        <div class="copyright">
+                        	<p>All Right Reserved - 2016  <a href="" title="Privacy policy ">Privacy policy</a> | <a href="" title="Terms of use ">Terms of use</a> </p>
+                        </div>
+                    </div>
+                </footer>
+            <!--[/Footer]-->
+            
+
+<script src="{{ asset('/public/js/jquery.min.js') }}"></script>
+<script src="{{ asset('/public/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('/public/js/fm.checkator.jquery.js') }}"></script> 
+
+
+
+<!--[Welcome Popup]-->
+	<div class="modal fade" id="myModal" role="dialog">
+     <div class="modal-dialog popup-1">	
+       <div class="modal-content">  
+		<div class="inner-popup">	
+<!--popup Content-->
+	<div class="popup-cont">
+		<div class="welcome">
+			<p>To find you a great expert <span>we will now ask you some question</span></p>
+		</div>
+	</div>
+<!--/popup Content-->
+<!--Popup footer-->
+	<div class="popup-foot">
+		<input type="submit" value="NEXT"  class="btn btn-success submit" id="1">		
+	</div>
+<!--/Popup footer-->
+		</div>
+       </div>      
+     </div>
+   </div> 
+<!--[/Wecome Popup]-->
+
+
+
+
+
+ <script>
+$(document).ready(function(){
+    $("#myBtn").click(function(){
+        $("#myModal").modal();
+    });
+});	
+
+$(document).ready(function(){
+	i=2;
+  $("#myBtn"+i).click(function(){
+ console.log(i);
+ $(".popup-foot").attr('id',i+1);
+});
+});	
+
+$(document).ready(function(){
 	
-
-
-    <div id="chatdata"> </div>
-
-
-
-
-
-      <div class="container ">
-        <div class="row">
-        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12 text-center ">
-         <ul class="nav-botm">
-           
-            <li><a href="{{ url('/pages/privacy-policy') }}" target="_blank">Privacy policy</a></li>
-            <li><a href="{{ url('/pages/terms-of-use') }}" target="_blank">Terms of use</a></li>
-
-
-          </ul>
-        
-        </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
-           <p>Copyright © 2016 Flying Chalks Pte. Ltd. <i> All rights reserved.</i></p>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
-            <ul class="social-icon">
-              <li><a href="https://www.facebook.com/flyingchalks" target="_blank"><i class="fa fa-facebook fc-custom"></i></a></li>
-              <li><a href="https://www.instagram.com/flyingchalks" target="_blank"><i class="fa fa-instagram"></i></a></li>
-             <!-- <li><a href="https://www.linkedin.com/company/flying-chalks"><i class="fa fa-linkedin"></i></a></li>-->
-
-            </ul>
-          </div>
-        </div>
-      </div>
+$(".serviceList").click(function(){
+   var serviceId=$(this).attr('id');
+   //console.log(serviceId);
+  //alert("opkiokoko");
+     //alert('<?php echo url('/')."/serviceslist"; ?>');
+  // var CSRF_TOKEN = "<?php echo csrf_token(); ?>";
+   $.ajax({
+    url: '<?php echo url('/')."/serviceslist"; ?>',
+    type: 'get',
+   // data: 'serviceId='+serviceId+'&_token='+CSRF_TOKEN,
    
+    success: function (data) {
+        alert(data);       
+	   console.log(data);
+    }
+});
+});
+});	
 
-	<script>		
-	$( document ).ready(function() {			
-		setTimeout(function(){ 			
-			
-		$("#custom_success").fadeOut("slow"); 	
-		$("#custom_error").fadeOut("slow"); 	
-		}, 10000);		
-	});	
-	</script>
-	<script src="{{ asset('/public/js/jquery.validate.js') }}" type="text/javascript"></script>
-		<script type="text/javascript">
-			$(document).ready(function() {
-                /*$("#two").mCustomScrollbar({
-					
-					keyboard:{
-						enable:true,
-						scrollType:"stepless",
-						scrollAmount:"auto"
-					}
-				});*/
-				$('#userlogin').validate();
-				$('#usersignup').validate({
-						rules: {
-							password: "required",
-							password_confirmation: {
-							  equalTo: "#pwd"
-							}
-						  }
-					
-				});
-				$('#resetpassword').validate();
-				$('#resetform').validate({
-						rules: {
-							password: "required",
-							password_confirmation: {
-							  equalTo: "#password"
-							}
-						  }
-					
-				});
-			});
-		</script>
-		
-		<script>
-		$('#message').bind('input propertychange', function() {
-				
-				var lett=this.value
-				var count= lett.length;
-				var left=400-count;
-				$("#countChar").html(left+" Char Left");
-				});
-       
-			/*#countChar*/
-		</script>
 
-<script src="http://www.flyingchalks.com:3000/socket.io/socket.io.js"></script>
-<script src="{{ asset('/public/js/socket.js') }}"></script>
-<script src="{{ asset('/public/js/chatpopup.js') }}"></script>
-	
-{!! option('tracking') !!} 
-<div class="exchange-notify"></div>
-<div class="chatbox-main"></div>
 
-</body>
-</html>
+
+
+$(document).ready(function() {
+    $('.plist li').click(function(event) {
+     //alert(event.target.type);
+        if (event.target.type !== 'checkbox') {
+            $(':checkbox', this).trigger('click');
+        }
+        if (event.target.type !== 'radio') {
+            $(':radio', this).trigger('click');
+        }
+    });
+});
+
+
+</script>
+
