@@ -23,7 +23,7 @@ class HomeController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth');
+		
 		parent::__construct();
 		
 		
@@ -38,8 +38,17 @@ class HomeController extends Controller {
 	public function index()
 	{
 		
-		echo 'Welcome';die;
-		
+		$services = DB::table('services')->select('title','id')->take(3)->get();
+		//print_r($services);die;
+		return view('home.index',compact('services'));
+	}
+	
+	public function serviceList()
+	{
+		//print_r($_REQUEST);
+		echo url('/');
+		//echo "hello";//print_r($request->get_all());
+		die;
 	}
 
 }
