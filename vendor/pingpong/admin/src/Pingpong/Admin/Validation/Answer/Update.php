@@ -9,15 +9,12 @@ class Update extends Validator
    public function rules()
     {
         return [
-           	'question_id' => 'required',
+			'question_id' => 'required|not_in:0',
+           	
+			
         ];
     }
 	
-	public function messages()
-    {
-        return [
-            
-        ];
-    }
+	
 	
 }

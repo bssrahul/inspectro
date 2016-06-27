@@ -2,22 +2,38 @@
 	
 		{!! Form::model($model, ['method' => 'PUT', 'files' => true, 'route' => ['admin.answers.update', $model->id]]) !!}
 	
+	
+		
 @else
 {!! Form::open(['files' => true, 'route' => 'admin.answers.store']) !!}
 @endif
-	
 	<div class="form-group">
+		
 	@if(!empty($qid))
-		{!! Form::label('question_id', 'Qusetion:') !!}		
+	
+		
+		<input type="hidden" name="qid" class="form-control" value="<?php echo $qid ;?>">
+
+	@endif
+		
+		
+	</div>
+	<div class="form-group">
+		
+	@if(!empty($qid))
+		{!! Form::label('question_id', 'Question:') !!}		
 		{!! Form::select('question_id',$questionArr, $qid, ['class' => 'form-control']) !!}
 		{!! $errors->first('question_id', '<div class="text-danger">:message</div>') !!}
 	@else
-		{!! Form::label('question_id', 'Qusetion:') !!}		
+		{!! Form::label('question_id', 'Question:') !!}		
 		{!! Form::select('question_id',$questionArr, null, ['class' => 'form-control']) !!}
 		{!! $errors->first('question_id', '<div class="text-danger">:message</div>') !!}
 	
 	@endif
 		
+	<?php if((isset($optId)) ){ ?>
+	<input type="hidden" value="<?php echo @$model->question_id; ?>" name="question_id">
+	<?php } ?>	
 		
 	</div>
 	<hr>
@@ -26,8 +42,8 @@
 			<div id="TextBoxDiv1" class="form-group address hclass sh answerOptionBox">
 				<div class="form-group answerInput">
 					<label>Answer : </label><input type='text' name="answers[0]" value = "<?php if(!empty($answer['answers'])){ echo $answer['answers'];} ?>" maxlength="100" id='textbox1' class='form-control' >
-					
-					<div class="disableOption"><input type="checkbox" value="1"  name="answercks[0]"> Do you want to disable it? <div class="inputRemove">&times;</div></div>
+					{!! $errors->first('answers[0]', '<div class="text-danger">:message</div>') !!}
+					<div class="disableOption"> <div class="inputRemove">&times;</div></div>
 				</div>
 				<div class="form-group_part">
 							<label for="custom_answer[0]"> Custom Answer  :</label>
@@ -37,11 +53,12 @@
 				</div>
 				<div class="form-group_part">
 							<label for="next_question_id[0]"> Next Question  :</label>
-							<select name="next_question_id[0]" class = 'form-control' ">
-									<?php foreach($questionArr as $k =>$questions){ ?>
+							<select name="next_question_id[0]" class = 'form-control' >
+									<?php foreach($questiondata as $k =>$questions){ ?>
 											<option value="<?php echo $k;?>"<?php if((!empty($answer['next_question_id'])) && ($answer['next_question_id'] == $k)){ echo "selected=selected";} ?>><?php echo $questions;?></option>
 									<?php } ?>
 							</select>
+						
 				</div>
 				<div class="form-group_part">
 						
@@ -85,12 +102,10 @@ textarea.form-control {
 	<script type="text/javascript">
 	
 	var counter = 0;
-	<?php if(!empty(@$k)){
-		?>
-		var initialCounter = "<?php echo $k; ?>";
-		counter = initialCounter;
-		
-	<?php } ?>
+		if((counter==0 )){
+				
+		   $('.inputRemove').hide();
+		} 
 		
 		//console.log(counter);
 		// $('#TextBoxesGroup')
@@ -111,9 +126,9 @@ textarea.form-control {
 	      '<input type="text" maxlength = "100"  name="answers[' + counter + 
 	      ']" id="textbox' + counter + '" value="" class="form-control">'+
 		  '<div class="disableOption">'+
-		  '<input type="checkbox" value="1"  name="answercks['+counter+']"> Do you want to disable it? <div class="inputRemove">&times;</div></div></div>'+
+		  ' <div class="inputRemove">&times;</div></div></div>'+
 		  '<div class="form-group_part"><label for="custom_answer['+counter+']"> Custom Answer  :</label>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="custom_answer['+counter+'] " value="1" ><span> <br> <?php echo"( If you want to use Custom Answer, Please check above box )";?> </span></div>'+
-		  '<div class="form-group_part"><label for="next_question_id['+counter+']"> Next Qusetion  :</label><select name="next_question_id['+counter+']" class = "form-control"><?php foreach($questionArr as $k =>$questions){ ?>'+
+		  '<div class="form-group_part"><label for="next_question_id['+counter+']"> Next Qusetion  :</label><select name="next_question_id['+counter+']" class = "form-control"><?php foreach($questiondata as $k =>$questions){ ?>'+
 		  '<option value="<?php echo $k;?>"><?php echo $questions;?></option><?php } ?></select></div><div class="form-group_part"><label for="custom_answer['+counter+']"> Sort Option  :</label>'+
 		  '&nbsp;&nbsp;&nbsp;<input type="number" name="sort['+counter+']" class = "form-control"><div class="text-danger"></div></div>');
             
@@ -128,6 +143,7 @@ textarea.form-control {
 	   counter--;
 	   
 	   	if((counter==0 )){
+				
 		   $('.inputRemove').hide();
 		} 
 	 
@@ -136,20 +152,14 @@ textarea.form-control {
 	
 	<script type="text/javascript">
 	$(document).ready(function(){
-	<?php if((isset($optId))){ ?>
-   var optId = "<?php echo $optId;  ?>";
-
+	<?php if((isset($optId)) ){ ?>
+		var optId = "<?php echo $optId;  ?>";
+		
    function hideElements()
 	{
-		$('.hclass,#addButton').hide();
-		// for disable a Option Type
-		var $dropDown = $('#option_type') ,
-		name = $dropDown.prop('name') ,
-		$form = $dropDown.parent('form');
-		$dropDown.data('original-name',name); 
-		$dropDown.addClass('disabled').prop({'name' : name + "_1" , disabled : true});
+		
 		// for disable a Question
-		var $selectdropDown = $('#service_question_id') ,
+		var $selectdropDown = $('#question_id') ,
 		name = $selectdropDown.prop('name') ,
 		$form = $selectdropDown.parent('form');
 		$selectdropDown.data('original-name',name); 
@@ -162,7 +172,7 @@ textarea.form-control {
 		//$('input[name="options['+optId+']"]').closest( ".hclass" ).show();
 	} 
 	
-	if(( typeof optId !== 'undefined') && (optId != "" )) {
+	if(optId != "" ) {
 		
 		hideElements();
 		showElements(optId);

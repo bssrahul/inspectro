@@ -2,7 +2,12 @@
 	<h1>
 		All Answers (<?php echo $answers->count(); ?>)
 		&middot;
+		<?php if(!empty($qid)): ?>
+		<small><?php echo link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid]); ?></small>
+		<?php else: ?>
 		<small><?php echo link_to_route('admin.answers.create', 'Add New'); ?></small>
+		<?php endif; ?>
+		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 	</h1>
 <?php $__env->stopSection(); ?>
 
@@ -21,14 +26,14 @@
 			<th class="text-center">Action</th>
 		</thead>
 		<tbody>
-			<?php foreach($answers as $answer): ?>
+			<?php foreach($answers as $k=>$answer): ?>
 			<tr>
 				<td><?php echo $no; ?></td>
 				<td><?php echo $answer->answers; ?></td>
 				<td><?php echo $answer->question->title; ?></td>
 				<td>
-					<?php if($answer->next_question_id != ''): ?>
-						<?php echo $answer->question->title; ?>
+					<?php if(!empty($answer->next_question_id) ): ?>
+						<?php echo $answer->nextQuestion->title; ?>
 
 					<?php else: ?>
 						<span class='label label-deactive '>Not Available</span>
@@ -46,9 +51,9 @@
 				<td><?php echo date('F d, Y', strtotime($answer->created_at)); ?></td>
 				<td class="text-center">
 					<?php if(!empty($qid)): ?>
-						<a href="<?php echo route('admin.answers.edit', [$answer->id,'ques_id'=>$qid]); ?>">Edit</a>
+						<a href="<?php echo route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k]); ?>">Edit</a>
 					<?php else: ?>
-						<a href="<?php echo route('admin.answers.edit', $answer->id); ?>">Edit</a>
+						<a href="<?php echo route('admin.answers.edit', [$answer->id,'opt'=>$k]); ?>">Edit</a>
 					<?php endif; ?>
 					
 					&middot;

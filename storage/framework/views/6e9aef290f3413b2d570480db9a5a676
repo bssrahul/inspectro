@@ -31,7 +31,7 @@
 							<?php echo link_to_route('admin.answers.index', 'View Answers', [ 'ques_id' =>$question->id ]); ?>
 
 					<?php else: ?>
-							<?php echo link_to_route('admin.answers.create', 'Add Answers', [ 'que_id' =>$question->id ]); ?>
+							<?php echo link_to_route('admin.answers.create', 'Add Answers', [ 'que_id' =>$question->id,'opt'=>$question->id ]); ?>
 
 					<?php endif; ?>
 					&middot;

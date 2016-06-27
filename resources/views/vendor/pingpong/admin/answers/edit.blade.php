@@ -2,9 +2,9 @@
 
 @section('content-header')
 	<h1>
-		Edit Question
+		Edit Answer
 		&middot;
-		<small>{!! link_to_route('admin.answers.index', 'Back') !!}</small>
+			<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 	</h1>
 @stop
 
