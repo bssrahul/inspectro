@@ -8,7 +8,7 @@ class Question extends Model
     /**
      * @var array
      */
-    protected $fillable = ['title','form_type_id','service_id','description_1','description_2'];
+    protected $fillable = ['title','form_type_id','service_id','description_1','description_2','other_custom_field'];
 
     /**
      * @param $query

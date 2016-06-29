@@ -5,11 +5,13 @@
 		All Answers ({!! $answers->count() !!})
 		&middot;
 		@if(!empty($qid))
-		<small>{!! link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid]) !!}</small>
+		<small>{!! link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid,'opt'=>$qid]) !!}</small>
 		@else
 		<small>{!! link_to_route('admin.answers.create', 'Add New') !!}</small>
 		@endif
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
+		
+	<!--	<small class="searchBox">	<input  type="text" name="search" id="search" class = 'form-control searchBox'  /></small><label class="searchLabel" > Search </label> -->
 	</h1>
 @stop
 
@@ -40,8 +42,10 @@
 						<span class='label label-deactive '>Not Available</span>
 					@endif
 				</td>
-				<td>@if($answer->custom_answer == '1')
-							<span class='label label-active'>Allow</span>
+				<td>@if($answer->custom_answer == 'text')
+							<span class='label label-active'>Input Text</span>
+					@elseif($answer->custom_answer == 'date')
+							<span class='label label-date'>Input Date</span>
 					@else
 					  <span class='label label-deactive '>Not Allow</span>
 					@endif
@@ -52,7 +56,7 @@
 				<td>{!! date('F d, Y', strtotime($answer->created_at))  !!}</td>
 				<td class="text-center">
 					@if(!empty($qid))
-						<a href="{!! route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k]) !!}">Edit</a>
+						<a href="{!! route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k,'hd'=>$k]) !!}">Edit</a>
 					@else
 						<a href="{!! route('admin.answers.edit', [$answer->id,'opt'=>$k]) !!}">Edit</a>
 					@endif
@@ -104,6 +108,9 @@
 .label-active {
     background-color: #5cb85c;
 }
+.label-date {
+    background-color: #660000;
+}
 .label {
     border-radius: 0.25em;
     color: #fff;
@@ -117,5 +124,47 @@
     white-space: nowrap;
 	
 }
+.searchBox{
+	float:right;
+	margin-right:5%;
+	
+}
+.searchLabel{
+	float:right;
+	margin-right:3%;
+	font:10px !important;
+	color: lightblue !important;
+	font-style: oblique;
+}
 </style>
+@stop
+
+
+@section('script')
+
+
+	<script type="text/javascript">
+			/* $(document).ready(function() {
+				//alert('hello');
+				$('#search').keyup(function(){
+					var data=document.getElementById('search').value;
+					alert(data);
+						$.ajax({
+							dataType: "data",
+							url: '/search_results',
+							data: {keyword: $('#your-field').value()},
+							success: function (result) {
+								// update your page with the result json
+								console.log(result);
+							},
+						});
+				});
+	
+				
+				
+				
+			}); */
+	</script>
+	
+	
 @stop

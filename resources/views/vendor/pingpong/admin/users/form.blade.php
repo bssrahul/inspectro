@@ -19,9 +19,15 @@
 		{!! $errors->first('email', '<div class="text-danger">:message</div>') !!}
 	</div>
 	<div class="form-group">
-		{!! Form::label('password', 'Password:') !!}
+		@if($pass == 1)
+		{!! Form::label('password', 'Change Password:') !!}
 		{!! Form::password('password', ['class' => 'form-control']) !!}
 		{!! $errors->first('password', '<div class="text-danger">:message</div>') !!}
+		@else
+		{!! Form::label('password', ' Password:') !!}
+		{!! Form::password('password', ['class' => 'form-control']) !!}
+		{!! $errors->first('password', '<div class="text-danger">:message</div>') !!}
+		@endif
 	</div>
 	<?php if(@$countryList){ ?>
 		<div class="form-group">

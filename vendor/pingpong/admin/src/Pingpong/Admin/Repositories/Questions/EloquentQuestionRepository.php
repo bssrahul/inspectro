@@ -18,39 +18,34 @@ class EloquentQuestionRepository implements QuestionRepository
         return new $model;
     }
 
-    public function allOrSearch($searchQuery = null,$pId = null)
+    public function allOrSearch($searchQuery = null,$serviceid = null)
     {
-		if(is_null($pId)){
-			$pId = 0;
-		}
 		
         if (is_null($searchQuery)) {
-            return $this->getAll($pId);
+            return $this->getAll($serviceid);
         }
-        return $this->search($searchQuery, $pId);
+        return $this->search($searchQuery, $serviceid);
     }
 
 	
-    public function getAll($pId = null)
+    public function getAll($serviceid = null)
     {
 		
-		if(strval($pId) == 'service'){
-			//echo "df" ;die;
-			 return $this->getModel()->latest()->paginate($this->perPage());
+		
+        if(!empty($serviceid)){
+				return $this->getModel()->where('service_id','=',$serviceid)->latest()->paginate($this->perPage());
 		}else{
-			//print_r($pId);die;
-			return $this->getModel()->latest()->paginate($this->perPage());
+				return $this->getModel()->latest()->paginate($this->perPage());
 		}
-        
     }
 
-    public function search($searchQuery = null,$pId = null )
+    public function search($searchQuery = null,$serviceid = null )
     {
         $search = "%{$searchQuery}%";
 		
         return $this->getModel()->where('title', 'like', $search)
             ->orWhere('title', 'like', $search)
-			->orWhere('parent_id', '=', $pId)
+			->orWhere('service_id', '=', $serviceid)
             ->paginate($this->perPage())
         ;
     }

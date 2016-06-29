@@ -66,8 +66,9 @@
 		<div class="small-box bg-yellow">
 			<div class="inner">
 				<h3>
-					<?php echo page()->count(); ?>
+					<?php echo page(); ?>
 
+				
 				</h3>
 
 				<p>

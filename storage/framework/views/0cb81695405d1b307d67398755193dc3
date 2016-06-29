@@ -3,11 +3,13 @@
 		All Answers (<?php echo $answers->count(); ?>)
 		&middot;
 		<?php if(!empty($qid)): ?>
-		<small><?php echo link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid]); ?></small>
+		<small><?php echo link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid,'opt'=>$qid]); ?></small>
 		<?php else: ?>
 		<small><?php echo link_to_route('admin.answers.create', 'Add New'); ?></small>
 		<?php endif; ?>
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
+		
+	<!--	<small class="searchBox">	<input  type="text" name="search" id="search" class = 'form-control searchBox'  /></small><label class="searchLabel" > Search </label> -->
 	</h1>
 <?php $__env->stopSection(); ?>
 
@@ -39,8 +41,10 @@
 						<span class='label label-deactive '>Not Available</span>
 					<?php endif; ?>
 				</td>
-				<td><?php if($answer->custom_answer == '1'): ?>
-							<span class='label label-active'>Allow</span>
+				<td><?php if($answer->custom_answer == 'text'): ?>
+							<span class='label label-active'>Input Text</span>
+					<?php elseif($answer->custom_answer == 'date'): ?>
+							<span class='label label-date'>Input Date</span>
 					<?php else: ?>
 					  <span class='label label-deactive '>Not Allow</span>
 					<?php endif; ?>
@@ -51,7 +55,7 @@
 				<td><?php echo date('F d, Y', strtotime($answer->created_at)); ?></td>
 				<td class="text-center">
 					<?php if(!empty($qid)): ?>
-						<a href="<?php echo route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k]); ?>">Edit</a>
+						<a href="<?php echo route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k,'hd'=>$k]); ?>">Edit</a>
 					<?php else: ?>
 						<a href="<?php echo route('admin.answers.edit', [$answer->id,'opt'=>$k]); ?>">Edit</a>
 					<?php endif; ?>
@@ -104,6 +108,9 @@
 .label-active {
     background-color: #5cb85c;
 }
+.label-date {
+    background-color: #660000;
+}
 .label {
     border-radius: 0.25em;
     color: #fff;
@@ -117,6 +124,49 @@
     white-space: nowrap;
 	
 }
+.searchBox{
+	float:right;
+	margin-right:5%;
+	
+}
+.searchLabel{
+	float:right;
+	margin-right:3%;
+	font:10px !important;
+	color: lightblue !important;
+	font-style: oblique;
+}
 </style>
 <?php $__env->stopSection(); ?>
+
+
+<?php $__env->startSection('script'); ?>
+
+
+	<script type="text/javascript">
+			/* $(document).ready(function() {
+				//alert('hello');
+				$('#search').keyup(function(){
+					var data=document.getElementById('search').value;
+					alert(data);
+						$.ajax({
+							dataType: "data",
+							url: '/search_results',
+							data: {keyword: $('#your-field').value()},
+							success: function (result) {
+								// update your page with the result json
+								console.log(result);
+							},
+						});
+				});
+	
+				
+				
+				
+			}); */
+	</script>
+	
+	
+<?php $__env->stopSection(); ?>
+
 <?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
