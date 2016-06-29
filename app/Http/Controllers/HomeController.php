@@ -36,8 +36,7 @@ class HomeController extends Controller {
 	 * @return Response
 	 */
 	public function index()
-	{
-		
+	{	
 		$services = DB::table('services')->select('title','id')->take(3)->get();
 		//print_r($services);die;
 		return view('home.index',compact('services'));
