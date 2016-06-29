@@ -30,12 +30,21 @@
 
 	</div>
 	<div class="form-group">
-		<?php echo Form::label('password', 'Password:'); ?>
+		<?php if($pass == 1): ?>
+		<?php echo Form::label('password', 'Change Password:'); ?>
 
 		<?php echo Form::password('password', ['class' => 'form-control']); ?>
 
 		<?php echo $errors->first('password', '<div class="text-danger">:message</div>'); ?>
 
+		<?php else: ?>
+		<?php echo Form::label('password', ' Password:'); ?>
+
+		<?php echo Form::password('password', ['class' => 'form-control']); ?>
+
+		<?php echo $errors->first('password', '<div class="text-danger">:message</div>'); ?>
+
+		<?php endif; ?>
 	</div>
 	<?php if(@$countryList){ ?>
 		<div class="form-group">

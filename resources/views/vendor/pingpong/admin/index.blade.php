@@ -67,6 +67,7 @@
 			<div class="inner">
 				<h3>
 					{!! page()->count() !!}
+				
 				</h3>
 
 				<p>

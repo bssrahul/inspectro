@@ -9,7 +9,7 @@ class Create extends Validator
     {
         return [
             'title' => 'required',
-			'service_id' => 'required|not_in:0',
+			
 			'form_type_id' => 'required|not_in:0',
             'description_1' => 'required',
             'description_2' => 'required'

@@ -10,6 +10,7 @@ class Update extends Validator
     {
         return [
 			'question_id' => 'required|not_in:0',
+			
            	
 			
         ];

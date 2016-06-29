@@ -44,7 +44,7 @@ Menu::create('admin-menu', function ($menu) {
         $sub->route('admin.categories.index', 'Service  Listing', ['type' => 'service'], 1);
      
     }, 5, ['icon' => 'fa fa-flag']); */
-	$menu->dropdown(trans('admin.menus.questions.title'), function ($sub) {
+/* 	$menu->dropdown(trans('admin.menus.questions.title'), function ($sub) {
         $sub->route('admin.questions.index',  trans('admin.menus.questions.all'), ['type' => 'question'], 1);
      
     }, 6, ['icon' => 'fa fa-question-circle']);
@@ -52,7 +52,7 @@ Menu::create('admin-menu', function ($menu) {
 	$menu->dropdown(trans('admin.menus.answers.title'), function ($sub) {
         $sub->route('admin.answers.index',  trans('admin.menus.answers.all'), [], 1);
      
-    }, 7, ['icon' => 'fa fa-list-alt']);
+    }, 7, ['icon' => 'fa fa-list-alt']); */
 	
 	/* $menu->dropdown('Questions Options', function ($sub) {
         $sub->route('admin.sqoptions.index', 'Questions  Listing', [], 1);

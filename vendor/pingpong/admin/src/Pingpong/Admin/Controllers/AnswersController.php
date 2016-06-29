@@ -1,6 +1,7 @@
 <?php namespace Pingpong\Admin\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Illuminate\Http\Request;
 
 use Pingpong\Admin\Entities\Answer;
@@ -8,6 +9,7 @@ use Pingpong\Admin\Repositories\Answers\AnswerRepository;
 use Pingpong\Admin\Validation\Answer\Create;
 use Pingpong\Admin\Validation\Answer\Update;
 use DB;
+
 class AnswersController extends BaseController
 {
     protected $repository;
@@ -34,7 +36,8 @@ return $this->redirect('answers.index');
 public function index(Request $request)
 {
 		$qid=$request->get('ques_id');
-
+		//print_R( $request->get('keyword'));
+		//print_R($request->get('data')); die;
 		$answers = $this->repository->allOrSearch($request->get('q'),$qid);
 	
 	
@@ -62,6 +65,11 @@ public function create(Request $request)
 		// for no repeat a queston
 		if(!empty($request->get('que_id'))){
 			$qid=$request->get('que_id');
+			$optId=$request->get('opt');
+			
+		}
+		if(!empty($request->get('opt'))){
+			
 			$optId=$request->get('opt');
 			
 		}
@@ -187,7 +195,7 @@ public function edit($id,REQUEST $request)
 		
 		$qid=$request->get('ques_id');
 		$optId=$request->get('opt');
-		
+		$hd=$request->get('hd');
 		$questionArr=DB :: table("questions")->lists('title','id');
 		$sel[]='-- Select Question --';
 		$questionArr=$sel + $questionArr;
@@ -197,7 +205,7 @@ public function edit($id,REQUEST $request)
 		try {
 				$answer = $this->repository->findById($id);
 				//echo "<pre>"; print_R($answer);die;
-				return $this->view('answers.edit', compact('answer','questionArr','questiondata','qid','optId'));
+				return $this->view('answers.edit', compact('answer','questionArr','questiondata','qid','optId','hd'));
 		}catch (	
 				ModelNotFoundException $e) {
 				return $this->redirectNotFound();
@@ -214,7 +222,10 @@ public function update(Update $request, $id)
 {
 	//print_r($id);die;
 	try {
+		
+
 		$data = $request->all();
+		
 		if(!empty($data['qid'])){
 			$ques_id=$data['qid'];
 		}

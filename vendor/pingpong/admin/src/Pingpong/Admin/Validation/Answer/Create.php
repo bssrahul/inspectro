@@ -9,7 +9,7 @@ class Create extends Validator
     {
         return [
 			'question_id' => 'required|not_in:0',
-           	'answers[0]' => 'required',
+           	
 			
         ];
     }
@@ -17,7 +17,7 @@ class Create extends Validator
 	public function messages()
     {
         return [
-           'answers[0].required'=> "Please fill this filled"
+          
         ];
     }
 }

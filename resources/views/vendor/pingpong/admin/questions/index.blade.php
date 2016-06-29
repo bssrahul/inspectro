@@ -4,7 +4,8 @@
 	<h1>
 		All Questions ({!! $questions->count() !!})
 		&middot;
-		<small>{!! link_to_route('admin.questions.create', 'Add New') !!}</small>
+		<small>{!! link_to_route('admin.questions.create', 'Add New',[ 'serv_id'=> $serviceid,'opt'=> $optId ]) !!}</small>
+		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 	</h1>
 @stop
 
@@ -15,7 +16,7 @@
 			<th>No</th>
 			<th>Title</th>
 			<th>Description</th>
-		
+			<th>Other Input Field</th>
 			<th>Created At</th>
 			<th class="text-center">Action</th>
 		</thead>
@@ -25,7 +26,13 @@
 				<td>{!! $no !!}</td>
 				<td>{!! $question->title !!}</td>
 				<td>{!! $question->description_1 !!}</td>
+				<td>@if($question->other_custom_field == '1')
+							<span class='label label-active'>Enable</span>
+					@else
+					  <span class='label label-deactive '>Disable</span>
+					@endif
 				
+				</td>
 				<td>{!! date('F d, Y', strtotime($question->created_at))  !!}</td>
 				<td class="text-center">
 				
@@ -35,7 +42,7 @@
 							{!! link_to_route('admin.answers.create', 'Add Answers', [ 'que_id' =>$question->id,'opt'=>$question->id ]) !!}
 					@endif
 					&middot;
-					<a href="{!! route('admin.questions.edit', $question->id) !!}">Edit</a>
+					<a href="{!! route('admin.questions.edit', [$question->id,'ser_id' => $question->service_id]) !!}">Edit</a>
 					&middot;
 					@include('admin::partials.modal', ['data' => $question, 'name' => 'questions'])
 				</td>
