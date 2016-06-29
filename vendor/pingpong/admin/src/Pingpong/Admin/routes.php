@@ -141,16 +141,16 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
                 'destroy' => 'admin.questions.destroy',
             ]
         ]);
-		Route::resource('questions', 'QuestionsController', [
+		Route::resource('answers', 'AnswersController', [
             'except' => 'show',
             'names' => [
-                'index' => 'admin.questions.index',
-                'create' => 'admin.questions.create',
-                'store' => 'admin.questions.store',
-                'show' => 'admin.questions.show',
-                'update' => 'admin.questions.update',
-                'edit' => 'admin.questions.edit',
-                'destroy' => 'admin.questions.destroy',
+                'index' => 'admin.answers.index',
+                'create' => 'admin.answers.create',
+                'store' => 'admin.answers.store',
+                'show' => 'admin.answers.show',
+                'update' => 'admin.answers.update',
+                'edit' => 'admin.answers.edit',
+                'destroy' => 'admin.answers.destroy',
             ]
         ]);
 		

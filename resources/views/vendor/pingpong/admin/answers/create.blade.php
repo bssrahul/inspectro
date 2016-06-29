@@ -4,14 +4,14 @@
 	<h1>
 		Add New Question
 		&middot;
-		<small>{!! link_to_route('admin.questions.index', 'Back') !!}</small>
+		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 	</h1>
 @stop
 
 @section('content')
 
 	<div>
-		@include('admin::questions.form')
+		@include('admin::answers.form')
 	</div>
 
 @stop

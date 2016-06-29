@@ -93,12 +93,7 @@
 
 @section('style')
 <style>
-.active{
-	color:green;
-}
-.deactive{
-	color:red;
-}
+
 .label-deactive {
     background-color: #f56954 !important;
 }
