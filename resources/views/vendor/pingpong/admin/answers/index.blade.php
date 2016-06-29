@@ -5,12 +5,16 @@
 		All Answers ({!! $answers->count() !!})
 		&middot;
 		@if(!empty($qid))
-		<small>{!! link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid,'opt'=>$qid]) !!}</small>
+		<small>{!! link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid,'opt'=>$qid,'serv_id'=>$serviceid]) !!}</small>
 		@else
 		<small>{!! link_to_route('admin.answers.create', 'Add New') !!}</small>
 		@endif
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
-		
+		<small class="searchBox">	
+			{!! link_to_route('admin.login.index', 'Home') !!}&nbsp;&nbsp;>>&nbsp;&nbsp;{!! link_to_route('admin.questions.index', ucwords($selectedServiceName[$serviceid]),['ser_id'=>$serviceid,'opt'=>$serviceid]) !!}
+			&nbsp;&nbsp;>>&nbsp;&nbsp; {!! link_to_route('admin.answers.index', ucwords($selectedQuestionName[$qid]),['ques_id' => $qid , 'serv_id'=> $serviceid ]) !!}
+
+		</small>
 	<!--	<small class="searchBox">	<input  type="text" name="search" id="search" class = 'form-control searchBox'  /></small><label class="searchLabel" > Search </label> -->
 	</h1>
 @stop
@@ -22,6 +26,7 @@
 			<th>No</th>
 			<th>Answer</th>
 			<th>Question</th>
+			<th>Option Description</th>
 			<th>Next Question</th>
 			<th>Custom Answer</th>
 			
@@ -35,6 +40,14 @@
 				<td>{!! $no !!}</td>
 				<td>{!! $answer->answers !!}</td>
 				<td>{!! $answer->question->title !!}</td>
+				<td>
+					@if(!empty($answer->option_description) )
+						{!! $answer->option_description !!}
+					@else
+						<span class='label label-deactive '>Not Available</span>
+					@endif
+				
+				</td>
 				<td>
 					@if(!empty($answer->next_question_id) )
 						{!! $answer->nextQuestion->title !!}
@@ -56,9 +69,9 @@
 				<td>{!! date('F d, Y', strtotime($answer->created_at))  !!}</td>
 				<td class="text-center">
 					@if(!empty($qid))
-						<a href="{!! route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k,'hd'=>$k]) !!}">Edit</a>
+						<a href="{!! route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k,'serv_id'=>$serviceid,'hd'=>$k]) !!}">Edit</a>
 					@else
-						<a href="{!! route('admin.answers.edit', [$answer->id,'opt'=>$k]) !!}">Edit</a>
+						<a href="{!! route('admin.answers.edit', [$answer->id,'opt'=>$k,'serv_id'=>$serviceid]) !!}">Edit</a>
 					@endif
 					
 					&middot;

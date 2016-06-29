@@ -36,7 +36,7 @@ public function index(Request $request)
 	$serviceid=$request->get('ser_id');
 	$optId=$request->get('opt');
 	//echo "<pre>"; print_R($serviceid);die;
-
+	$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
 	$questions = $this->repository->allOrSearch($request->get('q'),$serviceid);
 	$answerData= DB :: Table('answers')->get();
 	$answerArr=array();
@@ -55,7 +55,7 @@ public function index(Request $request)
 	//echo "<pre>"; print_R($questions);die;
 	$no = $questions->firstItem();
 	
-	return $this->view('questions.index', compact('questions', 'no','serviceid','optId'));
+	return $this->view('questions.index', compact('questions', 'no','serviceid','optId','selectedServiceName'));
 	
 	
 }
@@ -78,6 +78,8 @@ public function create(Request $request)
 		//echo "<pre>"; print_R($optId);die;
 		$id=$request->get('id');
 		$type=$request->get('type');
+		$serviceid=$servid;
+		$selectedServiceName=DB :: table("services")->where('id',$servid)->lists('title','id');
 		$serviceArr=DB :: table("services")->lists('title','id');
 		$formTypeArr=DB :: table("option_type")->lists('op_type','id');
 		$sel[]='-- Select Service --';
@@ -87,7 +89,7 @@ public function create(Request $request)
 		//echo "<pre>"; print_R($question);die;
 		if(!empty($service)){
 				$serviceArr=$service;
-				return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr','servid','optId'));
+				return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr','servid','optId','serviceid','selectedServiceName'));
 		}else{
 			return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr'));
 		}
@@ -141,7 +143,8 @@ public function edit($id,REQUEST $request)
 		
 		$servid=$request->get('ser_id');
 		$optId=$servid;
-		
+		$serviceid=$servid;
+		$selectedServiceName=DB :: table("services")->where('id',$servid)->lists('title','id');
 		$serviceArr=DB :: table("services")->lists('title','id');
 		$formTypeArr=DB :: table("option_type")->lists('op_type','id');
 		$sel[]='-- Select Service --';
@@ -152,7 +155,7 @@ public function edit($id,REQUEST $request)
 		try {
 				$question = $this->repository->findById($id);
 				//echo "<pre>"; print_R($question);die;
-				return $this->view('questions.edit', compact('question','type','serviceArr','formTypeArr','servid','optId'));
+				return $this->view('questions.edit', compact('question','type','serviceArr','formTypeArr','servid','optId','selectedServiceName','serviceid'));
 		}catch (	
 				ModelNotFoundException $e) {
 				return $this->redirectNotFound();

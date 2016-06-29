@@ -32,7 +32,18 @@ class ServicesController extends BaseController
      */
     public function index(Request $request)
     {
+		
+		if($request->get('updateStatus')!='' && $request->get('service_id')!=''){
+			$id = $request->get('service_id');
 			
+			$services = $this->repository->findById($id);
+			
+			$data['status'] = $request->get('updateStatus');
+			
+            $services->update($data);
+
+		}
+		
         $services = $this->repository->allOrSearch($request->get('q'));
 		$QuestionData= DB :: Table('questions')->get();
 		//echo "<pre>"; print_R($QuestionData);die;
@@ -148,4 +159,38 @@ class ServicesController extends BaseController
             return $this->redirectNotFound();
         }
     }
+	
+	
+	 /**
+	* Function for status update
+	*/
+	public function updatestatus(Update $request)
+	{ 
+		//die("stop");
+		echo $data=$request->all();
+		echo "<pre>"; print_R($data);
+		echo $id.$model.$target;die;
+		echo "<pre>"; print_r($id); 
+		echo "<pre>"; print_r($model); 
+		echo "<pre>"; print_r($target); 
+	die;
+		//echo $model.$id.$target;die;
+		//echo $model.$id."ok".$target;die;
+		
+		
+		try {
+            $data = $request->all();
+			
+            $services = $this->repository->findById($id);
+
+            $services->update($data);
+
+            return $this->redirect('services.index');
+        } catch (ModelNotFoundException $e) {
+            return $this->redirectNotFound();
+        }
+	}
+	/**
+	* Function for Field status update
+	*/
 }
