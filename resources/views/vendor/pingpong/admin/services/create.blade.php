@@ -4,7 +4,7 @@
 	<h1>
 		Add New
 		&middot;
-		<small>{!! link_to_route('admin.services.index', 'Back') !!}</small>
+		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 	</h1>
 @stop
 

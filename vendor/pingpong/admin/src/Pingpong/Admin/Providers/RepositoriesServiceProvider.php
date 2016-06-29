@@ -102,8 +102,8 @@ class RepositoriesServiceProvider extends ServiceProvider
 	protected function bindAnswerRepository()
     {
         $this->app->bind(
-            'Pingpong\Admin\Repositories\Questions\AnswerRepository',
-            'Pingpong\Admin\Repositories\Questions\EloquentAnswerRepository'
+            'Pingpong\Admin\Repositories\Answers\AnswerRepository',
+            'Pingpong\Admin\Repositories\Answers\EloquentAnswerRepository'
         );
     }
 	

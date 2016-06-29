@@ -9,7 +9,7 @@
 <?php $__env->startSection('content'); ?>
 
 	<div>
-		<?php echo $__env->make('admin::questions.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+		<?php echo $__env->make('admin::answers.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 	</div>
 
 <?php $__env->stopSection(); ?>

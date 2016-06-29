@@ -28,6 +28,13 @@
 				
 				<td>{!! date('F d, Y', strtotime($question->created_at))  !!}</td>
 				<td class="text-center">
+				
+					@if($question->avail == 1 )
+							{!! link_to_route('admin.answers.index', 'View Answers', [ 'ques_id' =>$question->id ]) !!}
+					@else
+							{!! link_to_route('admin.answers.create', 'Add Answers', [ 'que_id' =>$question->id,'opt'=>$question->id ]) !!}
+					@endif
+					&middot;
 					<a href="{!! route('admin.questions.edit', $question->id) !!}">Edit</a>
 					&middot;
 					@include('admin::partials.modal', ['data' => $question, 'name' => 'questions'])

@@ -38,6 +38,11 @@ return [
 			'all' => 'All Questions'
 			
 		],
+		'answers' => [
+			'title' => 'Answers',
+			'all' => 'All Answers'
+			
+		],
 		'roles' => 'Roles',
 		'permissions' => 'Permissions',
 		'categories' => 'Categories'

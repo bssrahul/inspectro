@@ -26,6 +26,15 @@
 				
 				<td><?php echo date('F d, Y', strtotime($question->created_at)); ?></td>
 				<td class="text-center">
+				
+					<?php if($question->avail == 1 ): ?>
+							<?php echo link_to_route('admin.answers.index', 'View Answers', [ 'ques_id' =>$question->id ]); ?>
+
+					<?php else: ?>
+							<?php echo link_to_route('admin.answers.create', 'Add Answers', [ 'que_id' =>$question->id,'opt'=>$question->id ]); ?>
+
+					<?php endif; ?>
+					&middot;
 					<a href="<?php echo route('admin.questions.edit', $question->id); ?>">Edit</a>
 					&middot;
 					<?php echo $__env->make('admin::partials.modal', ['data' => $question, 'name' => 'questions'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
