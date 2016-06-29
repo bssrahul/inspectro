@@ -12,20 +12,12 @@
 */
 
 
-/*
-Route::get('/', function(){
-	return View::make('home.index');
-});
-*/
-//Route::get('/', 'HomeController@index');
-Route::get('/', function()
-{
-	return View::make('home.index',compact('universities'));
-});
 
-
+Route::get('/','HomeController@index');
 Route::get('pages/{pageslug?}', 'PagesController@view');
+Route::get('serviceslist', 'HomeController@serviceList');
 
 
+// Route::post('serviceslist', ['as' => 'servicesList', 'uses' => 'HomeController@serviceList']);
 
 
