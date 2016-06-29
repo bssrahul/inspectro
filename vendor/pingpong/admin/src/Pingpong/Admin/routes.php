@@ -127,6 +127,7 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
                 'update' => 'admin.services.update',
                 'edit' => 'admin.services.edit',
                 'destroy' => 'admin.services.destroy',
+                
             ]
         ]);
 		Route::resource('questions', 'QuestionsController', [

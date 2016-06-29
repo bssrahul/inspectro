@@ -6,6 +6,10 @@
 		&middot;
 		<small>{!! link_to_route('admin.questions.create', 'Add New',[ 'serv_id'=> $serviceid,'opt'=> $optId ]) !!}</small>
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
+		
+		<small class="searchBox">	
+			{!! link_to_route('admin.login.index', 'Home') !!}&nbsp;&nbsp;>>&nbsp;&nbsp;{!! link_to_route('admin.questions.index', ucwords($selectedServiceName[$serviceid]),['ser_id'=>$serviceid,'opt'=>$serviceid]) !!}
+		</small>
 	</h1>
 @stop
 
@@ -37,9 +41,9 @@
 				<td class="text-center">
 				
 					@if($question->avail == 1 )
-							{!! link_to_route('admin.answers.index', 'View Answers', [ 'ques_id' =>$question->id ]) !!}
+							{!! link_to_route('admin.answers.index', 'View Answers', [ 'ques_id' =>$question->id,'serv_id'=>$serviceid ]) !!}
 					@else
-							{!! link_to_route('admin.answers.create', 'Add Answers', [ 'que_id' =>$question->id,'opt'=>$question->id ]) !!}
+							{!! link_to_route('admin.answers.create', 'Add Answers', [ 'que_id' =>$question->id,'opt'=>$question->id,'serv_id'=>$serviceid ]) !!}
 					@endif
 					&middot;
 					<a href="{!! route('admin.questions.edit', [$question->id,'ser_id' => $question->service_id]) !!}">Edit</a>
@@ -83,6 +87,18 @@
     vertical-align: baseline;
     white-space: nowrap;
 	
+}
+.searchBox{
+	float:right;
+	margin-right:5%;
+	
+}
+.searchLabel{
+	float:right;
+	margin-right:3%;
+	font:10px !important;
+	color: lightblue !important;
+	font-style: oblique;
 }
 </style>
 @stop
