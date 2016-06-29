@@ -68,6 +68,7 @@
 				<h3>
 					<?php echo page()->count(); ?>
 
+				
 				</h3>
 
 				<p>

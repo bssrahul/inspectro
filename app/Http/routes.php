@@ -16,6 +16,7 @@
 Route::get('/','HomeController@index');
 Route::get('pages/{pageslug?}', 'PagesController@view');
 Route::get('serviceslist', 'HomeController@serviceList');
+Route::get('nextquestion', 'HomeController@nextQue');
 
 
 // Route::post('serviceslist', ['as' => 'servicesList', 'uses' => 'HomeController@serviceList']);

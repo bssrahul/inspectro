@@ -1,8 +1,10 @@
 <?php $__env->startSection('content-header'); ?>
 	<h1>
-		All Services (<?php echo $services->count(); ?>)
+		
+		
+		All Question (<?php echo count($categories); ?>)
 		&middot;
-		<small><?php echo link_to_route('admin.services.create', 'Add New'); ?></small>
+	
 	</h1>
 <?php $__env->stopSection(); ?>
 
@@ -11,18 +13,19 @@
 	<table class="table">
 		<thead>
 			<th>No</th>
-			<th>Title</th>
-			<th>Description</th>
+			<th>Question</th>
+			<th> Services </th>
 			<th>Status</th>
-			<th>Created At</th>
+			<th>Created Date</th>
 			<th class="text-center">Action</th>
 		</thead>
 		<tbody>
-			<?php foreach($services as $category): ?>
+
+			<?php foreach($categories as $k=>$category): ?>
 			<tr>
-				<td><?php echo $no; ?></td>
+				<td><?php echo $k+1; ?></td>
 				<td><?php echo $category->title; ?></td>
-				<td><?php echo $category->description; ?></td>
+				
 				<td><?php if($category->status == '1'): ?>
 							<span class='label label-active'>Active</span>
 					<?php else: ?>
@@ -30,33 +33,37 @@
 					<?php endif; ?>
 				
 				</td>
-				<td><?php echo $category->created_at; ?></td>
-				<td class="text-center">
-					<?php if($category->avail == 1 ): ?>
-							<?php echo link_to_route('admin.questions.index', 'View Questions', [ 'ser_id' =>$category->id,'opt'=>$category->id ]); ?>
-
-					<?php else: ?>
-							<?php echo link_to_route('admin.questions.create', 'Add Questions', [ 'serv_id' =>$category->id,'opt'=>$category->id ]); ?>
-
-					<?php endif; ?>
-					&middot;
+				<td><?php echo date('F d, Y', strtotime($category->created_at)); ?></td >
 				
-					<a href="<?php echo route('admin.services.edit', $category->id); ?>">Edit</a>
+				
+				
+				<td class="text-center">
+				
+					<?php 	
+						if(in_array($category->id,$catIdArr)){ ?>
+								<?php echo link_to_route('admin.sqoptions.index', 'View Options', [ 'ques_id' =>$category->id ]); ?>
+
+						<?php }else{ ?>
+								<?php echo link_to_route('admin.sqoptions.index', 'Add Options', [ 'que_id' =>$category->id ]); ?>
+
+						<?php } ?>
 					&middot;
-					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'services'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+						<a href="<?php echo route('admin.categories.edit', [$category->id,'type' => 'question']); ?>">Edit</a>
+					&middot;
+					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'categories'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
+				
 			</tr>
-			<?php $no++ ;?>
+			
 			<?php endforeach; ?>
 		</tbody>
 	</table>
 
 	<div class="text-center">
-		<?php echo pagination_links($services); ?>
+		<?php echo pagination_links($categories); ?>
 
 	</div>
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('style'); ?>
 <style>
 .active{

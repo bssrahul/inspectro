@@ -19,6 +19,22 @@
 }
 
 
+
+div#loadering {
+  background: #fff none repeat scroll 0 0;
+  display: block;
+  height: 400px;
+  opacity: 1;
+  position: relative;
+  text-align: center;
+  top: 150px;
+  width: 100%;
+}
+#loadering > img {
+  height: 100px;
+  width: 100px;
+}
+
 body{ margin:0px; padding:0px !important;  font-family: 'OpenSans';  }
 p,h1,h2,h3,h4,h5,h6{ margin:0px; padding:0px;}
 a:focus, a:hover{ outline:none;}

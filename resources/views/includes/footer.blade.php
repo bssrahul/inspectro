@@ -81,30 +81,9 @@
 
 <!--[Welcome Popup]-->
 	<div class="modal fade" id="myModal" role="dialog">
-     <div class="modal-dialog popup-1">	
-       <div class="modal-content">  
-		<div class="inner-popup">	
-<!--popup Content-->
-	<div class="popup-cont">
-		<div class="welcome">
-			<p>To find you a great expert <span>we will now ask you some question</span></p>
-		</div>
-	</div>
-<!--/popup Content-->
-<!--Popup footer-->
-	<div class="popup-foot">
-		<input type="submit" value="NEXT"  class="btn btn-success submit" id="1">		
-	</div>
-<!--/Popup footer-->
-		</div>
-       </div>      
-     </div>
+    
    </div> 
 <!--[/Wecome Popup]-->
-
-
-
-
 
  <script>
 $(document).ready(function(){
@@ -115,36 +94,78 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 	i=2;
-  $("#myBtn"+i).click(function(){
- console.log(i);
- $(".popup-foot").attr('id',i+1);
+	$("#myBtn"+i).click(function(){
+	console.log(i);
+	$(".popup-foot").attr('id',i+1);
 });
 });	
 
 $(document).ready(function(){
 	
-$(".serviceList").click(function(){
-   var serviceId=$(this).attr('id');
-   //console.log(serviceId);
-  //alert("opkiokoko");
-     //alert('<?php echo url('/')."/serviceslist"; ?>');
-  // var CSRF_TOKEN = "<?php echo csrf_token(); ?>";
-   $.ajax({
+	$(".serviceList").click(function(){
+		$(this).css('opacity', function(i,o){
+        return parseFloat(o).toFixed(1) === '0.6' ? 1 : 0.6;
+    });
+	var serviceId=$(this).attr('id');
+	var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
+	//console.log(serviceId);
+	//alert(loadingImage);
+    //alert('<?php echo url('/')."/serviceslist"; ?>');
+	var CSRF_TOKEN = "<?php echo csrf_token(); ?>";
+	$.ajax({
     url: '<?php echo url('/')."/serviceslist"; ?>',
     type: 'get',
-   // data: 'serviceId='+serviceId+'&_token='+CSRF_TOKEN,
-   
+    data: 'serviceId='+serviceId+'&_token='+CSRF_TOKEN,
+	beforeSend: function( xhr ) {
+			//$('body').append('<div id="loadering"><img src="'+loadingImage+'"></div>');
+			//return false;
+		},
     success: function (data) {
-        alert(data);       
-	   console.log(data);
+       // alert(data);    
+			$('#myModal').html(data);
+	        console.log(data);
     }
-});
-});
+		});
+	});
+
 });	
 
 
+$(document).on('click','.nextQue,.back',function(){
+	var serviceId=$(this).data('serviceid');
+	
+	var Qid=$(this).data('qid');
+	console.log("serviceId: "+serviceId);
+	console.log("Qid: "+Qid);
+	
+	  
+  var CSRF_TOKEN = "<?php echo csrf_token(); ?>";
 
-
+	var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
+	
+	$.ajax({
+		url: '<?php echo url('/')."/nextquestion"; ?>',
+		type: 'get',
+		data: 'serviceId='+serviceId+'&Qid='+Qid+'&_token='+CSRF_TOKEN,
+		beforeSend: function( xhr ) {
+				$('.inner-popup').append('<div id="loadering"><img src="'+loadingImage+'"></div>');
+				//return false;
+		},
+		complete: function() {
+			$("#loadering").remove();
+		},
+		success: function (data) {
+		  // alert(data);    
+				$('#myModal').html(data);
+				console.log(data);
+				
+		}
+	}); 
+	  
+	
+    
+	
+});
 
 $(document).ready(function() {
     $('.plist li').click(function(event) {

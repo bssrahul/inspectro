@@ -1,0 +1,172 @@
+<?php $__env->startSection('content-header'); ?>
+	<h1>
+		All Answers (<?php echo $answers->count(); ?>)
+		&middot;
+		<?php if(!empty($qid)): ?>
+		<small><?php echo link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid,'opt'=>$qid]); ?></small>
+		<?php else: ?>
+		<small><?php echo link_to_route('admin.answers.create', 'Add New'); ?></small>
+		<?php endif; ?>
+		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
+		
+	<!--	<small class="searchBox">	<input  type="text" name="search" id="search" class = 'form-control searchBox'  /></small><label class="searchLabel" > Search </label> -->
+	</h1>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+	<table class="table">
+		<thead>
+			<th>No</th>
+			<th>Answer</th>
+			<th>Question</th>
+			<th>Next Question</th>
+			<th>Custom Answer</th>
+			
+			
+			<th>Created At</th>
+			<th class="text-center">Action</th>
+		</thead>
+		<tbody>
+			<?php foreach($answers as $k=>$answer): ?>
+			<tr>
+				<td><?php echo $no; ?></td>
+				<td><?php echo $answer->answers; ?></td>
+				<td><?php echo $answer->question->title; ?></td>
+				<td>
+					<?php if(!empty($answer->next_question_id) ): ?>
+						<?php echo $answer->nextQuestion->title; ?>
+
+					<?php else: ?>
+						<span class='label label-deactive '>Not Available</span>
+					<?php endif; ?>
+				</td>
+				<td><?php if($answer->custom_answer == 'text'): ?>
+							<span class='label label-active'>Input Text</span>
+					<?php elseif($answer->custom_answer == 'date'): ?>
+							<span class='label label-date'>Input Date</span>
+					<?php else: ?>
+					  <span class='label label-deactive '>Not Allow</span>
+					<?php endif; ?>
+				
+				</td>
+			
+			
+				<td><?php echo date('F d, Y', strtotime($answer->created_at)); ?></td>
+				<td class="text-center">
+					<?php if(!empty($qid)): ?>
+						<a href="<?php echo route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k,'hd'=>$k]); ?>">Edit</a>
+					<?php else: ?>
+						<a href="<?php echo route('admin.answers.edit', [$answer->id,'opt'=>$k]); ?>">Edit</a>
+					<?php endif; ?>
+					
+					&middot;
+					<?php echo $__env->make('admin::partials.modal', ['data' => $answer, 'name' => 'answers'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</td>
+			</tr>
+			<?php $no++ ;?>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+	<div class="text-center">
+		<?php echo pagination_links($answers); ?>
+
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('style'); ?>
+<style>
+.active{
+	color:green;
+}
+.deactive{
+	color:red;
+}
+.label-deactive {
+    background-color: #f56954 !important;
+}
+.label-active {
+    background-color: #5cb85c;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+	
+}
+.label-deactive {
+    background-color: #f56954 !important;
+}
+.label-active {
+    background-color: #5cb85c;
+}
+.label-date {
+    background-color: #660000;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+	
+}
+.searchBox{
+	float:right;
+	margin-right:5%;
+	
+}
+.searchLabel{
+	float:right;
+	margin-right:3%;
+	font:10px !important;
+	color: lightblue !important;
+	font-style: oblique;
+}
+</style>
+<?php $__env->stopSection(); ?>
+
+
+<?php $__env->startSection('script'); ?>
+
+
+	<script type="text/javascript">
+			/* $(document).ready(function() {
+				//alert('hello');
+				$('#search').keyup(function(){
+					var data=document.getElementById('search').value;
+					alert(data);
+						$.ajax({
+							dataType: "data",
+							url: '/search_results',
+							data: {keyword: $('#your-field').value()},
+							success: function (result) {
+								// update your page with the result json
+								console.log(result);
+							},
+						});
+				});
+	
+				
+				
+				
+			}); */
+	</script>
+	
+	
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
