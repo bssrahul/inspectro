@@ -8,7 +8,7 @@ class Service extends Model
     /**
      * @var array
      */
-    protected $fillable = ['title','description','parent_id', 'sort'];
+    protected $fillable = ['title','description','parent_id', 'sort', 'status'];
 
     /**
      * @param $query

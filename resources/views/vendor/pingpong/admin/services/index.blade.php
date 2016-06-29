@@ -5,6 +5,9 @@
 		All Services ({!! $services->count() !!})
 		&middot;
 		<small>{!! link_to_route('admin.services.create', 'Add New') !!}</small>
+		<small class="searchBox">	
+			{!! link_to_route('admin.login.index', 'Home') !!}
+		</small>
 	</h1>
 @stop
 
@@ -15,8 +18,8 @@
 			<th>No</th>
 			<th>Title</th>
 			<th>Description</th>
-			<th>Status</th>
 			<th>Created At</th>
+			<th>Status</th>
 			<th class="text-center">Action</th>
 		</thead>
 		<tbody>
@@ -25,6 +28,7 @@
 				<td>{!! $no !!}</td>
 				<td>{!! $category->title !!}</td>
 				<td>{!! $category->description !!}</td>
+				<td>{!! date('F d, Y', strtotime($category->created_at))  !!}</td>
 				<td>@if($category->status == '1')
 							<span class='label label-active'>Active</span>
 					@else
@@ -32,17 +36,26 @@
 					@endif
 				
 				</td>
-				<td>{!! $category->created_at !!}</td>
+				<?php $target = ['0'=>'1','1'=>'0'];?>
 				<td class="text-center">
+				
+					
+				
+							
 					@if($category->avail == 1 )
 							{!! link_to_route('admin.questions.index', 'View Questions', [ 'ser_id' =>$category->id,'opt'=>$category->id ]) !!}
 					@else
 							{!! link_to_route('admin.questions.create', 'Add Questions', [ 'serv_id' =>$category->id,'opt'=>$category->id ]) !!}
 					@endif
 					&middot;
-				
+					
 					<a href="{!! route('admin.services.edit', $category->id) !!}">Edit</a>
 					&middot;
+					<a title= "<?php echo($category->status == 0?'Activate status':'Deactivate Status') ?>" href="{{ URL::route('admin.services.index', ['service_id'=>$category->id,'updateStatus'=>$target[$category->status]]) }}">
+					 
+					<span class="fa fa-fw fa-check-square<?php echo($category->status ==0?'-o':'') ?>">  </span>
+				</a>
+				&middot;
 					@include('admin::partials.modal', ['data' => $category, 'name' => 'services'])
 				</td>
 			</tr>
@@ -82,6 +95,18 @@
     vertical-align: baseline;
     white-space: nowrap;
 	
+}
+.searchBox{
+	float:right;
+	margin-right:5%;
+	
+}
+.searchLabel{
+	float:right;
+	margin-right:3%;
+	font:10px !important;
+	color: lightblue !important;
+	font-style: oblique;
 }
 </style>
 @stop

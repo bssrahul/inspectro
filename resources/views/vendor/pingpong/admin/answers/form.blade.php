@@ -15,7 +15,7 @@
 		<input type="hidden" name="qid" class="form-control" value="<?php echo $qid ;?>">
 
 	@endif
-		
+	
 		
 	</div>
 	<div class="form-group">
@@ -33,6 +33,8 @@
 		
 	<?php if((isset($qid)) ){ ?>
 	<input type="hidden" value="<?php echo $qid; ?>" name="question_id">
+	<input type="hidden" value="<?php echo $serviceid; ?>" name="service_id">
+	
 	<?php } ?>	
 		
 	</div>
@@ -61,7 +63,7 @@
 				<div class="form-group_part">
 							<label for="next_question_id[0]"> Next Question  :</label>
 							<select name="next_question_id[0]" class = 'form-control' >
-									<?php foreach($questiondata as $k =>$questions){ ?>
+									<?php foreach($nextQuestionArr as $k =>$questions){ ?>
 											<option value="<?php echo $k;?>"<?php if((!empty($answer['next_question_id'])) && ($answer['next_question_id'] == $k)){ echo "selected=selected";} ?>><?php echo $questions;?></option>
 									<?php } ?>
 							</select>
@@ -75,6 +77,13 @@
 							<div class="text-danger"></div>
 						
 				
+				</div>
+				
+				<div class="form-group_part2">
+							<label for="option_description[0]"> Option Description :</label>
+							&nbsp;&nbsp;&nbsp;
+							<input type="text" name="option_description[0]" class = 'form-control'  value = "<?php if(!empty($answer['option_description'])){ echo $answer['option_description'];} ?>">
+							<div class="text-danger"></div>
 				</div>
 			</div>
 		
@@ -101,6 +110,12 @@ textarea.form-control {
 	width:31%;
 	float:left;
 	margin: 0 2% 1% 0;
+}
+.form-group_part2{
+	
+	width:65% !important ;
+	float:left;
+	margin: 1% 2% 1% 0;
 }
 </style>
 @stop
@@ -147,9 +162,11 @@ textarea.form-control {
 							'<br><input type="radio" name="custom_answer['+counter+']" value="text" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 'text')){ echo "checked=checked";} ?> ><span><?php echo" Input Text ";?> </span>'+
 							'<br><input type="radio" name="custom_answer['+counter+']" value="date" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 'date')){ echo "checked=checked";} ?> ><span><?php echo" Date ";?> </span>'+
 							'<br><span> <br> <?php echo"( If you want to use Custom Answer, Please check above box )";?> </span></div>'+
-		  '<div class="form-group_part"><label for="next_question_id['+counter+']"> Next Qusetion  :</label><select name="next_question_id['+counter+']" class = "form-control"><?php foreach($questiondata as $k =>$questions){ ?>'+
+		  '<div class="form-group_part"><label for="next_question_id['+counter+']"> Next Qusetion  :</label><select name="next_question_id['+counter+']" class = "form-control"><?php foreach($nextQuestionArr as $k =>$questions){ ?>'+
 		  '<option value="<?php echo $k;?>"><?php echo $questions;?></option><?php } ?></select></div><div class="form-group_part"><label for="custom_answer['+counter+']"> Sort Option  :</label>'+
-		  '&nbsp;&nbsp;&nbsp;<input type="number" name="sort['+counter+']" class = "form-control"><div class="text-danger"></div></div>');
+		  '&nbsp;&nbsp;&nbsp;<input type="number" name="sort['+counter+']" class = "form-control"><div class="text-danger"></div></div> <div class="form-group_part2"><label for="option_description['+counter+']"> Option Description :</label>'+
+		  '&nbsp;&nbsp;&nbsp; <input type="text" name="option_description['+counter+']" class = "form-control"  value = "<?php if(!empty($answer['option_description'])){ echo $answer['option_description'];} ?>">'+
+		  '<div class="text-danger"></div></div>');
             
 	newTextBoxDiv.appendTo("#TextBoxesGroup");
 
@@ -223,7 +240,7 @@ textarea.form-control {
 }
 
 select.disabled {
-    color: e1e1e1;
+    color: grey;
 }
 .space{
 	height:15px !important;

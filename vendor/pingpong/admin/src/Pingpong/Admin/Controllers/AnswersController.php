@@ -36,8 +36,13 @@ return $this->redirect('answers.index');
 public function index(Request $request)
 {
 		$qid=$request->get('ques_id');
-		//print_R( $request->get('keyword'));
+		$serviceid=$request->get('serv_id');
+		//print_R( $request->get('serviceid'));die;
 		//print_R($request->get('data')); die;
+		$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
+		$selectedQuestionName=DB :: table("questions")->where('id',$qid)->lists('title','id');
+		//print_R($selectedQuestionName); die;
+		//print_R($selectedServiceName); die;
 		$answers = $this->repository->allOrSearch($request->get('q'),$qid);
 	
 	
@@ -49,7 +54,7 @@ public function index(Request $request)
 	//echo "<pre>"; print_r($answers);die;
 
 	$no = $answers->firstItem();
-	return $this->view('answers.index', compact('answers','no','qid'));
+	return $this->view('answers.index', compact('answers','no','qid','serviceid','selectedServiceName','selectedQuestionName'));
 	
 	
 }
@@ -66,14 +71,42 @@ public function create(Request $request)
 		if(!empty($request->get('que_id'))){
 			$qid=$request->get('que_id');
 			$optId=$request->get('opt');
-			
+			$serviceid=$request->get('serv_id');
+			$question=$request->get('que_id');
+		
 		}
 		if(!empty($request->get('opt'))){
 			
 			$optId=$request->get('opt');
+			$serviceid=$request->get('serv_id');
+			$questionid=$request->get('question_id');
+			
 			
 		}
+		if(!empty($question)){
+			$questionid=$question;
+		}
+			//echo "<pre>"; print_R($questionid);
+			$selectedQuestionName=DB :: table("questions")->where('id',$questionid)->lists('title','id');
+		
+			$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
+			$nextQuestionData=DB :: table("questions")->where('service_id',$serviceid)->lists('title','id');
+
+			$nextQuestionArr=array();
+			foreach($nextQuestionData as $k=>$nextQuestions){
+				
+				if($k != $questionid){
+					echo $nextQuestionArr[$k]=$nextQuestions;
+				}
 			
+			}
+			
+			$nextQuestionArr[0]='---Select Next Question---';
+			ksort($nextQuestionArr);
+			
+			//echo "<pre>"; print_R($qid);die;
+			//echo "<pre>"; print_R($selectedServiceName);
+			//echo "<pre>"; print_R($nextQuestionArr);die;
 			$preQuestionData=DB::table('answers')->get();
 			
 			$preArr=array();
@@ -108,18 +141,19 @@ public function create(Request $request)
 		$sel1[]='---Select Question---';
 	
 		$questionArr=$sel1+$questionArr;
-		$questiondata[0]='---Select Next Question---';
-		ksort($questiondata);
+		
 		//echo "<pre>"; print_r($questionArr);
 		//echo "<pre>"; print_r($questiondata);die;
 		//end of no repeat a question	
 		
 	
 		//echo "<pre>"; print_r($qid);die;
+		//echo "<pre>"; print_R($qid);die;
 		if(!empty('qid')){
-				return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','optId'));
+				return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','optId','nextQuestionArr','selectedServiceName','selectedQuestionName','serviceid'));
 		}else{
-			return $this->view('answers.create', compact('id','type','questionArr','questiondata'));
+			$qid=$questionid;
+			return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','nextQuestionArr','selectedServiceName','serviceid'));
 		}
 	
 
@@ -136,8 +170,9 @@ public function store(Create $request)
 			//echo "<pre>"; print_R($data);die;
 		if(!empty($data['qid'])){
 				$qid=$data['qid'];
+				$service_id=$data['service_id'];
 		}
-	
+		//echo "<pre>"; print_R($service_id);die;
 		foreach($data['answers'] as $k=>$value){
 			$tempArr = array();
 			$tempArr['answers'] = $value;
@@ -154,6 +189,7 @@ public function store(Create $request)
 				$tempArr['custom_answer'] = 0;
 			}
 			$tempArr['next_question_id'] = $data['next_question_id'][$k];
+			$tempArr['option_description'] = $data['option_description'][$k];
 			$tempArr['sort'] = $data['sort'][$k];
 			
 			Answer::create($tempArr);
@@ -161,7 +197,8 @@ public function store(Create $request)
 		//echo "<pre>"; print_R($tempArr);die;
 		
 		if(!empty($qid)){
-			return $this->redirect('answers.index',['ques_id'=>$qid]);
+			//echo "<pre>"; print_R($service_id);die;
+			return $this->redirect('answers.index',['ques_id'=>$qid,'serv_id'=>$service_id]);
 		}else{
 			return $this->redirect('answers.index');
 		}
@@ -195,17 +232,48 @@ public function edit($id,REQUEST $request)
 		
 		$qid=$request->get('ques_id');
 		$optId=$request->get('opt');
+		$serviceid=$request->get('serv_id');
+		$question=$request->get('ques_id');
 		$hd=$request->get('hd');
+		
+		
+			$selectedQuestionName=DB :: table("questions")->where('id',$qid)->lists('title','id');
+			$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
+			$nextQuestionData=DB :: table("questions")->where('service_id',$serviceid)->lists('title','id');
+
+			$nextQuestionArr=array();
+			foreach($nextQuestionData as $k=>$nextQuestions){
+				
+				if($k != $question){
+					echo $nextQuestionArr[$k]=$nextQuestions;
+				}
+			
+			}
+			
+			$nextQuestionArr[0]='---Select Next Question---';
+			ksort($nextQuestionArr);
+			
+		//	echo "<pre>"; print_R($question);
+			//echo "<pre>"; print_R($selectedServiceName);
+		//	echo "<pre>"; print_R($nextQuestionData);
+		//	echo "<pre>"; print_R($nextQuestionArr);die;
+		
+		
+		
 		$questionArr=DB :: table("questions")->lists('title','id');
 		$sel[]='-- Select Question --';
 		$questionArr=$sel + $questionArr;
-		$questiondata=$questionArr;
+		//$nextQuestionArr=$questionArr;
 		
+		//echo "<pre>"; print_R($serviceid);die;
 		//echo "<pre>"; print_R($questiondata);die;
 		try {
 				$answer = $this->repository->findById($id);
+				$answer_id=$answer['id'];
+				$answerName=$answer['answers'];
+				
 				//echo "<pre>"; print_R($answer);die;
-				return $this->view('answers.edit', compact('answer','questionArr','questiondata','qid','optId','hd'));
+				return $this->view('answers.edit', compact('answer','answer_id','answerName','questionArr','nextQuestionArr','qid','optId','hd','serviceid','selectedQuestionName','selectedServiceName'));
 		}catch (	
 				ModelNotFoundException $e) {
 				return $this->redirectNotFound();
@@ -228,6 +296,7 @@ public function update(Update $request, $id)
 		
 		if(!empty($data['qid'])){
 			$ques_id=$data['qid'];
+			$service_id=$data['service_id'];
 		}
 		//echo "<pre>"; print_R($data);die;
 		foreach($data['answers'] as $k=>$value){
@@ -243,6 +312,7 @@ public function update(Update $request, $id)
 				$tempArr['custom_answer'] = 0;
 			}
 			$tempArr['next_question_id'] = $data['next_question_id'][$k];
+			$tempArr['option_description'] = $data['option_description'][$k];
 			$tempArr['sort'] = $data['sort'][$k];
 			
 			//Answer::create($tempArr);
@@ -253,7 +323,7 @@ public function update(Update $request, $id)
 		//echo "<pre>"; print_R($answer);die;
 		$answer->update($data);
 		if(!empty($ques_id)){
-			return $this->redirect('answers.index',['ques_id'=>$ques_id]);
+			return $this->redirect('answers.index',['ques_id'=>$ques_id,'serv_id'=>$service_id]);
 		}else{
 			return $this->redirect('answers.index');
 		}

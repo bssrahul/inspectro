@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2016 at 01:44 PM
+-- Generation Time: Jun 29, 2016 at 01:58 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -30,9 +30,10 @@ CREATE TABLE `answers` (
   `id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL COMMENT 'the question_id for which this is an answer',
   `answers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'text of the answer',
-  `custom_answer` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'if this is 1 the user will be allowed to enter an individual answer text -> the answer text will be stored in quote_requests_answers',
+  `custom_answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sort` int(11) NOT NULL COMMENT 'defines in which order the anser is displayed at the form',
   `next_question_id` int(11) NOT NULL COMMENT 'question_id of the next question if this answer is selected',
+  `option_description` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -41,13 +42,69 @@ CREATE TABLE `answers` (
 -- Dumping data for table `answers`
 --
 
-INSERT INTO `answers` (`id`, `question_id`, `answers`, `custom_answer`, `sort`, `next_question_id`, `created_at`, `updated_at`) VALUES
-(1, 2, '$0 - $100', 0, 1, 0, '2016-06-25 14:09:51', '2016-06-25 14:09:51'),
-(2, 2, '$101 - $200', 0, 2, 0, '2016-06-25 14:09:51', '2016-06-25 14:09:51'),
-(3, 2, '$201 - $500', 0, 0, 0, '2016-06-25 14:09:51', '2016-06-25 14:09:51'),
-(4, 4, '$10', 0, 0, 0, '2016-06-25 14:12:38', '2016-06-25 14:12:38'),
-(5, 4, '$50', 0, 0, 0, '2016-06-25 14:12:38', '2016-06-25 14:12:38'),
-(6, 4, '$100', 0, 0, 0, '2016-06-25 14:12:38', '2016-06-25 14:12:38');
+INSERT INTO `answers` (`id`, `question_id`, `answers`, `custom_answer`, `sort`, `next_question_id`, `option_description`, `created_at`, `updated_at`) VALUES
+(1, 2, 'dfgdgdg', '1', 0, 3, '', '2016-06-27 10:51:40', '2016-06-27 10:51:40'),
+(2, 4, 'fgfdgdfg', '1', 33, 3, '', '2016-06-27 10:52:09', '2016-06-27 10:52:09'),
+(30, 8, 'Outer Wall Painting', '0', 2, 3, '', '2016-06-27 12:57:56', '2016-06-27 12:59:37'),
+(5, 3, 'fggdfgdfg', '1', 33, 3, '', '2016-06-27 12:04:38', '2016-06-27 12:04:38'),
+(6, 1, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:15:15', '2016-06-27 12:15:15'),
+(7, 1, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:16:00', '2016-06-27 12:16:00'),
+(8, 1, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:16:41', '2016-06-27 12:16:41'),
+(9, 1, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:17:27', '2016-06-27 12:17:27'),
+(10, 1, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:17:52', '2016-06-27 12:17:52'),
+(11, 1, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:17:57', '2016-06-27 12:17:57'),
+(35, 10, 'dfgfdg', '1', 0, 2, '', '2016-06-28 08:43:21', '2016-06-28 08:43:21'),
+(29, 8, 'Door Painting', '0', 1, 3, '', '2016-06-27 12:57:56', '2016-06-27 13:27:42'),
+(36, 10, 'dfgfdgdf', '1', 4, 2, '', '2016-06-28 08:43:43', '2016-06-28 08:43:43'),
+(37, 11, '123', '1', 0, 2, '', '2016-06-28 08:59:35', '2016-06-28 08:59:35'),
+(38, 11, '2324', '0', 0, 11, '', '2016-06-28 08:59:35', '2016-06-28 08:59:35'),
+(39, 11, '123', '1', 0, 2, '', '2016-06-28 08:59:50', '2016-06-28 08:59:50'),
+(40, 11, '2324', '0', 0, 11, '', '2016-06-28 08:59:50', '2016-06-28 08:59:50'),
+(41, 11, '787989089', '0', 0, 0, '', '2016-06-28 09:00:37', '2016-06-28 09:00:57'),
+(42, 12, 'fdghdfh', '0', 0, 0, '', '2016-06-28 09:20:01', '2016-06-28 10:24:32'),
+(43, 15, 'adsad', '1', 0, 1, '', '2016-06-28 09:31:05', '2016-06-28 09:31:05'),
+(44, 15, 'fdsfsdf43532', '0', 0, 0, '', '2016-06-28 09:31:06', '2016-06-28 11:54:19'),
+(52, 15, 'menu#1', '1', 0, 2, '', '2016-06-28 12:07:26', '2016-06-28 14:05:17'),
+(51, 15, 'dsfgsdgsd', '1', 0, 4, '', '2016-06-28 11:52:34', '2016-06-28 14:05:30'),
+(47, 13, '', '0', 0, 0, '', '2016-06-28 10:24:06', '2016-06-28 13:02:44'),
+(48, 12, 'sdfgsdgd', '1', 0, 2, '', '2016-06-28 11:35:51', '2016-06-28 11:35:51'),
+(49, 12, 'dsfsd1213', '0', 0, 0, '', '2016-06-28 11:36:03', '2016-06-28 11:41:16'),
+(50, 12, 'vbmvbmbm', '0', 0, 0, '', '2016-06-28 11:41:21', '2016-06-28 13:32:58'),
+(53, 15, 'menu#1', '0', 0, 0, '', '2016-06-28 12:07:26', '2016-06-28 14:05:01'),
+(54, 12, 'cvcvc', '0', 0, 0, '', '2016-06-28 13:26:11', '2016-06-28 13:26:11'),
+(55, 12, 'bcvbcvb', '0', 0, 0, '', '2016-06-28 13:26:27', '2016-06-28 13:26:27'),
+(56, 20, '123435', '1', 1, 15, '', '2016-06-28 14:51:00', '2016-06-28 14:51:00'),
+(57, 20, '78654434', '1', 0, 0, '', '2016-06-28 14:53:03', '2016-06-28 14:53:03'),
+(58, 20, 'fdgdfg435345', '1', 0, 0, '', '2016-06-28 15:06:05', '2016-06-28 15:09:31'),
+(59, 20, 'dfgd', '0', 0, 12, '', '2016-06-28 15:06:05', '2016-06-28 15:06:05'),
+(60, 15, 'ddsfsd12343242', '1', 0, 2, '', '2016-06-28 15:15:34', '2016-06-28 15:15:44'),
+(61, 15, 'edsrfwere23432', '1', 0, 19, '', '2016-06-28 15:15:34', '2016-06-28 15:15:49'),
+(62, 15, 'dsffsd', 'date', 0, 0, '', '2016-06-28 15:32:19', '2016-06-28 15:32:19'),
+(63, 15, '123', '0', 0, 0, '', '2016-06-28 15:32:44', '2016-06-28 15:32:44'),
+(64, 15, 'sdfggg', 'text', 0, 0, '', '2016-06-28 15:33:02', '2016-06-28 15:33:02'),
+(65, 22, 'abc', '0', 0, 0, '', '2016-06-28 15:45:28', '2016-06-28 15:45:28'),
+(66, 22, 'mno', 'text', 0, 0, '', '2016-06-28 15:45:38', '2016-06-28 15:45:38'),
+(67, 22, 'date', 'date', 0, 0, '', '2016-06-28 15:45:45', '2016-06-28 15:45:45'),
+(68, 22, '1 none', '0', 1, 15, '', '2016-06-28 15:52:59', '2016-06-28 15:52:59'),
+(69, 22, '2 text', 'text', 2, 0, '', '2016-06-28 15:52:59', '2016-06-28 16:00:30'),
+(70, 22, '3 date', 'date', 0, 0, '', '2016-06-28 15:52:59', '2016-06-28 15:52:59'),
+(71, 23, '123', 'text', 0, 22, '', '2016-06-29 08:46:11', '2016-06-29 08:46:11'),
+(72, 15, 'sdsds', 'date', 0, 19, '', '2016-06-29 08:59:03', '2016-06-29 08:59:03'),
+(73, 19, 'dfs', 'text', 0, 15, '', '2016-06-29 09:08:45', '2016-06-29 09:08:45'),
+(74, 19, 'fdfd', 'date', 0, 0, '', '2016-06-29 09:08:45', '2016-06-29 09:08:45'),
+(75, 15, 'fgdgdf', '0', 0, 19, '', '2016-06-29 09:10:45', '2016-06-29 09:10:45'),
+(76, 15, 'fgdgdf', '0', 0, 19, '', '2016-06-29 09:14:35', '2016-06-29 09:14:35'),
+(77, 25, 'fdsgsd', '0', 3, 15, '', '2016-06-29 09:31:51', '2016-06-29 09:31:51'),
+(78, 24, 'sdsd', '0', 0, 0, '', '2016-06-29 09:33:17', '2016-06-29 09:33:17'),
+(79, 24, 'sdsd', '0', 0, 0, '', '2016-06-29 09:36:20', '2016-06-29 09:36:20'),
+(80, 24, 'sdsd', '0', 0, 23, '', '2016-06-29 09:36:46', '2016-06-29 09:41:29'),
+(81, 24, 'sdsd', 'text', 1, 22, '', '2016-06-29 09:38:07', '2016-06-29 09:40:35'),
+(82, 24, 'hgjgj', '0', 0, 22, '', '2016-06-29 11:35:33', '2016-06-29 11:35:33'),
+(83, 15, 'dsgdfgfd', '0', 2, 19, '', '2016-06-29 12:16:10', '2016-06-29 12:16:10'),
+(84, 15, 'sdfsd', '0', 1, 19, '', '2016-06-29 12:17:31', '2016-06-29 12:17:31'),
+(85, 15, 'hdffd', '0', 2, 19, 'hello how r u? fdg dfg', '2016-06-29 12:19:45', '2016-06-29 12:20:01'),
+(86, 15, '1', 'text', 1, 19, '1', '2016-06-29 12:23:46', '2016-06-29 12:23:46'),
+(87, 15, '2', 'date', 2, 19, '2', '2016-06-29 12:23:46', '2016-06-29 12:23:46');
 
 -- --------------------------------------------------------
 
@@ -322,6 +379,7 @@ CREATE TABLE `questions` (
   `description_1` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the top',
   `description_2` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the bottom',
   `form_type_id` int(11) NOT NULL COMMENT 'this is the id of form type -> table form_types',
+  `other_custom_field` int(11) NOT NULL DEFAULT '0' COMMENT 'if this is 1 the user will be allowed to enter an individual answer text with other options -> the answer text will be stored in quote_requests_answers',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -330,11 +388,25 @@ CREATE TABLE `questions` (
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `description_2`, `form_type_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 'What kind of repair you want?', 'What kind of repair you want?', 'What kind of repair you want?', 1, '2016-06-25 14:08:06', '2016-06-25 14:08:06'),
-(2, 1, 'What is your budget?', 'What is your budget?', 'What is your budget?', 1, '2016-06-25 14:08:39', '2016-06-25 14:08:39'),
-(3, 2, 'What kind of style you want?', 'What kind of style you want?', 'What kind of style you want?', 1, '2016-06-25 14:10:30', '2016-06-25 14:10:30'),
-(4, 2, 'Please Choose Budget', 'Please Choose Budget', 'Please Choose Budget', 1, '2016-06-25 14:10:58', '2016-06-25 14:12:11');
+INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `description_2`, `form_type_id`, `other_custom_field`, `created_at`, `updated_at`) VALUES
+(1, 0, 'fdsgsdg', 'dfgdfgfg', 'fdgdfgdfg', 1, 0, '2016-06-25 14:08:06', '2016-06-25 14:08:06'),
+(10, 9, 'dfgdfgd', 'dfgdfgdfg', 'dfgdfgdfgdfg', 1, 0, '2016-06-28 08:41:12', '2016-06-28 08:41:12'),
+(2, 1, 'What is your budget?', 'What is your budget?', 'What is your budget?', 1, 0, '2016-06-25 14:08:39', '2016-06-25 14:08:39'),
+(3, 2, 'What kind of style you want?', 'What kind of style you want?', 'What kind of style you want?.', 1, 0, '2016-06-25 14:10:30', '2016-06-27 10:29:00'),
+(4, 2, 'Please Choose Budget', 'Please Choose Budget', 'Please Choose Budget', 1, 0, '2016-06-25 14:10:58', '2016-06-25 14:12:11'),
+(5, 3, 'fgdfgdf', 'gfdgfdg', 'dfgdfgdf', 1, 0, '2016-06-27 11:44:15', '2016-06-27 11:44:15'),
+(7, 3, 'dfhbdf', 'bcvbcvvcbc', 'bcvbcbcvbc', 2, 0, '2016-06-27 12:20:57', '2016-06-27 12:21:04'),
+(8, 5, 'What king of painting you want?', 'What king of painting you want?', 'What king of painting you want?', 2, 0, '2016-06-27 12:51:43', '2016-06-27 12:54:48'),
+(11, 9, 'fdgdfgdf', 'fgdgdfgf', 'fdgdfgdfg', 2, 0, '2016-06-28 08:56:29', '2016-06-28 08:56:29'),
+(12, 9, 'fdfdfdf', '123abc', '123', 2, 0, '2016-06-28 08:59:10', '2016-06-28 10:18:35'),
+(13, 9, '67876abc12345', '67867abc123454', '678678fdghgfds', 3, 0, '2016-06-28 09:01:27', '2016-06-28 09:18:06'),
+(15, 10, 'abc', 'abc', 'abc', 1, 0, '2016-06-28 09:30:47', '2016-06-28 09:30:47'),
+(19, 10, 'fdgfdg', 'gfdgfg', 'fdgdf', 1, 0, '2016-06-28 11:47:53', '2016-06-28 11:47:53'),
+(23, 12, 'abc', 'abc', 'abc', 2, 0, '2016-06-29 08:24:56', '2016-06-29 08:24:56'),
+(21, 9, 'ABCD', 'ABCD', 'ABCD', 1, 1, '2016-06-28 15:16:53', '2016-06-28 15:21:27'),
+(22, 12, 'new Question 1', 'new Question 1', 'new Question 1', 1, 1, '2016-06-28 15:34:54', '2016-06-28 15:34:54'),
+(24, 12, 'dfdfg', 'ffdg', 'dfgdfg', 1, 1, '2016-06-29 08:43:00', '2016-06-29 08:43:00'),
+(25, 10, 'fdgdf', 'fdgdf', 'dfgdfg', 2, 0, '2016-06-29 09:22:13', '2016-06-29 09:22:13');
 
 -- --------------------------------------------------------
 
@@ -434,7 +506,12 @@ CREATE TABLE `services` (
 
 INSERT INTO `services` (`id`, `title`, `description`, `status`, `created_at`, `updated_at`, `parent_id`, `sort`) VALUES
 (1, 'Car Repair', 'Car Repair', 1, '2016-06-25 14:07:01', '2016-06-25 14:07:01', 0, 0),
-(2, 'Hair Saloon', 'Hair Saloon', 1, '2016-06-25 14:07:23', '2016-06-25 14:07:23', 0, 0);
+(2, 'Hair Saloon', 'Hair Saloon', 1, '2016-06-25 14:07:23', '2016-06-25 14:07:23', 0, 0),
+(3, 'dfdfd', 'dfdfd', 1, '2016-06-27 11:43:16', '2016-06-27 11:43:16', 0, 0),
+(9, '123456rddfg', '123456rdf', 1, '2016-06-28 08:23:43', '2016-06-28 10:18:12', 0, 0),
+(10, 'polishing', 'polishing', 0, '2016-06-28 09:30:26', '2016-06-29 13:40:05', 0, 0),
+(11, 'dfd', 'cvc', 1, '2016-06-28 13:10:54', '2016-06-29 13:40:06', 0, 0),
+(12, 'new service', 'new service', 1, '2016-06-28 15:34:26', '2016-06-29 14:26:36', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -498,7 +575,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `last_logged_in`) VALUES
-(1, 'Sukant', 'Sharma', 'sukant@mobilyte.com', '$2y$10$Eva3EAN0C98hPr46/6TZOu52VtThQWNXtqkThYmaTJFSWtXHeit3u', 'npFjbSOFz6WPTHtWK1on7WEgvUhrEUnpBDzlFUcdzBeBTQZ018lV0ckQSxQF', '2015-12-11 07:07:11', '2016-06-24 07:57:09', '2016-06-14 06:15:43'),
+(1, 'Sukant', 'Sharma', 'sukant@mobilyte.com', '$2y$10$BGs.S.7thTyyHviF2PbL7eOwNyJPXYO.uh2dEV25lg.RjjdzML9Q6', 'IByvo4J4aeQQoTBSSUS5Q5QvWOaSZlxix4vZbtmMKyXJZxAk1hRNtRd227NV', '2015-12-11 07:07:11', '2016-06-28 13:02:04', '2016-06-14 06:15:43'),
 (2, 'Rahul', 'Jain', 'rahul.jain@mobilyte.com', '$2y$10$aRVWvTnMQJxjYnCV4fLAN.8O5ZpWK.glY296t5wpKUf0MLIIIdTEq', NULL, '2016-06-15 10:05:23', '2016-06-15 10:09:17', '0000-00-00 00:00:00'),
 (3, 'fghj', 'fghj', '26may@mailinator.com', '$2y$10$7g9fbLacyhQvNXKTVkdCtOYIrDZXSY94aJMr6D/hlzqjoyr0OW2D6', NULL, '2016-06-16 08:28:52', '2016-06-16 08:28:52', '0000-00-00 00:00:00'),
 (4, 'hjsdfgjfd', 'fdsff', 'rohitkumar.rd26@gmail.com', '$2y$10$1LLiaS1i4HuMva178gBtGOnIvxEovpIX9HN9o5/Smv/tkg6dLE4Ee', NULL, '2016-06-16 09:48:31', '2016-06-16 09:48:31', '0000-00-00 00:00:00');
@@ -630,7 +707,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 --
 -- AUTO_INCREMENT for table `articles`
 --
@@ -675,7 +752,7 @@ ALTER TABLE `permission_role`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question', AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question', AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `quote_requests`
 --
@@ -695,7 +772,7 @@ ALTER TABLE `role_user`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `sqoptions`
 --
