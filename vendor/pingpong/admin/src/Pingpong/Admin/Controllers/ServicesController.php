@@ -6,7 +6,7 @@ use Pingpong\Admin\Entities\Service;
 use Pingpong\Admin\Repositories\Services\ServiceRepository;
 use Pingpong\Admin\Validation\Service\Create;
 use Pingpong\Admin\Validation\Service\Update;
-
+use DB;
 class ServicesController extends BaseController
 {
     protected $repository;
@@ -34,7 +34,22 @@ class ServicesController extends BaseController
     {
 			
         $services = $this->repository->allOrSearch($request->get('q'));
-     
+		$QuestionData= DB :: Table('questions')->get();
+		//echo "<pre>"; print_R($QuestionData);die;
+		$QuestionArr=array();
+		foreach($QuestionData as $Question){
+			$QuestionArr[]=$Question->service_id;
+		}
+		//echo "<pre>"; print_R($QuestionArr);die;
+		foreach($services as $k=>$service){
+		
+			if(in_array($service->id,$QuestionArr)){
+				$services[$k]['avail']=1;
+			}else{
+				$services[$k]['avail']=0;
+			}
+		}
+		//echo "<pre>"; print_R($services);die;
         $no = $services->firstItem();
    
         return $this->view('services.index', compact('services', 'no'));

@@ -158,8 +158,8 @@ class UsersController extends BaseController
 			
 			
             $role = $user->roles->lists('id');
-			
-            return $this->view('users.edit', compact('user', 'role'));
+			$pass=1;
+            return $this->view('users.edit', compact('user', 'role','pass'));
         } catch (ModelNotFoundException $e) {
             return $this->redirectNotFound();
         }

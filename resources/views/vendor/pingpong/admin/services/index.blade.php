@@ -2,7 +2,7 @@
 
 @section('content-header')
 	<h1>
-		All services ({!! $services->count() !!})
+		All Services ({!! $services->count() !!})
 		&middot;
 		<small>{!! link_to_route('admin.services.create', 'Add New') !!}</small>
 	</h1>
@@ -34,6 +34,13 @@
 				</td>
 				<td>{!! $category->created_at !!}</td>
 				<td class="text-center">
+					@if($category->avail == 1 )
+							{!! link_to_route('admin.questions.index', 'View Questions', [ 'ser_id' =>$category->id,'opt'=>$category->id ]) !!}
+					@else
+							{!! link_to_route('admin.questions.create', 'Add Questions', [ 'serv_id' =>$category->id,'opt'=>$category->id ]) !!}
+					@endif
+					&middot;
+				
 					<a href="{!! route('admin.services.edit', $category->id) !!}">Edit</a>
 					&middot;
 					@include('admin::partials.modal', ['data' => $category, 'name' => 'services'])

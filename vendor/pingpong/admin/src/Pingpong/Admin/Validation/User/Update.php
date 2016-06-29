@@ -13,7 +13,7 @@ class Update extends Validator
         $rules = [
             'fname' => 'required',
 			'lname' => 'required',
-            'email' => 'required|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id,
         ];
 
         if ($this->has('password')) {

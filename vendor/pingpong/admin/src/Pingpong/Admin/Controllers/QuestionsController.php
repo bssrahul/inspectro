@@ -33,12 +33,11 @@ return $this->redirect('questions.index');
 */
 public function index(Request $request)
 {
-   
-	
-	
-		
+	$serviceid=$request->get('ser_id');
+	$optId=$request->get('opt');
+	//echo "<pre>"; print_R($serviceid);die;
 
-	$questions = $this->repository->allOrSearch($request->get('q'));
+	$questions = $this->repository->allOrSearch($request->get('q'),$serviceid);
 	$answerData= DB :: Table('answers')->get();
 	$answerArr=array();
 	foreach($answerData as $answer){
@@ -56,7 +55,7 @@ public function index(Request $request)
 	//echo "<pre>"; print_R($questions);die;
 	$no = $questions->firstItem();
 	
-	return $this->view('questions.index', compact('questions', 'no','pid','sertype','catCount'));
+	return $this->view('questions.index', compact('questions', 'no','serviceid','optId'));
 	
 	
 }
@@ -69,6 +68,14 @@ public function index(Request $request)
 
 public function create(Request $request)
 {
+		if(!empty($request->get('serv_id'))){
+			$servid=$request->get('serv_id');
+			$optId=$request->get('opt');
+			$service=DB :: table("services")->where('id',$servid)->lists('title','id');
+		}
+	
+		//echo "<pre>"; print_R($service);
+		//echo "<pre>"; print_R($optId);die;
 		$id=$request->get('id');
 		$type=$request->get('type');
 		$serviceArr=DB :: table("services")->lists('title','id');
@@ -78,7 +85,13 @@ public function create(Request $request)
 		$serviceArr=$sel + $serviceArr;
 		$formTypeArr=$sel1 + $formTypeArr;
 		//echo "<pre>"; print_R($question);die;
-		return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr'));
+		if(!empty($service)){
+				$serviceArr=$service;
+				return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr','servid','optId'));
+		}else{
+			return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr'));
+		}
+		
 
 }
 
@@ -91,9 +104,13 @@ public function store(Create $request)
 {
 		$data = $request->all();
 		//echo "<pre>"; print_R($data);die;
+		$sid=$data['service_id'];
+		if(empty($data['other_custom_field'])){
+			$data['other_custom_field']=0;
+		}
 		Question::create($data);
 		//echo "<pre>"; print_R($data);die;
-		return $this->redirect('questions.index');
+		return $this->redirect('questions.index',['ser_id'=>$sid]);
 
 }
 
@@ -122,7 +139,8 @@ return $this->redirectNotFound();
 public function edit($id,REQUEST $request)
 {
 		
-	 
+		$servid=$request->get('ser_id');
+		$optId=$servid;
 		
 		$serviceArr=DB :: table("services")->lists('title','id');
 		$formTypeArr=DB :: table("option_type")->lists('op_type','id');
@@ -134,7 +152,7 @@ public function edit($id,REQUEST $request)
 		try {
 				$question = $this->repository->findById($id);
 				//echo "<pre>"; print_R($question);die;
-				return $this->view('questions.edit', compact('question','type','serviceArr','formTypeArr'));
+				return $this->view('questions.edit', compact('question','type','serviceArr','formTypeArr','servid','optId'));
 		}catch (	
 				ModelNotFoundException $e) {
 				return $this->redirectNotFound();
@@ -152,10 +170,17 @@ public function update(Update $request, $id)
 	//print_r($id);die;
 	try {
 		$data = $request->all();
-		
+
+		if(!empty($data['service_id'])){
+			$serid=$data['service_id'];
+		}
+		if(empty($data['other_custom_field'])){
+			$data['other_custom_field']=0;
+		}
+				//echo "<pre>"; print_R($data);die;
 		$question = $this->repository->findById($id);
 		$question->update($data);
-		return $this->redirect('questions.index');
+		return $this->redirect('questions.index',['ser_id'=>$serid]);
 	 }
 	 catch (ModelNotFoundException $e) {
 	return $this->redirectNotFound();

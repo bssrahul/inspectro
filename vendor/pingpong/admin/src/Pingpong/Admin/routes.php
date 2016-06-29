@@ -196,6 +196,7 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
         ]);
 		
 	
+	
 
         // backup & reset
         Route::get('backup/reset', ['as' => 'admin.reset', 'uses' => 'SiteController@reset']);
