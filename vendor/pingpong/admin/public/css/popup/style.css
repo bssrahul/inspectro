@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+@import 'bootstrap.css';
+@import 'bootstrap.min.css';
+@import 'header.css';
+@import 'content.css';
+@import 'inner.css';
+
+@font-face {
+  font-family:'OpenSans';
+  src: url('../fonts/OpenSans.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/OpenSans.woff') format('woff'),
+  url('../fonts/OpenSans.ttf')  format('truetype'), 
+  url('../fonts/OpenSans.svg#OpenSans') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body{ margin:0px; padding:0px !important;  font-family: 'OpenSans';  }
+p,h1,h2,h3,h4,h5,h6{ margin:0px; padding:0px;}
+a:focus, a:hover{ outline:none;}
+
+
+

@@ -4,17 +4,17 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Illuminate\Http\Request;
 
-use Pingpong\Admin\Entities\Answer;
-use Pingpong\Admin\Repositories\Answers\AnswerRepository;
-use Pingpong\Admin\Validation\Answer\Create;
-use Pingpong\Admin\Validation\Answer\Update;
+use Pingpong\Admin\Entities\Quote;
+use Pingpong\Admin\Repositories\Quotes\QuoteRepository;
+use Pingpong\Admin\Validation\Quote\Create;
+use Pingpong\Admin\Validation\Quote\Update;
 use DB;
 
-class AnswersController extends BaseController
+class QuotesController extends BaseController
 {
     protected $repository;
 
-public function __construct(AnswerRepository $repository)
+public function __construct(QuoteRepository $repository)
 {
 $this->repository = $repository;
 }
@@ -25,7 +25,7 @@ $this->repository = $repository;
 */
 protected function redirectNotFound()
 {
-return $this->redirect('answers.index');
+return $this->redirect('quotes.index');
 }
 
 /**
@@ -35,26 +35,23 @@ return $this->redirect('answers.index');
 */
 public function index(Request $request)
 {
-		$qid=$request->get('ques_id');
-		$serviceid=$request->get('serv_id');
-		//print_R( $request->get('serviceid'));die;
-		//print_R($request->get('data')); die;
-		$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
-		$selectedQuestionName=DB :: table("questions")->where('id',$qid)->lists('title','id');
-		//print_R($selectedQuestionName); die;
-		//print_R($selectedServiceName); die;
-		$answers = $this->repository->allOrSearch($request->get('q'),$qid);
-	
-	
-	
-		
-	 
- 
-	
-	//echo "<pre>"; print_r($answers);die;
-
-	$no = $answers->firstItem();
-	return $this->view('answers.index', compact('answers','no','qid','serviceid','selectedServiceName','selectedQuestionName'));
+		$request_id=$request->get('reqid');
+		if(!empty($request_id)){
+			$quotes = $this->repository->allOrSearch($request->get('q'),$request_id);
+			$SelOptionArr=array();
+			foreach($quotes as $quote){
+				$SelOptionArr=$quote->selected_options;
+			}
+			$selOpArr=json_decode($SelOptionArr);
+			//echo "<pre>"; print_r($selOpArr);die;
+		}
+		else{
+			$quotes = $this->repository->allOrSearch($request->get('q'));
+			
+		}
+		//echo "<pre>"; print_r($answers);die;
+		$no = $quotes->firstItem();
+		return $this->view('quotes.index', compact('quotes','no','request_id','selOpArr'));
 	
 	
 }
@@ -151,10 +148,10 @@ public function create(Request $request)
 		//echo "<pre>"; print_r($qid);die;
 		//echo "<pre>"; print_R($qid);die;
 		if(!empty('qid')){
-				return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','optId','nextQuestionArr','selectedServiceName','selectedQuestionName','serviceid'));
+				return $this->view('quotes.create', compact('id','type','questionArr','questiondata','qid','optId','nextQuestionArr','selectedServiceName','selectedQuestionName','serviceid'));
 		}else{
 			$qid=$questionid;
-			return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','nextQuestionArr','selectedServiceName','serviceid'));
+			return $this->view('quotes.create', compact('id','type','questionArr','questiondata','qid','nextQuestionArr','selectedServiceName','serviceid'));
 		}
 	
 
@@ -199,9 +196,9 @@ public function store(Create $request)
 		
 		if(!empty($qid)){
 			//echo "<pre>"; print_R($service_id);die;
-			return $this->redirect('answers.index',['ques_id'=>$qid,'serv_id'=>$service_id]);
+			return $this->redirect('quotes.index',['ques_id'=>$qid,'serv_id'=>$service_id]);
 		}else{
-			return $this->redirect('answers.index');
+			return $this->redirect('quotes.index');
 		}
 		
 }
@@ -214,12 +211,12 @@ public function store(Create $request)
 */
 public function show($id)
 {
-try {
-$category = $this->repository->findById($id);
-return $this->view('questions.show', compact('category'));
-} catch (ModelNotFoundException $e) {
-return $this->redirectNotFound();
-}
+		try {
+				$category = $this->repository->findById($id);
+				return $this->view('questions.show', compact('category'));
+			} catch (ModelNotFoundException $e) {
+				return $this->redirectNotFound();
+				}
 }
 
 /**
@@ -275,7 +272,7 @@ public function edit($id,REQUEST $request)
 				$answerName=$answer['answers'];
 				
 				//echo "<pre>"; print_R($answer);die;
-				return $this->view('answers.edit', compact('answer','answer_id','answerName','questionArr','nextQuestionArr','qid','optId','hd','serviceid','selectedQuestionName','selectedServiceName'));
+				return $this->view('quotes.edit', compact('answer','answer_id','answerName','questionArr','nextQuestionArr','qid','optId','hd','serviceid','selectedQuestionName','selectedServiceName'));
 		}catch (	
 				ModelNotFoundException $e) {
 				return $this->redirectNotFound();
@@ -325,9 +322,9 @@ public function update(Update $request, $id)
 		//echo "<pre>"; print_R($answer);die;
 		$answer->update($data);
 		if(!empty($ques_id)){
-			return $this->redirect('answers.index',['ques_id'=>$ques_id,'serv_id'=>$service_id]);
+			return $this->redirect('quotes.index',['ques_id'=>$ques_id,'serv_id'=>$service_id]);
 		}else{
-			return $this->redirect('answers.index');
+			return $this->redirect('quotes.index');
 		}
 		
 	 }

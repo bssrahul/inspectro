@@ -70,4 +70,8 @@ return [
         'model' => 'Pingpong\Admin\Entities\Answer',
         'perpage' => 10
     ],
+	'quote' => [
+        'model' => 'Pingpong\Admin\Entities\Quote',
+        'perpage' => 10
+    ],
 ];

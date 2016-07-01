@@ -82,11 +82,14 @@ public function create(Request $request)
 		$selectedServiceName=DB :: table("services")->where('id',$servid)->lists('title','id');
 		$serviceArr=DB :: table("services")->lists('title','id');
 		$formTypeArr=DB :: table("option_type")->lists('op_type','id');
-		$sel[]='-- Select Service --';
+		//$sel[]='-- Select Service --';
 		$sel1[]='-- Select Form Type --';
-		$serviceArr=$sel + $serviceArr;
-		$formTypeArr=$sel1 + $formTypeArr;
-		//echo "<pre>"; print_R($question);die;
+		//$serviceArr=$sel + $serviceArr;
+		$serviceArr[null]='-- Select Service --';
+		ksort($serviceArr);
+		$formTypeArr[null]='-- Select Form Type --';
+		ksort($formTypeArr);
+		//echo "<pre>"; print_R($formTypeArr);die;
 		if(!empty($service)){
 				$serviceArr=$service;
 				return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr','servid','optId','serviceid','selectedServiceName'));

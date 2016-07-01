@@ -31,6 +31,10 @@ Menu::create('admin-menu', function ($menu) {
         $sub->route('admin.services.index', trans('admin.menus.services.all'), [], 1);
        }, 4, ['icon' => 'fa fa-list']);
 	
+	$menu->dropdown(trans('admin.menus.quoterequests.title'), function ($sub) {
+        $sub->route('admin.quotes.index', trans('admin.menus.quoterequests.all'), [], 1);
+       }, 5, ['icon' => 'fa fa-list']);
+	
 	/* $menu->dropdown(trans('Subcategories'), function ($sub) {
         $sub->route('admin.subcategories.index', ' Subcategories Listing', [], 1);
         $sub->route('admin.subcategories.create', 'Add Subcategories', [], 2);

@@ -8,10 +8,11 @@
 
 		</small>
 	</h1>
+	
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-
+	
 	<table class="table">
 		<thead>
 			<th>No</th>
@@ -106,10 +107,24 @@
 .searchLabel{
 	float:right;
 	margin-right:3%;
-	font:10px !important;
+	font-size: 20px;
 	color: lightblue !important;
 	font-style: oblique;
 }
 </style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('script'); ?>
+	
+	<script type="text/javascript">
+			$(document).ready(function() {
+					
+					$("#search").keyup(function(){
+							$searchData=$('#search').val();
+							alert($searchData);
+					});
+					
+			});
+	</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
