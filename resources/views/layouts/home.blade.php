@@ -3,10 +3,13 @@
   <head>
     @include('includes.head')
 	<script>
-$('#modal-content').on('shown.bs.modal', function() {
-       $("body.modal-open").removeAttr("style");
- });
-</script>
+	jQuery(function($){
+		$('#modal-content').on('shown.bs.modal', function() {
+			$("body.modal-open").removeAttr("style");
+		});
+	});
+	
+	</script>
 
   </head>
   <body>

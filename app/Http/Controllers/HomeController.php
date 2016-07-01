@@ -1,8 +1,8 @@
 <?php namespace App\Http\Controllers;
 use Auth;
 use App\User;
+use Session;
 use DB;
-
 class HomeController extends Controller {
 	
 	/*
@@ -49,11 +49,7 @@ class HomeController extends Controller {
 	public function serviceList()
 	{
 		$serviceId=$_REQUEST['serviceId'];
-		$users = DB::table('questions')->where('service_id',$serviceId)->get();
-		foreach($users as $k=>$v)
-		{
-		 $Qids[]=$v->id;
-		}
+		$FirstQue = DB::table('questions')->where('service_id',$serviceId)->where('sort_que',1)->first();
 		
 		if(isset($serviceId)&& !empty($serviceId)){
 		$popup='<div class="modal-dialog popup-1">	
@@ -68,7 +64,7 @@ class HomeController extends Controller {
 		<!--/popup Content-->
 		<!--Popup footer-->
 				<div class="popup-foot">
-				<input type="button" value="NEXT"  class="btn btn-success submit nextQue"  data-serviceId='.$serviceId.' data-qid='.$Qids[0].'>		
+				<input type="button" value="NEXT"  class="btn btn-success submit nextQue"  data-serviceId="'.$serviceId.'" data-qid="'.$FirstQue->id.'">		
 				</div>
 		<!--/Popup footer-->
 				</div>
@@ -84,37 +80,59 @@ class HomeController extends Controller {
    {
 	   if(isset($_REQUEST['serviceId'])){
 	   $serviceId=$_REQUEST['serviceId'];
-	   $Qid=$_REQUEST['Qid'];
-	   $users = DB::table('questions')->where('service_id',$serviceId)->get();
-		foreach($users as $k=>$v)
+	
+	   }
+	
+	   
+	  
+	   if(isset($_REQUEST['backQid'])){
+		  
+		   
+		   $backQid=$_REQUEST['backQid'];
+		// echo "<script> alert($backQid); </script>";
+	  
+		//echo "backQid".gettype($backQid);
+   //  echo"ghgggggggggggggggggggggggggg"; print_r($backQid);
+	
+	  //die;
+	   $Qid = $_REQUEST['Qid'];
+	  
+	   //$questions = DB::table('questions')->where('service_id',$serviceId)->get();
+	   $CqueParent = DB::table('services')->where('title','Common Ques')->first();
+	   $compQues = DB::table('questions')->where('service_id',$CqueParent->id)->get();
+	  
+		/* foreach($questions as $k=>$v)
 		{
 		  $Qids[]=$v->id;
 		}
+		foreach($compQues as $k=>$v)
+		{
+		  $CQids[]=$v->id;
+		}
+		$Qids=array_unique(array_merge($Qids,$CQids));
 		print_r($Qids);
-		print_r($Qid);
 		$key=array_search($Qid,$Qids);
-		print_r($key);//die;
 		if($key < count($Qids)){
 		$i=$key+1;
 		}
 		if($key>0){
 		$j=$key-1;
-		}
-		
-	   $queData = DB::table('questions')
-				->select(array('questions.*','form_types.*'))
-				->join('form_types', 'questions.form_type_id', '=', 'form_types.form_type_id')
+		} */
+		if(!empty($Qid)){
+		$queData = DB::table('questions')
+				->select(array('questions.*','option_type.*'))
+				->leftjoin('option_type', 'questions.form_type_id', '=', 'option_type.id')
 				->where('questions.id',$Qid)
-				//->groupBy('dn_users.city')
-				//->orderBy('no_of_users')
 				->first();
-		//print_r($queData);
+		
 		$answers=DB::table('answers')
 				->select(array('answers.*'))
 				->where('answers.question_id',$Qid)
 				->get();
 		//print_r($answers);die;
-	   $formtype=$queData->op_type;
+	    $formtype=$queData->op_type;
+	   $serviceId=$queData->service_id;
+		}
 	 // print_r($formtype);die;
 	   $popup='<div class="modal-dialog popup-1">	
 				<div class="modal-content">  
@@ -130,7 +148,7 @@ class HomeController extends Controller {
 						   </div>
 					  </div>
 		  <!--progress-->
-				  <p class="phead" id='.$queData->id.'>'.$queData->title.'</p>
+				  <p class="phead queTitle"  id='.$queData->id.'>'.$queData->title.'</p>
 				  
 				  <div class="top-desc">
 					<p>'.$queData->description_1.'</p>
@@ -144,19 +162,25 @@ class HomeController extends Controller {
 							{
 							 $popup .=   '<select class="form-control">';	
 							}
-				
+				//print_r($answers);
 					 foreach($answers as $k=>$v){
-						  if($formtype=='multi Select')
+						  if($formtype=='Multi Select')
 							{
-						     $popup .=   '<li><input type="checkbox" name="ck[$k]" value="'.$v->id.'">'.$v->answers.'</li>';
+						     $popup .=   '<li><input type="checkbox" class="childbox"  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'</li>';
 							}
-							if($formtype=='single Select')
+							if($formtype=='Single  Select')
 							{
-							 $popup .=   '<li><input type="radio" name="rd" value="'.$v->id.'">'.$v->answers.'</li>';	
+							 $popup .=   '<li><input type="radio" class="childbox"  name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</li>';	
 							}
 							if($formtype=='Drop Down')
 							{
-							 $popup .=   '<option value="'.$v->id.'">'.$v->answers.'</option>';	
+							 $popup .=   '<option class="childbox['.$k.']"  data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</option>';	
+							}
+							if($v->custom_answer=="text")
+							{
+							 $popup .= '<li class="other" ><input class="innerAns" name="innerAns['.$k.']"  type="text" placeholder="Enter your details">
+										<div class="error-box"><p>Fill Details</p></div>
+										</li>';
 							}
 				        }
 				if($formtype=='Drop Down')
@@ -179,20 +203,21 @@ class HomeController extends Controller {
 			<!--/popup Content-->
 			<!--Popup footer-->
 			<div class="popup-foot">';
-			if($key < count($Qids)-1){
-				$popup .= '<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-serviceId='.$serviceId.' data-qid='.$Qids[$i].' id="myBtn3">';
-			}
-			elseif($key <=count($Qids)){
-				$popup .= '<input type="submit" value="Submit" class="btn btn-success submit " data-serviceId='.$serviceId. ' id="myBtn3">';
-			}
-			if($key > 0){
-				$popup .= '<a href="javascript:void(0)"  title="Back" data-serviceId='.$serviceId.' data-qid='.$Qids[$j].'  class="back"> < Back</a>';}
+			// print_r($v->next_question_id);
+			// if($v->next_question_id==0)
+			// {
+				// $popup .= '<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-current_id="'.$Qid.'" data-serviceId='.$serviceId.'  id="myBtn3">';
+			// }
+				$popup .= '<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-current_id="'.$Qid.'" data-serviceId='.$serviceId.'  id="myBtn3">';
+				//$popup .= '<input type="submit" value="Submit" class="btn btn-success submit " data-serviceId='.$serviceId. ' id="myBtn3">';
+				if($backQid!='undefined'){
+				$popup .= '<a href="javascript:void(0)"  title="Back" data-serviceId='.$serviceId.' data-qid="'.$backQid.'"  class="back"> < Back</a>';}
 				$popup .= '</div>
 			<!--/Popup footer-->
 				</div>
 			   </div>      
 			 </div>';
 			 echo $popup;die;
-	   }
+	   
    }
-}
+}}

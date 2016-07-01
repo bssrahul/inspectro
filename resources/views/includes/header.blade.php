@@ -66,10 +66,10 @@
                             </div>
 	
                             <form>
-                            	<ul class="s-list">
-                                	<li><a href="javascript:void(0)" id="{{$services[0]->id}}" class="serviceList" title="Haus"><img src="{{asset('public/img/search-icon1.png')}}"  alt="Haus"/>{{$services[0]->title}}</a></li>
-                                    <li><a href="javascript:void(0)" id="{{$services[1]->id}}" class="serviceList" title="Wohnung"><img src="{{asset('public/img/search-icon2.png')}}"  alt="Wohnung"/>{{$services[1]->title}}</a></li>
-                                    <li><a href="javascript:void(0)" id="{{$services[2]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon3.png')}}"  alt="Gewerbe"/>{{$services[2]->title}}</a></li>
+                            	<ul class="s-list ulserviceList">
+                                	<li><a href="javascript:void(0)"  id="{{$services[0]->id}}" class="serviceList" title="Haus"><img src="{{asset('public/img/search-icon1.png')}}"  alt="Haus"/>{{$services[0]->title}}</a></li>
+                                    <li><a href="javascript:void(0)"  id="{{$services[1]->id}}" class="serviceList" title="Wohnung"><img src="{{asset('public/img/search-icon2.png')}}"  alt="Wohnung"/>{{$services[1]->title}}</a></li>
+                                    <li><a href="javascript:void(0)"  id="{{$services[2]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon3.png')}}"  alt="Gewerbe"/>{{$services[2]->title}}</a></li>
                                 </ul> 
 								<input type="button" value="NEXT" class="btn btn-success next" id="myBtn">
                             </form>	                    	
