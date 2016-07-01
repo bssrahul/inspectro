@@ -13,6 +13,7 @@ return [
 			'all' => 'All Pages',
 			'create' => 'Add New'
 		],
+		
 		'users' => [
 			'title' => 'Users',
 			'all' => 'All Users',

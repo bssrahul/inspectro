@@ -9,10 +9,11 @@
 			{!! link_to_route('admin.login.index', 'Home') !!}
 		</small>
 	</h1>
+	
 @stop
 
 @section('content')
-
+	
 	<table class="table">
 		<thead>
 			<th>No</th>
@@ -104,9 +105,23 @@
 .searchLabel{
 	float:right;
 	margin-right:3%;
-	font:10px !important;
+	font-size: 20px;
 	color: lightblue !important;
 	font-style: oblique;
 }
 </style>
+@stop
+
+@section('script')
+	
+	<script type="text/javascript">
+			$(document).ready(function() {
+					
+					$("#search").keyup(function(){
+							$searchData=$('#search').val();
+							alert($searchData);
+					});
+					
+			});
+	</script>
 @stop

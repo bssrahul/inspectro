@@ -69,7 +69,7 @@
 				</div>
 				<div class="form-group_part">
 							<label for="next_question_id[0]"> Next Question  :</label>
-							<select name="next_question_id[0]" class = 'form-control' >
+							<select name="next_question_id[0]" class = 'form-control required' >
 									<?php foreach($nextQuestionArr as $k =>$questions){ ?>
 											<option value="<?php echo $k;?>"<?php if((!empty($answer['next_question_id'])) && ($answer['next_question_id'] == $k)){ echo "selected=selected";} ?>><?php echo $questions;?></option>
 									<?php } ?>
@@ -164,14 +164,14 @@ textarea.form-control {
                 
 	newTextBoxDiv.after().html('<div class="form-group answerInput"><label>Answer : </label>' +
 	      '<input type="text" maxlength = "100"  name="answers[' + counter + 
-	      ']" id="textbox' + counter + '" value="" class="required form-control ">'+
+	      ']"  value="" class="form-control required">'+
 		  '<div class="disableOption">'+
 		  ' <div class="inputRemove">&times;</div></div></div>'+
 		  '<div class="form-group_part"><label for="custom_answer['+counter+']"> Custom Answer  :</label>&nbsp;&nbsp;&nbsp;<br>	<input type="radio" name="custom_answer['+counter+']" value="0" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 0)){ echo "checked=checked";} ?> checked><span><?php echo" None ";?> </span>'+
 							'<br><input type="radio" name="custom_answer['+counter+']" value="text" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 'text')){ echo "checked=checked";} ?> ><span><?php echo" Input Text ";?> </span>'+
 							'<br><input type="radio" name="custom_answer['+counter+']" value="date" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 'date')){ echo "checked=checked";} ?> ><span><?php echo" Date ";?> </span>'+
 							'<br><span> <br> <?php echo"( If you want to use Custom Answer, Please check above box )";?> </span></div>'+
-		  '<div class="form-group_part"><label for="next_question_id['+counter+']"> Next Qusetion  :</label><select name="next_question_id['+counter+']" class = "form-control"><?php foreach($nextQuestionArr as $k =>$questions){ ?>'+
+		  '<div class="form-group_part"><label for="next_question_id['+counter+']"> Next Qusetion  :</label><select name="next_question_id['+counter+']" class = "form-control required"><?php foreach($nextQuestionArr as $k =>$questions){ ?>'+
 		  '<option value="<?php echo $k;?>"><?php echo $questions;?></option><?php } ?></select></div><div class="form-group_part"><label for="custom_answer['+counter+']"> Sort Option  :</label>'+
 		  '&nbsp;&nbsp;&nbsp;<input type="number" name="sort['+counter+']" class = "form-control"><div class="text-danger"></div></div> <div class="form-group_part2"><label for="option_description['+counter+']"> Option Description :</label>'+
 		  '&nbsp;&nbsp;&nbsp; <input type="text" name="option_description['+counter+']" class = "form-control"  value = "<?php if(!empty($answer['option_description'])){ echo $answer['option_description'];} ?>">'+

@@ -6,7 +6,7 @@
 @endif
 	<div class="form-group">
 		{!! Form::label('title', 'Title:') !!}
-		{!! Form::text('title', null, ['class' => 'required form-control']) !!}
+		{!! Form::text('title', null, ['class' => 'form-control required']) !!}
 		{!! $errors->first('title', '<div class="text-danger">:message</div>') !!}
 	</div>
 	

@@ -16,7 +16,7 @@
 	
 	<div class="form-group">
 		{!! Form::label('title', 'Title:') !!}
-		{!! Form::text('title', null, ['class' => 'form-control	required']) !!}
+		<input type="text" name="title" class="form-control required" value="<?php if(!empty($question->title)){ echo $question->title; }?>">
 		{!! $errors->first('title', '<div class="text-danger">:message</div>') !!}
 	</div>
 	<div class="form-group">
@@ -47,6 +47,15 @@
 		{!! $errors->first('description_2', '<div class="text-danger">:message</div>') !!}
 	</div>
 	
+	<div class="form-group">
+						
+		<label for="sort[0]"> Sort Question  :</label>
+		&nbsp;&nbsp;&nbsp;
+		<input type="number" name="sort_question" class = 'form-control required'  value = "<?php if(!empty($question['sort_question'])){ echo $question['sort_question'];} ?>">
+		<div class="text-danger"></div>
+	
+				
+	</div>
 	<div class="form-group">
 		{!! Form::submit(isset($model) ? 'Update' : 'Save', ['class' => 'btn btn-primary']) !!}
 	</div>

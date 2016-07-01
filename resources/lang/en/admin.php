@@ -43,6 +43,11 @@ return [
 			'all' => 'All Answers'
 			
 		],
+		'quoterequests' => [
+			'title' => 'QuoteRequests',
+			'all' => 'All QuoteRequests'
+			
+		],
 		'roles' => 'Roles',
 		'permissions' => 'Permissions',
 		'categories' => 'Categories'

@@ -1,17 +1,14 @@
 @if(isset($model))
 	
 		{!! Form::model($model, ['method' => 'PUT', 'files' => true,'id'=>'AnswerForm', 'route' => ['admin.answers.update', $model->id]]) !!}
-	
-	
-		
+
 @else
 {!! Form::open(['files' => true, 'route' => 'admin.answers.store','id'=>'AnswerForm']) !!}
 @endif
 	<div class="form-group">
 		
 	@if(!empty($qid))
-	
-		
+
 		<input type="hidden" name="qid" class="form-control" value="<?php echo $qid ;?>">
 
 	@endif
@@ -97,6 +94,8 @@
 		{!! Form::submit(isset($model) ? 'Update' : 'Save', ['class' => 'btn btn-primary']) !!}
 	</div>
 {!! Form::close() !!}
+
+
 
 @section('style')
 <link href="{!! admin_asset('adminlte/css/custom.css') !!}" rel="stylesheet" type="text/css" />

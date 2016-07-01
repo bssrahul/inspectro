@@ -1,0 +1,253 @@
+<?php $__env->startSection('content-header'); ?>
+	<h1>
+		All Quote Request (<?php echo $quotes->count(); ?>)
+		&middot;
+		
+		
+	
+		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
+		
+	<!--	<small class="searchBox">	<input  type="text" name="search" id="search" class = 'form-control searchBox'  /></small><label class="searchLabel" > Search </label> -->
+	</h1>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+	<?php if(empty($request_id)){?>
+	<table class="table">
+		<thead>
+			<th>No</th>
+			<th>Full Name</th>
+			<th>Contact Mode</th>
+			<th>Zip Code</th>
+			<th>Request Date</th>
+			<th>Service Request Date</th>
+			<th>Status</th>
+			<th class="text-center">Action</th>
+		</thead>
+		<tbody>
+			<?php foreach($quotes as $k=>$quote): ?>
+			<tr>
+				<td><?php echo $no; ?></td>
+				<td><?php echo $quote->full_name; ?></td>
+				<td><?php echo $quote->contact_mode; ?></td>
+				<td><?php echo $quote->zipcode; ?></td>
+				<td><?php echo date('F d, Y', strtotime($quote->created_at)); ?></td>
+				<td><?php echo date('F d, Y', strtotime($quote->service_request_date)); ?></td>
+				<td>
+					<?php if($quote->status == 0): ?>
+						<span class='label label-new'>New</span>
+					<?php elseif($quote->status == 1): ?>
+					  <span class='label label-deactive '>Pending</span>
+					<?php else: ?>
+					  <span class='label label-active '>Complete</span>
+					<?php endif; ?>
+				
+				</td>
+				</td>
+	
+				<td class="text-center">
+				
+					<?php echo link_to_route('admin.quotes.index', 'View Request', ['reqid'=>$quote->id]); ?>
+
+				<!--	<button type="button"  data-rel="<?php echo $quote->id; ?>" data-toggle="modal" data-target="#myModal">
+						View Request
+					</button> -->
+				
+					&middot;
+					<?php echo $__env->make('admin::partials.modal', ['data' => $quote, 'name' => 'quotes'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</td>
+			</tr>
+			<?php $no++ ;?>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+	<?php }else{ ?>
+	
+		<table class="table_info">
+		<thead >
+			<?php foreach($quotes as $k=>$quote): ?>
+		<tr>
+			<td><label> Name :</label></td><td><?php echo $quote->full_name; ?></td>
+		</tr>
+		<tr>
+			<td><label>Zip Code</label></td><td><?php echo $quote->zipcode; ?></td>
+		</tr>
+		<tr>
+			<td><label> Contact Detail :</label></td><td ><?php echo $quote->contact_mode; ?></td>
+		
+		</tr>
+		<tr>
+			<td><label> Request Date :</label></td><td ><?php echo date('F d, Y', strtotime($quote->created_at)); ?></td>
+		
+		</tr>
+		<tr>
+			<td><label> Service Request Date :</label></td><td ><?php echo date('F d, Y', strtotime($quote->service_request_date)); ?></td>
+		
+		</tr>
+		<tr> </tr>
+		<tr>
+			<td colspan="2">	
+			<table class="table">
+				<thead class="thead-default">
+				
+				<?php foreach($selOpArr as $selOpdata){ ?>
+				<tr class="mid">
+				 	  <td><?php echo $selOpdata->qid;?></td>
+				</tr>
+					<?php $ttl= count($selOpdata); 
+					for($i=2;$i<= $ttl ; $i++){ ?>
+					<tr >
+						<td><?php echo $selOpdata->op1;?></td>
+					</tr>
+				<?php } } ?>
+				</thead>
+							
+				
+			</table>
+				</td>
+		</tr>
+				</thead>
+		
+			<?php endforeach; ?>
+	</table>
+	
+	
+	
+	<?php } ?>
+	<div class="text-center">
+		<?php echo pagination_links($quotes); ?>
+
+	</div>
+	
+	
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('style'); ?>
+<style>
+.table_info{
+	
+	width:70%;
+	background-color:#e1e1e1;
+	text-align:center;
+	margin: 5% 10%;
+	padding:50px;
+}
+td label{
+	float:left;
+	margin: 3% 10%;
+	color:#331a00;
+	font-size:16px;
+}
+.mid{
+	//float:left;
+	//padding-left:10px;
+	//left:0px;
+	font-weight:bold;
+	background-color:#331a00;
+	color:#fff;
+	font-size:16px;
+	
+}
+
+
+.active{
+	color:green;
+}
+.deactive{
+	color:red;
+}
+.label-deactive {
+    background-color: #f56954 !important;
+}
+.label-new {
+    background-color: #66b3ff !important;
+}
+.label-active {
+    background-color: #5cb85c;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+	
+}
+.label-deactive {
+    background-color: #f56954 !important;
+}
+.label-active {
+    background-color: #5cb85c;
+}
+.label-date {
+    background-color: #660000;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+	
+}
+.searchBox{
+	float:right;
+	margin-right:5%;
+	
+}
+.searchLabel{
+	float:right;
+	margin-right:3%;
+	font:10px !important;
+	color: lightblue !important;
+	font-style: oblique;
+}
+</style>
+<?php $__env->stopSection(); ?>
+
+
+<?php $__env->startSection('script'); ?>
+
+
+	<script type="text/javascript">
+			/* $(document).ready(function() {
+				//alert('hello');
+				$('#search').keyup(function(){
+					var data=document.getElementById('search').value;
+					alert(data);
+						$.ajax({
+							dataType: "data",
+							url: '/search_results',
+							data: {keyword: $('#your-field').value()},
+							success: function (result) {
+								// update your page with the result json
+								console.log(result);
+							},
+						});
+				});
+	
+				
+				
+				
+			}); */
+			
+			 $("#myBtn").click(function(){
+        $("#myModal").modal();
+    });
+	</script>
+	
+	
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

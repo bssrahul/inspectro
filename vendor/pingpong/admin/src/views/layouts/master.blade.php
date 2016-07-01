@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Administrator | @yield('title', 'Dashboard')</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+	
     @include('admin::partials.style')
     @yield('style')
 </head>

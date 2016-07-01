@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2016 at 01:58 PM
+-- Generation Time: Jul 01, 2016 at 02:43 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -104,7 +104,8 @@ INSERT INTO `answers` (`id`, `question_id`, `answers`, `custom_answer`, `sort`, 
 (84, 15, 'sdfsd', '0', 1, 19, '', '2016-06-29 12:17:31', '2016-06-29 12:17:31'),
 (85, 15, 'hdffd', '0', 2, 19, 'hello how r u? fdg dfg', '2016-06-29 12:19:45', '2016-06-29 12:20:01'),
 (86, 15, '1', 'text', 1, 19, '1', '2016-06-29 12:23:46', '2016-06-29 12:23:46'),
-(87, 15, '2', 'date', 2, 19, '2', '2016-06-29 12:23:46', '2016-06-29 12:23:46');
+(87, 15, '2', 'date', 2, 19, '2', '2016-06-29 12:23:46', '2016-06-29 12:23:46'),
+(88, 19, 'dfdgfg', '0', 0, 0, '', '2016-06-30 12:32:05', '2016-06-30 12:32:05');
 
 -- --------------------------------------------------------
 
@@ -378,6 +379,7 @@ CREATE TABLE `questions` (
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'question title',
   `description_1` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the top',
   `description_2` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the bottom',
+  `sort_question` int(11) NOT NULL,
   `form_type_id` int(11) NOT NULL COMMENT 'this is the id of form type -> table form_types',
   `other_custom_field` int(11) NOT NULL DEFAULT '0' COMMENT 'if this is 1 the user will be allowed to enter an individual answer text with other options -> the answer text will be stored in quote_requests_answers',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -388,25 +390,25 @@ CREATE TABLE `questions` (
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `description_2`, `form_type_id`, `other_custom_field`, `created_at`, `updated_at`) VALUES
-(1, 0, 'fdsgsdg', 'dfgdfgfg', 'fdgdfgdfg', 1, 0, '2016-06-25 14:08:06', '2016-06-25 14:08:06'),
-(10, 9, 'dfgdfgd', 'dfgdfgdfg', 'dfgdfgdfgdfg', 1, 0, '2016-06-28 08:41:12', '2016-06-28 08:41:12'),
-(2, 1, 'What is your budget?', 'What is your budget?', 'What is your budget?', 1, 0, '2016-06-25 14:08:39', '2016-06-25 14:08:39'),
-(3, 2, 'What kind of style you want?', 'What kind of style you want?', 'What kind of style you want?.', 1, 0, '2016-06-25 14:10:30', '2016-06-27 10:29:00'),
-(4, 2, 'Please Choose Budget', 'Please Choose Budget', 'Please Choose Budget', 1, 0, '2016-06-25 14:10:58', '2016-06-25 14:12:11'),
-(5, 3, 'fgdfgdf', 'gfdgfdg', 'dfgdfgdf', 1, 0, '2016-06-27 11:44:15', '2016-06-27 11:44:15'),
-(7, 3, 'dfhbdf', 'bcvbcvvcbc', 'bcvbcbcvbc', 2, 0, '2016-06-27 12:20:57', '2016-06-27 12:21:04'),
-(8, 5, 'What king of painting you want?', 'What king of painting you want?', 'What king of painting you want?', 2, 0, '2016-06-27 12:51:43', '2016-06-27 12:54:48'),
-(11, 9, 'fdgdfgdf', 'fgdgdfgf', 'fdgdfgdfg', 2, 0, '2016-06-28 08:56:29', '2016-06-28 08:56:29'),
-(12, 9, 'fdfdfdf', '123abc', '123', 2, 0, '2016-06-28 08:59:10', '2016-06-28 10:18:35'),
-(13, 9, '67876abc12345', '67867abc123454', '678678fdghgfds', 3, 0, '2016-06-28 09:01:27', '2016-06-28 09:18:06'),
-(15, 10, 'abc', 'abc', 'abc', 1, 0, '2016-06-28 09:30:47', '2016-06-28 09:30:47'),
-(19, 10, 'fdgfdg', 'gfdgfg', 'fdgdf', 1, 0, '2016-06-28 11:47:53', '2016-06-28 11:47:53'),
-(23, 12, 'abc', 'abc', 'abc', 2, 0, '2016-06-29 08:24:56', '2016-06-29 08:24:56'),
-(21, 9, 'ABCD', 'ABCD', 'ABCD', 1, 1, '2016-06-28 15:16:53', '2016-06-28 15:21:27'),
-(22, 12, 'new Question 1', 'new Question 1', 'new Question 1', 1, 1, '2016-06-28 15:34:54', '2016-06-28 15:34:54'),
-(24, 12, 'dfdfg', 'ffdg', 'dfgdfg', 1, 1, '2016-06-29 08:43:00', '2016-06-29 08:43:00'),
-(25, 10, 'fdgdf', 'fdgdf', 'dfgdfg', 2, 0, '2016-06-29 09:22:13', '2016-06-29 09:22:13');
+INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `description_2`, `sort_question`, `form_type_id`, `other_custom_field`, `created_at`, `updated_at`) VALUES
+(1, 0, 'fdsgsdg', 'dfgdfgfg', 'fdgdfgdfg', 0, 1, 0, '2016-06-25 14:08:06', '2016-06-25 14:08:06'),
+(10, 9, 'dfgdfgd', 'dfgdfgdfg', 'dfgdfgdfgdfg', 0, 1, 0, '2016-06-28 08:41:12', '2016-06-28 08:41:12'),
+(2, 1, 'What is your budget?', 'What is your budget?', 'What is your budget?', 0, 1, 0, '2016-06-25 14:08:39', '2016-06-25 14:08:39'),
+(3, 2, 'What kind of style you want?', 'What kind of style you want?', 'What kind of style you want?.', 0, 1, 0, '2016-06-25 14:10:30', '2016-06-27 10:29:00'),
+(4, 2, 'Please Choose Budget', 'Please Choose Budget', 'Please Choose Budget', 0, 1, 0, '2016-06-25 14:10:58', '2016-06-25 14:12:11'),
+(5, 3, 'fgdfgdf', 'gfdgfdg', 'dfgdfgdf', 0, 1, 0, '2016-06-27 11:44:15', '2016-06-27 11:44:15'),
+(7, 3, 'dfhbdf', 'bcvbcvvcbc', 'bcvbcbcvbc', 0, 2, 0, '2016-06-27 12:20:57', '2016-06-27 12:21:04'),
+(8, 5, 'What king of painting you want?', 'What king of painting you want?', 'What king of painting you want?', 0, 2, 0, '2016-06-27 12:51:43', '2016-06-27 12:54:48'),
+(11, 9, 'fdgdfgdf', 'fgdgdfgf', 'fdgdfgdfg', 0, 2, 0, '2016-06-28 08:56:29', '2016-06-28 08:56:29'),
+(12, 9, 'fdfdfdf', '123abc', '123', 0, 2, 0, '2016-06-28 08:59:10', '2016-06-28 10:18:35'),
+(13, 9, '67876abc12345', '67867abc123454', '678678fdghgfds', 0, 3, 0, '2016-06-28 09:01:27', '2016-06-28 09:18:06'),
+(15, 10, 'abc', 'abc', 'abc', 0, 1, 0, '2016-06-28 09:30:47', '2016-06-28 09:30:47'),
+(19, 10, 'fdgfdg', 'gfdgfg', 'fdgdf', 0, 1, 0, '2016-06-28 11:47:53', '2016-06-28 11:47:53'),
+(23, 12, 'abc', 'abc', 'abc', 0, 2, 0, '2016-06-29 08:24:56', '2016-06-29 08:24:56'),
+(21, 9, 'ABCD', 'ABCD', 'ABCD', 0, 1, 1, '2016-06-28 15:16:53', '2016-06-28 15:21:27'),
+(22, 12, 'new Question 1', 'new Question 1', 'new Question 1', 0, 1, 1, '2016-06-28 15:34:54', '2016-06-28 15:34:54'),
+(24, 12, 'dfdfg', 'ffdg', 'dfgdfg', 0, 1, 1, '2016-06-29 08:43:00', '2016-06-29 08:43:00'),
+(25, 10, 'fdgdf', 'fdgdf', 'dfgdfg', 0, 2, 0, '2016-06-29 09:22:13', '2016-06-29 09:22:13');
 
 -- --------------------------------------------------------
 
@@ -416,12 +418,25 @@ INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `descript
 
 CREATE TABLE `quote_requests` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `contact_mode` varchar(255) NOT NULL,
+  `zipcode` int(11) NOT NULL,
   `selected_options` text NOT NULL,
-  `status` int(2) NOT NULL,
-  `created_at` datetime NOT NULL
+  `service_request_date` datetime NOT NULL,
+  `status` int(2) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `quote_requests`
+--
+
+INSERT INTO `quote_requests` (`id`, `full_name`, `contact_mode`, `zipcode`, `selected_options`, `service_request_date`, `status`, `created_at`, `updated_at`) VALUES
+(2, 'Rohit Kumar', 'rohitbss@mailinator.com', 136118, '[{"qid":"5","op1":"hello","op2":"jai"},{"qid":"6","op1":"hello","op2":"jai"},{"qid":"7","op1":"hello","op2":"jai"},{"qid":"8","op1":"hello","op2":"jai"}]', '2016-07-01 00:00:00', 0, '2016-07-01 07:28:42', '2016-07-01 07:28:42'),
+(3, 'Sukant Sharma ', 'sukant@mobility.com', 136118, '[{"qid":"5","op1":"hello","op2":"jai"},{"qid":"6","op1":"hello","op2":"jai"},{"qid":"7","op1":"hello","op2":"jai"},{"qid":"8","op1":"hello","op2":"jai"}]', '2016-07-01 00:00:00', 0, '2016-07-01 07:28:54', '2016-07-01 07:28:54'),
+(5, 'Vaibhav Bharti', 'Vaibhav@mobilyte.com', 136118, '[{"qid":"5","op1":"hello","op2":"jai"},{"qid":"6","op1":"hello","op2":"jai"},{"qid":"7","op1":"hello","op2":"jai"},{"qid":"8","op1":"hello","op2":"jai"}]', '2016-07-01 00:00:00', 0, '2016-07-01 07:29:02', '2016-07-01 07:29:02'),
+(6, 'Rahul Jain', 'rahul@mobilyte.com', 136118, '[{"qid":"5","op1":"hello","op2":"jai"},{"qid":"6","op1":"hello","op2":"jai"},{"qid":"7","op1":"hello","op2":"jai"},{"qid":"8","op1":"hello","op2":"jai"}]', '2016-07-01 00:00:00', 0, '2016-07-01 07:29:09', '2016-07-01 07:29:09');
 
 -- --------------------------------------------------------
 
@@ -509,7 +524,7 @@ INSERT INTO `services` (`id`, `title`, `description`, `status`, `created_at`, `u
 (2, 'Hair Saloon', 'Hair Saloon', 1, '2016-06-25 14:07:23', '2016-06-25 14:07:23', 0, 0),
 (3, 'dfdfd', 'dfdfd', 1, '2016-06-27 11:43:16', '2016-06-27 11:43:16', 0, 0),
 (9, '123456rddfg', '123456rdf', 1, '2016-06-28 08:23:43', '2016-06-28 10:18:12', 0, 0),
-(10, 'polishing', 'polishing', 0, '2016-06-28 09:30:26', '2016-06-29 13:40:05', 0, 0),
+(10, 'polishing', 'polishing', 0, '2016-06-28 09:30:26', '2016-06-30 07:39:21', 0, 0),
 (11, 'dfd', 'cvc', 1, '2016-06-28 13:10:54', '2016-06-29 13:40:06', 0, 0),
 (12, 'new service', 'new service', 1, '2016-06-28 15:34:26', '2016-06-29 14:26:36', 0, 0);
 
@@ -707,7 +722,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 --
 -- AUTO_INCREMENT for table `articles`
 --
@@ -757,7 +772,7 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `quote_requests`
 --
 ALTER TABLE `quote_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `roles`
 --

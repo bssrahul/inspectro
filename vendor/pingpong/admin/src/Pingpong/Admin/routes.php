@@ -154,7 +154,19 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
                 'destroy' => 'admin.answers.destroy',
             ]
         ]);
-		
+		Route::resource('quotes', 'QuotesController', [
+            'except' => 'show',
+            'names' => [
+                'index' => 'admin.quotes.index',
+                'create' => 'admin.quotes.create',
+                'store' => 'admin.quotes.store',
+                'show' => 'admin.quotes.show',
+                'update' => 'admin.quotes.update',
+                'edit' => 'admin.quotes.edit',
+                'destroy' => 'admin.quotes.destroy',
+                'request' => 'admin.quotes.request',
+            ]
+        ]);
 		Route::resource('sqoptions', 'SqoptionsController', [
             'except' => 'show',
             'names' => [
