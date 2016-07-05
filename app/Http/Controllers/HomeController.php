@@ -83,20 +83,22 @@ class HomeController extends Controller {
 	
 	   }
 	
-	   
+	   session_start();
+	   $_SESSION['serviceId']=$serviceId;
 	  
 	   if(isset($_REQUEST['backQid'])){
 		  
 		   
 		   $backQid=$_REQUEST['backQid'];
+		   $_SESSION['backQid']=$backQid;
 		// echo "<script> alert($backQid); </script>";
 	  
 		//echo "backQid".gettype($backQid);
    //  echo"ghgggggggggggggggggggggggggg"; print_r($backQid);
 	
 	  //die;
-	   $Qid = $_REQUEST['Qid'];
-	  
+	  $Qid = $_REQUEST['Qid'];
+	  $_SESSION['Qid']=$Qid;
 	   //$questions = DB::table('questions')->where('service_id',$serviceId)->get();
 	   $CqueParent = DB::table('services')->where('title','Common Ques')->first();
 	   $compQues = DB::table('questions')->where('service_id',$CqueParent->id)->get();
@@ -190,7 +192,7 @@ class HomeController extends Controller {
 								 
 		if($queData->other_custom_field==1)
 		{
-			$popup .=   '<li class="other" ><span><input type="checkbox"></span> <input type="text" placeholder="Other">
+			$popup .=   '<li class="other" ><input type="text" placeholder="Other">
 					<div class="error-box"><p>Fill Details</p></div>
 				   </li>';
 		}
@@ -208,7 +210,7 @@ class HomeController extends Controller {
 			// {
 				// $popup .= '<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-current_id="'.$Qid.'" data-serviceId='.$serviceId.'  id="myBtn3">';
 			// }
-				$popup .= '<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-current_id="'.$Qid.'" data-serviceId='.$serviceId.'  id="myBtn3">';
+				$popup .= '<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-current_id="'.$Qid.'" data-serviceId='.$serviceId.'>';
 				//$popup .= '<input type="submit" value="Submit" class="btn btn-success submit " data-serviceId='.$serviceId. ' id="myBtn3">';
 				if($backQid!='undefined'){
 				$popup .= '<a href="javascript:void(0)"  title="Back" data-serviceId='.$serviceId.' data-qid="'.$backQid.'"  class="back"> < Back</a>';}
@@ -220,4 +222,20 @@ class HomeController extends Controller {
 			 echo $popup;die;
 	   
    }
-}}
+}
+
+	public function localStorage()
+	{
+	   session_start();
+	   $inputData=json_decode( $_REQUEST['data'], true );
+	   //print_r($inputData['options']);die;
+	   $options=json_encode($inputData['options']);
+	   if(!isset($_SESSION['userTmpId']) && $_SESSION['userTmpId'] =='')
+	   {
+			$_SESSION['userTmpId']=rand(111,99999);
+	   }
+	   
+	   DB::table('localstorage')->insert(['service_id' => $inputData['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'question_id'=>$inputData['QId'],'options'=>$options]);
+	   die;
+	}
+}

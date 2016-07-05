@@ -76,10 +76,53 @@
     
    </div> 
 <!--[/Wecome Popup]-->
+<?php session_start(); ?>
 
+<!--[Popup] 8-->
+	<div class="modal fade" role="dialog" id="staticQ1">
+     <div class="modal-dialog popup-1">	
+       <div class="modal-content">  
+		<div class="inner-popup">
+		<!--popup head-->
+			<div class="pop-head">
+			<!--progress-->
+			<div class="top-progress">
+				  <div class="progress">
+					  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:90%">
+					    90% Completed
+					  </div>
+			       </div>
+			  </div>
+			<!--progress-->
+          <p class="phead queTitle">Please confirm where you need <br>the service.   </p>
+			</div>
+		<!--/popup head-->
+		<!--popup Content-->
+	<div class="popup-cont">
+		 <ul class="plist">
+		   <li class="option">
+ 		   <input type="text" name="zip" class="txt childbox" placeholder="Zip Code">
+				<div class="error-box"><p>Fill Details</p></div>
+		   </li>
+		   
+		 </ul>
+	</div>
+	<!--/popup Content-->
+	<!--Popup footer-->
+	<div class="popup-foot">
+		<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-current_id='0' data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>'>
+		<a class="back"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='<?php if(isset($_SESSION['Qid'])){echo $_SESSION['Qid']; }?>' title="Back" href="javascript:void(0)">Back</a>
+	</div>
+	<!--/Popup footer-->
+
+		</div>
+       </div>      
+     </div>
+   </div> 
+<!--[/Popup]8 -->
 
 <!--[Popup] 9-->
-	<div id="staticQ1">
+	<div id="staticQ2">
      <div class="modal-dialog popup-1" >	
        <div class="modal-content">  
 		<div class="inner-popup">
@@ -94,37 +137,34 @@
 			       </div>
 				</div>
 		
-				<p class="phead queTitle" id='C1'> When do you need painting? </p>
+				<p class="phead queTitle" id='C1'>How would you like to hear from professionals? </p>
 			</div>
 				
 			<div class="popup-cont">
 				 <ul class="plist-2">		
 						<li>
 							<div class="option-txt">
-							<p class="phead">  How would you like to hear from professionals? </p>
-							<input type="checkbox"> I want quotes by email only</br>
-							<input type="checkbox"> I want quotes by email and text message
-							<p> By selecting this option, you electronically authorize Thumbtack to send you automated text messages to notify you of quotes from Thumbtack pros. Receiving text messages is optional. </p>
+							<p class="phead">  </p>
+							<input type="radio" name="comm_medium" class='childbox' id="email"> I want quotes by email only</br>
+							<input type="radio" name="comm_medium" class='childbox' id="email_text"> I want quotes by email and text message
+							<p> By selecting this option, you electronically authorize Inspectaro to send you automated text messages to notify you of quotes from Inspectaro pros. Receiving text messages is optional. </p>
 							</div>
-					 
-							<label>What's your email address? </label>
-							<input type="text" placeholder="Click to pick a date">
-							<div class="error-box"><p>Fill Details</p></div>
+							
+							<label class="for_email">What's your email address? </label>
+							<input type="text" name="email" class="for_email childbox" placeholder="Enter Email Id">
+							<div class="error-box" class="for_email"><p>Fill Details</p></div>
 					  
-							<label>Phone number </label>
-							<input type="text" placeholder="Ex. “2pm”">	
-							<div class="error-box"><p>Fill Details</p></div>
+							<label class="for_phone">Phone number </label>
+							<input type="text" name="phone" class="for_phone childbox" placeholder="Ex. 9864646456">	
+							<div class="error-box" class="for_phone"><p>Fill Details</p></div>
 						</li>
-						<li>
-						
-						</li>
-				   
+			
 				 </ul>
 			</div>
-			
+		
 	<div class="popup-foot">
-		<input type="submit" value="NEXTiiiiii" class="btn btn-success submit nextQue"  id="myBtn11">
-		<a href=""  title="Back" class="back">Back</a>
+		<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-current_id='p2' data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>'>
+		<a class="back"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='0' title="Back" href="javascript:void(0)">Back</a>	
 	</div>
 	
 
@@ -135,7 +175,7 @@
 <!--[/Popup]9 -->
 
 <!--[Popup] 10-->
-	<div class="modal fade"  role="dialog" id="staticQ2">
+	<div class="modal fade"  role="dialog" id="staticQ3">
      <div class="modal-dialog popup-1" >	
        <div class="modal-content">  
 		<div class="inner-popup">
@@ -150,14 +190,14 @@
 			       </div>
 			  </div>
 			<!--progress-->
-          <p class="phead">Please enter your full name.  </p>
+          <p class="phead queTitle">Please enter your full name.  </p>
 			</div>
 		<!--/popup head-->
 		<!--popup Content-->
 	<div class="popup-cont">
 		 <ul class="plist">
 		   <li class="option">
- 		   <input type="text" class="txt" placeholder="First and Last Name"> 
+ 		   <input type="text" name="name" class="txt childbox" placeholder="First and Last Name"> 
 			<div class="error-box"><p>Fill Details</p></div>
 		   </li>
 		   
@@ -166,8 +206,8 @@
 	<!--/popup Content-->
 	<!--Popup footer-->
 	<div class="popup-foot">
-		<input type="submit" value="NEXT" class="btn btn-success submit nextQue"  id="myBtn12">
-		<a href=""  title="Back" class="back">Back</a>
+		<input type="submit" value="NEXT" class="btn btn-success submit nextQue"  data-current_id='p3' data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>'>
+		<a class="back"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='p2' title="Back" href="javascript:void(0)">Back</a>
 		
 		<div class="tc-area">
 			<p> By clicking Get Quotes you agree to Thumbtack's
@@ -186,7 +226,7 @@
 
 
 <!--[/Popup] 11 -->
-	<div class="modal fade"  role="dialog" id="staticQ3">
+	<div class="modal fade"  role="dialog" id="staticQ4">
      <div class="modal-dialog popup-1" >	
        <div class="modal-content">  
 		<div class="inner-popup">	
@@ -202,8 +242,8 @@
 	<div class="popup-foot pf-done">
 		<p>We’re reaching out to painter in your area
 <span>who are qualified to complete your painting project</span></p>
-		<input type="submit" value="Whats Next" class="btn btn-success submit" id="myBtn2">		
-			<a href=""  title="Back" class="back">Cancel Project</a>
+		<input type="submit" value="Whats Next" class="btn btn-success submit" data-current_id='p4' data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>'>
+		<a class="back"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='p3' title="Back" href="javascript:void(0)">Back</a>
 	</div>
 <!--/Popup footer-->
 		</div>
@@ -266,13 +306,16 @@ $(document).ready(function(){
 	});
 
 });	
+
+$('.for_email').hide();
+$('.for_phone').hide();
 $(document).on('click','.childbox',function(){
 	
 	$('.innerAns').hide();
 	var nexQueId=$(this).data('next');
 	$('.nextQue').attr('data-qid',nexQueId);
 	
-	if(nexQueId==0)
+	/* if(nexQueId==0)
 	{
 		//jQuery("#staticQ1").detach().appendTo('#myModal')
 		$('.nextQue').attr('data-qid','p1');
@@ -282,12 +325,21 @@ $(document).on('click','.childbox',function(){
 	{
 		$('.nextQue').attr('data-qid','p2');
 		return;
+	} */
+	if($('#email').is(':checked')){
+		$('.for_email').show();
+		$('.for_phone').hide();
 	}
-	if($(this).is(':checked')) { 
+	if($('#email_text').is(':checked')){
+		$('.for_email').show();
+		$('.for_phone').show();
+	}
+	
+	/* if($(this).is(':checked')) { 
 	$(this).parent('li').next().find('.innerAns').show();
-	}
+	} */
 });
-
+var queArray=new Array();
 $(document).on('click','.nextQue,.back',function(){
 	
 	
@@ -296,104 +348,156 @@ $(document).on('click','.nextQue,.back',function(){
 			alert("Please choose Any Option");
 			exit;
 		}else{
-	
-
-	var backQueId = $(this).data('current_id');
+	var backQueId = $('.nextQue').data('current_id');
+	console.log('backQueId'+backQueId);
+	/* if(backQueId==0)
+	{
+		//alert(backQueId);
+		backQueId="<?php if(isset($_SESSION['backQid'])){ echo $_SESSION['backQid']; }?>";
+		console.log('back'+"<?php echo $_SESSION['backQid'] ; ?>");
+		//alert(backQueId);
+	} */
 	var serviceId=$(this).data('serviceid');
 	$('.innerAns').hide();
 	
 	var Qid=$(this).attr('data-qid');
+		
+	if (typeof(Storage) !== "undefined") {
+	if($(this).hasClass('nextQue') && ($('.childbox').is(':checked') || $('.childbox').val().length>0))
+	{
+		//alert('hello');
+		//alert($.inArray(backQueId,queArray));
+		if($.inArray(backQueId,queArray)==-1)
+		{
+			//alert(backQueId);
+			queArray.push(backQueId);
+		}
+		console.log("Qarray "+queArray);
+		var data={};
+	    var OptArray=new Array();
+		data.serviceId=serviceId;
+		data.QId=backQueId;
+			var $j_object=$('.childbox');
+			$j_object.each( function(i) {
+				
+			if(($(this).attr('type')=='checkbox') || ($(this).attr('type')=='radio')){
+			if($(this).is(':checked'))
+			{
+				optionId=$(this).attr('value');	
+				OptArray.push(parseInt(optionId));
+			}}
+			if($(this).attr('type')=='text'){
+				var value=$.trim($(this).val());
+				if(value.length>0)
+				{
+					var opName=$(this).attr('name');
+					var opValue=$(this).attr('value');
+					switch (opName) {
+					case 'email':
+						OptArray.push({email:value});
+						break;
+					case 'phone':
+						OptArray.push({phone:value});
+						break;
+					case 'zip':
+						OptArray.push({zip:value});
+						break;
+					case 'name':
+						OptArray.push({name:value});
+						break;
+					case 'customAns':
+						OptArray.push({customAns:value});
+						
+				}		
+				}
+			}
+			});
+			data.options=OptArray;
+		console.log(data);
+		var CSRF_TOKEN = "<?php echo csrf_token(); ?>";
+	$.ajax({
+		url: '<?php echo url('/')."/localstorage"; ?>',
+		type: 'get',
+		data: 'data='+JSON.stringify(data)+'&_token='+CSRF_TOKEN,
+		success: function (RetData){   		
+		console.log(RetData);		
+		}
+	}); 
+	}
+	} else {
+    // Sorry! No Web Storage support..
+	alert('your browser is out of date! Update It');
+	}
 	
 	if(Qid==0)
 	{
+		//alert(Qid);
 		var popup = $('#staticQ1').html();
-		
+		//alert(popup);
 		$('#myModal').html(popup);
-		return;
-	}
-	
-	if(Qid=='p1')
-	{
+		//$('childBox').attr('data-next','p2');
+		$('.nextQue').attr('data-qid','p2');
 		
-		var popup = $('#staticQ2').html();
-		
-		
-		$('#myModal').html(popup);
 		return;
 	}
 	
 	if(Qid=='p2')
 	{
-		var popup = $('#staticQ3').html();
-		alert(popup);
+		
+		var popup = $('#staticQ2').html();
+		//alert(popup);
 		$('#myModal').html(popup);
+		//$('childBox').attr('data-next','p3');
+		$('.nextQue').attr('data-qid','p3');
+		
 		return;
 	}
 	
-	
-	if (typeof(Storage) !== "undefined") {
-    // Code for localStorage/sessionStorage.
-	//alert('localstorage active');
-	if($('.queTitle'))
+	if(Qid=='p3')
 	{
-		var QTitleid = $('.queTitle').attr('id');
-		
-		var optionArr = new Array();
-		var questionsArr = new Array();
-		
-		qData = {};
-		
-		qData.q_id = backQueId;
-		qData.next_q_id = Qid;
-		
-		questionsArr.push(qData);
-		
-		var $j_object=$('.childbox');
-		
-		var optionId,queryString;
-		
-		$j_object.each( function(i) { 
-			optionId=$(this).attr('value');
-			
-			var data = {};
-			data.option_id = optionId;
-			optionArr.push(data);
-	
-			} );
-		
-		if(optionArr.length>0){
-			//questionsArr.push(optionArr);
-		}
-		
-		if(questionsArr.length>0){
-			quoteOptionsArr['serviceId_'+serviceId]['Questions'] = questionsArr;
-		}
-		console.log(quoteOptionsArr);
-	}
-	} else {
-    // Sorry! No Web Storage support..
-	alert('your browser is out of date! change kar lo');
+		var popup = $('#staticQ3').html();
+		//alert(popup);
+		$('#myModal').html(popup);
+		$('.nextQue').attr('data-qid','p4');
+		return;
 	}
 	
+	if(Qid=='p4')
+	{
+		var popup = $('#staticQ4').html();
+		//alert(popup);
+		$('#myModal').html(popup);
+		
+		return;
+	}
+	
+
 	console.log("serviceId: "+serviceId);
 	console.log("Qid: "+Qid);
 	
 	  
-  var CSRF_TOKEN = "<?php echo csrf_token(); ?>";
+	var CSRF_TOKEN = "<?php echo csrf_token(); ?>";
 
 	var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
-	
+	//alert("indx:"+queArray.indexOf(Qid));
+	alert("indx:"+$.inArray(Qid,queArray));
+	if(queArray.indexOf(Qid) != -1 &&  queArray.indexOf(Qid)>0)
+	{
+		backQueIndex=queArray.index(Qid)-1;
+		alert("val:"+queArray[backQueIndex]);
+		backQueId=queArray[backQueIndex];
+	}
 	$.ajax({
 		url: '<?php echo url('/')."/nextquestion"; ?>',
 		type: 'get',
 		data: 'serviceId='+serviceId+'&backQid='+backQueId+'&Qid='+Qid+'&_token='+CSRF_TOKEN,
-		beforeSend: function( xhr ) {
+		/* beforeSend: function( xhr ) {
 				$('.inner-popup').append('<div id="loadering"><img src="'+loadingImage+'"></div>');
 				//return false;
 		},
 		complete: function() {
 			$("#loadering").remove();
-		},
+		}, */
 		success: function (data) {
 		  // alert(data);    
 				$('#myModal').html(data);
