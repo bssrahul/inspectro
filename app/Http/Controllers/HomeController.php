@@ -38,8 +38,18 @@ class HomeController extends Controller {
 	public function index()
 	{	
 		$services = DB::table('services')->select('title','id')->take(3)->get();
-		//print_r($services);die;
-		return view('home.index',compact('services'));
+		$checkEntry = 0;
+		if(@$_SESSION['serviceId']){
+			$checkEntry = DB::table('localstorage')
+						->where('service_id',$_SESSION['serviceId'])
+						->where('user_temp_id',$_SESSION['userTmpId'])
+						->get();
+		}
+		
+		 
+		return view('home.index',compact('services','checkEntry'));
+		
+		
 	}
 	/**
 	 * Show Popup Box for question to the user.
@@ -80,15 +90,12 @@ class HomeController extends Controller {
    {
 	   if(isset($_REQUEST['serviceId'])){
 	   $serviceId=$_REQUEST['serviceId'];
-	
 	   }
 	
-	   session_start();
+	  
 	   $_SESSION['serviceId']=$serviceId;
 	  
 	   if(isset($_REQUEST['backQid'])){
-		  
-		   
 		   $backQid=$_REQUEST['backQid'];
 		   $_SESSION['backQid']=$backQid;
 		// echo "<script> alert($backQid); </script>";
@@ -101,8 +108,12 @@ class HomeController extends Controller {
 	  $_SESSION['Qid']=$Qid;
 	   //$questions = DB::table('questions')->where('service_id',$serviceId)->get();
 	   $CqueParent = DB::table('services')->where('title','Common Ques')->first();
-	   $compQues = DB::table('questions')->where('service_id',$CqueParent->id)->get();
-	  
+	   $compQues   = DB::table('questions')->where('service_id',$CqueParent->id)->get();
+	   $checkEntry = DB::table('localstorage')
+						->where('service_id',$serviceId)
+						->where('user_temp_id',$_SESSION['userTmpId'])
+						->get();
+			
 		/* foreach($questions as $k=>$v)
 		{
 		  $Qids[]=$v->id;
@@ -122,11 +133,11 @@ class HomeController extends Controller {
 		} */
 		if(!empty($Qid)){
 		$queData = DB::table('questions')
-				->select(array('questions.*','option_type.*'))
+				->select(array('questions.*','option_type.*','questions.id AS que_id'))
 				->leftjoin('option_type', 'questions.form_type_id', '=', 'option_type.id')
 				->where('questions.id',$Qid)
 				->first();
-		
+		$_SESSION['lastdynamicQID']=$queData->que_id;
 		$answers=DB::table('answers')
 				->select(array('answers.*'))
 				->where('answers.question_id',$Qid)
@@ -136,6 +147,15 @@ class HomeController extends Controller {
 	   $serviceId=$queData->service_id;
 		}
 	 // print_r($formtype);die;
+	 foreach($checkEntry as $k=>$v)
+		{
+			
+			if($v->question_id==$queData->que_id && !empty($v->options))
+			{
+				$options=json_decode($v->options,true);
+				//echo "<pre>"; print_r($options);
+			}
+		}	
 	   $popup='<div class="modal-dialog popup-1">	
 				<div class="modal-content">  
 				<div class="inner-popup">
@@ -150,7 +170,7 @@ class HomeController extends Controller {
 						   </div>
 					  </div>
 		  <!--progress-->
-				  <p class="phead queTitle"  id='.$queData->id.'>'.$queData->title.'</p>
+				  <p class="phead queTitle"  id='.$queData->que_id.'>'.$queData->title.'</p>
 				  
 				  <div class="top-desc">
 					<p>'.$queData->description_1.'</p>
@@ -165,18 +185,33 @@ class HomeController extends Controller {
 							 $popup .=   '<select class="form-control">';	
 							}
 				//print_r($answers);
+		if(isset($options) && !empty($options)){
+				//
 					 foreach($answers as $k=>$v){
-						  if($formtype=='Multi Select')
+						 
+						if(isset($options)){
+							if(in_array($v->id,$options))
 							{
-						     $popup .=   '<li><input type="checkbox" class="childbox"  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'</li>';
+								$checked='checked="checked"';
+								$selected='selected';
+							}else{
+								$checked='';
+								$selected='';
+							}
+						}
+							
+							
+						  if($formtype=='Multi Select')
+							{	
+							 $popup .=   '<li><input type="checkbox" class="childbox" '.$checked.' data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'</li>';
 							}
 							if($formtype=='Single  Select')
 							{
-							 $popup .=   '<li><input type="radio" class="childbox"  name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</li>';	
+							 $popup .=   '<li><input type="radio" class="childbox" '.$checked.' name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</li>';	
 							}
 							if($formtype=='Drop Down')
 							{
-							 $popup .=   '<option class="childbox['.$k.']"  data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</option>';	
+							 $popup .=   '<option class="childbox['.$k.']" '.$selected.' data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</option>';	
 							}
 							if($v->custom_answer=="text")
 							{
@@ -192,11 +227,45 @@ class HomeController extends Controller {
 								 
 		if($queData->other_custom_field==1)
 		{
-			$popup .=   '<li class="other" ><input type="text" placeholder="Other">
+			$popup .=   '<li class="other" ><input type="text" name="customAns" placeholder="Other">
 					<div class="error-box"><p>Fill Details</p></div>
 				   </li>';
 		}
-		
+	   }else{   
+				foreach($answers as $k=>$v){
+						  if($formtype=='Multi Select')
+							{
+								
+							 $popup .=   '<li><input type="checkbox" class="childbox"  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'</li>';
+							}
+							if($formtype=='Single  Select')
+							{
+							 $popup .=   '<li><input type="radio" class="childbox"  name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</li>';	
+							}
+							if($formtype=='Drop Down')
+							{
+							 $popup .=   '<option class="childbox['.$k.']"  data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</option>';	
+							}
+							if($v->custom_answer=="text")
+							{
+							 $popup .= '<li class="other" ><input class="innerAns" name="innerAns['.$k.']"  type="text" placeholder="Enter your details">
+										<div class="error-box"><p>Fill Details</p></div>
+										</li>';
+							}
+				        
+				if($formtype=='Drop Down')
+							{
+							 $popup .=   '</select>';	
+							}
+								 
+		if($queData->other_custom_field==1)
+		{
+			$popup .=   '<li class="other" ><input type="text" name="customAns" placeholder="Other">
+					<div class="error-box"><p>Fill Details</p></div>
+				   </li>';
+		}
+	   }}
+	   
 			$popup .=  '</ul>
 				 <div class="bot-desc">
 					<p>'.$queData->description_1.'</p>
@@ -226,15 +295,21 @@ class HomeController extends Controller {
 
 	public function localStorage()
 	{
-	   session_start();
+	  
 	   $inputData=json_decode( $_REQUEST['data'], true );
-	   //print_r($inputData['options']);die;
-	   $options=json_encode($inputData['options']);
-	   if(!isset($_SESSION['userTmpId']) && $_SESSION['userTmpId'] =='')
+	  // print_r($inputData['QId']);die;
+	   $options = json_encode($inputData['options']);
+	   if(!isset($_SESSION['userTmpId']))
 	   {
+		   print_r('inlocalstoragefunction');
 			$_SESSION['userTmpId']=rand(111,99999);
 	   }
-	   
+	   $checkEntry = DB::table('localstorage')
+						->where('service_id',$inputData['serviceId'])
+						->where('user_temp_id',$_SESSION['userTmpId'])
+						->where('question_id',$inputData['QId'])
+						->delete();
+		
 	   DB::table('localstorage')->insert(['service_id' => $inputData['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'question_id'=>$inputData['QId'],'options'=>$options]);
 	   die;
 	}

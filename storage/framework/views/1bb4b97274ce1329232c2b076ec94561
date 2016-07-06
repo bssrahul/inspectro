@@ -71,12 +71,43 @@
                     </div>
                 </footer>
             <!--[/Footer]-->
+
+			<?php 
+			if($checkEntry!=0)
+			{
+				foreach($checkEntry as $key=> $value){
+				$options=json_decode($value->options,true);
+				foreach($options as $k=>$v)
+				{
+					if(isset($options[$k]['zip'])){ 
+					 $zip = $options[$k]['zip'];}
+					 
+					if(isset($options[$k]['email'])){ 
+					 $email = $options[$k]['email'];}
+					
+					if(isset($options[$k]['name'])){ 
+					 $name = $options[$k]['name'];}
+					
+					if(isset($options[$k]['phone'])){ 
+					 $phone = $options[$k]['phone'];}
+					 
+					 if(isset($email) && isset($phone))
+					 {
+						$email_text='checked';
+					 }else if(isset($email))
+					 {
+						$emailOnly='checked' ;
+					 }
+				}
+			}
+			}
+			?>
 <!--[Welcome Popup]-->
 	<div class="modal fade" id="myModal" role="dialog">
     
    </div> 
 <!--[/Wecome Popup]-->
-<?php session_start(); ?>
+
 
 <!--[Popup] 8-->
 	<div class="modal fade" role="dialog" id="staticQ1">
@@ -94,15 +125,15 @@
 			       </div>
 			  </div>
 			<!--progress-->
-          <p class="phead queTitle">Please confirm where you need <br>the service.   </p>
+          <p class="phead queTitle" id="0">Please confirm where you need <br>the service.   </p>
 			</div>
 		<!--/popup head-->
 		<!--popup Content-->
 	<div class="popup-cont">
 		 <ul class="plist">
 		   <li class="option">
- 		   <input type="text" name="zip" class="txt childbox" placeholder="Zip Code">
-				<div class="error-box"><p>Fill Details</p></div>
+ 		   <input type="text" name="zip" class="txt childbox for_zip" placeholder="Zip Code">
+				<div class="errorBox"></div>
 		   </li>
 		   
 		 </ul>
@@ -111,7 +142,7 @@
 	<!--Popup footer-->
 	<div class="popup-foot">
 		<input type="submit" value="NEXT" class="btn btn-success submit nextQue" data-current_id='0' data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>'>
-		<a class="back"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='<?php if(isset($_SESSION['Qid'])){echo $_SESSION['Qid']; }?>' title="Back" href="javascript:void(0)">Back</a>
+		<a class="back"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='<?php if(isset($_SESSION['lastdynamicQID'])){echo $_SESSION['lastdynamicQID']; }?>' title="Back" href="javascript:void(0)">Back</a>
 	</div>
 	<!--/Popup footer-->
 
@@ -122,7 +153,7 @@
 <!--[/Popup]8 -->
 
 <!--[Popup] 9-->
-	<div id="staticQ2">
+	<div  class="modal fade" role="dialog" id="staticQ2">
      <div class="modal-dialog popup-1" >	
        <div class="modal-content">  
 		<div class="inner-popup">
@@ -137,7 +168,7 @@
 			       </div>
 				</div>
 		
-				<p class="phead queTitle" id='C1'>How would you like to hear from professionals? </p>
+				<p class="phead queTitle" id='p2'>How would you like to hear from professionals? </p>
 			</div>
 				
 			<div class="popup-cont">
@@ -150,13 +181,13 @@
 							<p> By selecting this option, you electronically authorize Inspectaro to send you automated text messages to notify you of quotes from Inspectaro pros. Receiving text messages is optional. </p>
 							</div>
 							
-							<label class="for_email">What's your email address? </label>
-							<input type="text" name="email" class="for_email childbox" placeholder="Enter Email Id">
-							<div class="error-box" class="for_email"><p>Fill Details</p></div>
+							<label class="for_email_label"> What's your email address? </label>
+							<input type="text" name="email"  class="for_email childbox" placeholder="Enter Email Id">
+							<div class="errorBox for_email"></div>
 					  
-							<label class="for_phone">Phone number </label>
-							<input type="text" name="phone" class="for_phone childbox" placeholder="Ex. 9864646456">	
-							<div class="error-box" class="for_phone"><p>Fill Details</p></div>
+							<label class="for_phone_label" >Phone number </label>
+							<input type="text" name="phone"  class="for_phone childbox" placeholder="Ex. 9864646456">	
+							<div class="errorBox for_phone"></div>
 						</li>
 			
 				 </ul>
@@ -190,7 +221,7 @@
 			       </div>
 			  </div>
 			<!--progress-->
-          <p class="phead queTitle">Please enter your full name.  </p>
+          <p class="phead queTitle" id="p3">Please enter your full name.  </p>
 			</div>
 		<!--/popup head-->
 		<!--popup Content-->
@@ -198,7 +229,7 @@
 		 <ul class="plist">
 		   <li class="option">
  		   <input type="text" name="name" class="txt childbox" placeholder="First and Last Name"> 
-			<div class="error-box"><p>Fill Details</p></div>
+			<div class="errorBox"></div>
 		   </li>
 		   
 		 </ul>
@@ -206,7 +237,7 @@
 	<!--/popup Content-->
 	<!--Popup footer-->
 	<div class="popup-foot">
-		<input type="submit" value="NEXT" class="btn btn-success submit nextQue"  data-current_id='p3' data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>'>
+		<input type="submit" value="Send Request" class="btn btn-success submit nextQue"  data-current_id='p3' data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>'>
 		<a class="back"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='p2' title="Back" href="javascript:void(0)">Back</a>
 		
 		<div class="tc-area">
@@ -240,10 +271,10 @@
 <!--/popup Content-->
 <!--Popup footer-->
 	<div class="popup-foot pf-done">
-		<p>We’re reaching out to painter in your area
-<span>who are qualified to complete your painting project</span></p>
+		<p>We’re reaching out to persons in your area
+<span>who are qualified to complete your  project</span></p>
 		<input type="submit" value="Whats Next" class="btn btn-success submit" data-current_id='p4' data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>'>
-		<a class="back"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='p3' title="Back" href="javascript:void(0)">Back</a>
+		<a class="CancelProject"  data-serviceId='<?php if(isset($_SESSION['serviceId'])){echo $_SESSION['serviceId']; }?>' data-qid='p3' title="Back" href="javascript:void(0)">Cancel Project</a>
 	</div>
 <!--/Popup footer-->
 		</div>
@@ -252,7 +283,7 @@
    </div> 
 <!--[/Popup] 11 -->
  <script>
- 
+var queArray = []; 
 var quoteOptionsArr = new Array();
 		
 
@@ -273,7 +304,9 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 	
+	popupValidation();
 	$(".serviceList").click(function(){
+		queArray=[];
 		$(this).css('opacity', function(i,o){
         return parseFloat(o).toFixed(1) === '0.6' ? 1 : 0.6;
     });
@@ -307,76 +340,77 @@ $(document).ready(function(){
 
 });	
 
-$('.for_email').hide();
-$('.for_phone').hide();
 $(document).on('click','.childbox',function(){
 	
 	$('.innerAns').hide();
 	var nexQueId=$(this).data('next');
 	$('.nextQue').attr('data-qid',nexQueId);
+	popupValidation();
 	
-	/* if(nexQueId==0)
-	{
-		//jQuery("#staticQ1").detach().appendTo('#myModal')
-		$('.nextQue').attr('data-qid','p1');
-		 return;
-	}
-	if(nexQueId=='p1')
-	{
-		$('.nextQue').attr('data-qid','p2');
-		return;
-	} */
 	if($('#email').is(':checked')){
-		$('.for_email').show();
-		$('.for_phone').hide();
+		$('.for_email,.for_email_label').show();
+		$('.for_phone,.for_phone_label').hide();
 	}
 	if($('#email_text').is(':checked')){
-		$('.for_email').show();
-		$('.for_phone').show();
+		$('.for_email,.for_email_label').show();
+		$('.for_phone,.for_phone_label').show();
 	}
-	
+	var inputType1 = $('.for_email').attr('type');
+	if(inputType1=='text')
+	{
+	if($('.for_email').is(':visible')=== true)
+		{
+			errorMsg('for_email','Email');
+		}
+	}
+	var inputType2 = $('.for_email').attr('type');
+	if(inputType2=='text')
+	{
+	if($('.for_phone').is(':visible')=== true)
+		{
+			errorMsg('for_phone','phone Number');
+		}
+	}	
 	/* if($(this).is(':checked')) { 
 	$(this).parent('li').next().find('.innerAns').show();
 	} */
 });
-var queArray=new Array();
+
 $(document).on('click','.nextQue,.back',function(){
-	
-	
 	if (typeof $(this).data('qid') ==='undefined')
 		{
 			alert("Please choose Any Option");
-			exit;
+			return;
 		}else{
 	var backQueId = $('.nextQue').data('current_id');
 	console.log('backQueId'+backQueId);
-	/* if(backQueId==0)
+	/*  if(backQueId==0)
 	{
 		//alert(backQueId);
 		backQueId="<?php if(isset($_SESSION['backQid'])){ echo $_SESSION['backQid']; }?>";
 		console.log('back'+"<?php echo $_SESSION['backQid'] ; ?>");
 		//alert(backQueId);
-	} */
+	}  */
 	var serviceId=$(this).data('serviceid');
 	$('.innerAns').hide();
 	
 	var Qid=$(this).attr('data-qid');
-		
 	if (typeof(Storage) !== "undefined") {
 	if($(this).hasClass('nextQue') && ($('.childbox').is(':checked') || $('.childbox').val().length>0))
 	{
-		//alert('hello');
+		
 		//alert($.inArray(backQueId,queArray));
 		if($.inArray(backQueId,queArray)==-1)
 		{
 			//alert(backQueId);
-			queArray.push(backQueId);
+			queArray.push($.trim(backQueId));
 		}
 		console.log("Qarray "+queArray);
 		var data={};
 	    var OptArray=new Array();
 		data.serviceId=serviceId;
-		data.QId=backQueId;
+		data.QId = backQueId;
+		//alert(backQueId);
 			var $j_object=$('.childbox');
 			$j_object.each( function(i) {
 				
@@ -435,6 +469,7 @@ $(document).on('click','.nextQue,.back',function(){
 		var popup = $('#staticQ1').html();
 		//alert(popup);
 		$('#myModal').html(popup);
+		popupValidation();
 		//$('childBox').attr('data-next','p2');
 		$('.nextQue').attr('data-qid','p2');
 		
@@ -447,9 +482,11 @@ $(document).on('click','.nextQue,.back',function(){
 		var popup = $('#staticQ2').html();
 		//alert(popup);
 		$('#myModal').html(popup);
+		popupValidation();
 		//$('childBox').attr('data-next','p3');
-		$('.nextQue').attr('data-qid','p3');
-		
+		$('.nextQue').attr('data-qid','p3');		
+		$('.for_email,.for_email_label').hide();
+		$('.for_phone,.for_phone_label').hide();
 		return;
 	}
 	
@@ -458,6 +495,7 @@ $(document).on('click','.nextQue,.back',function(){
 		var popup = $('#staticQ3').html();
 		//alert(popup);
 		$('#myModal').html(popup);
+		popupValidation();
 		$('.nextQue').attr('data-qid','p4');
 		return;
 	}
@@ -467,25 +505,26 @@ $(document).on('click','.nextQue,.back',function(){
 		var popup = $('#staticQ4').html();
 		//alert(popup);
 		$('#myModal').html(popup);
-		
+		popupValidation();
 		return;
 	}
-	
-
 	console.log("serviceId: "+serviceId);
-	console.log("Qid: "+Qid);
-	
-	  
+	console.log("Qid: "+Qid);  
 	var CSRF_TOKEN = "<?php echo csrf_token(); ?>";
-
 	var loadingImage="<?php echo e(asset('/public/img/ajaxloader/ajaxloader.gif')); ?>";
-	//alert("indx:"+queArray.indexOf(Qid));
-	alert("indx:"+$.inArray(Qid,queArray));
-	if(queArray.indexOf(Qid) != -1 &&  queArray.indexOf(Qid)>0)
+	console.log("Id:"+Qid);
+	console.log("indx:"+queArray.indexOf(Qid.toString()));
+	//alert("indx:"+$.inArray(Qid,queArray));
+	//alert(queArray);
+	//alert(Qid);
+	//alert(CheckArrayIndex(queArray,$.trim(Qid)));
+	if(CheckArrayIndex(queArray,$.trim(Qid)) != -1 &&  CheckArrayIndex(queArray,$.trim(Qid))>0)
 	{
-		backQueIndex=queArray.index(Qid)-1;
-		alert("val:"+queArray[backQueIndex]);
+		backQueIndex=CheckArrayIndex(queArray,$.trim(Qid))-1;
 		backQueId=queArray[backQueIndex];
+	}else if(CheckArrayIndex(queArray,$.trim(Qid))==0)
+	{
+		backQueId='undefined';
 	}
 	$.ajax({
 		url: '<?php echo url('/')."/nextquestion"; ?>',
@@ -501,6 +540,8 @@ $(document).on('click','.nextQue,.back',function(){
 		success: function (data) {
 		  // alert(data);    
 				$('#myModal').html(data);
+				popupValidation();
+				
 				//console.log(data);
 				
 		}
@@ -523,6 +564,69 @@ $(document).ready(function() {
     });
 });
 
+
+function CheckArrayIndex(customArray,valueForCheck) {
+    var fruits = customArray;
+    var a = fruits.indexOf(valueForCheck);
+    return a;
+}
+
+function popupValidation()
+{
+	
+	$('.nextQue').prop('disabled', true);
+	var inputType = $('.childbox').attr('type');
+	var inputName = $('.childbox').attr('name');
+	//alert(inputType);
+	if(((inputType=='checkbox') || (inputType=='radio')) && $('.childbox').is(':checked'))
+	{
+		console.log('checked');
+		var nexQueId=$('.childbox').data('next');
+		$('.nextQue').attr('data-qid',nexQueId);
+		setTimeout(function(){$('.nextQue').removeAttr('disabled')},300);
+		
+	}
+	if(inputType=='text')
+	{	
+		if(inputName=='zip')
+		{
+			errorMsg('for_zip','zip Code');
+		}
+		if(inputName=='name')
+		{
+			
+			errorMsg('childbox','name');
+		}
+	}
+}
+
+function errorMsg(inputClass,fieldName)
+{
+	//alert(inputClass);
+	if($("."+inputClass).val().length>0)
+	{
+		$('.nextQue').prop('disabled', false);
+	}else{
+		$('.errorBox').html('<div class="alert alert-danger">'+
+		'<strong>Danger!</strong> Please Enter Details .</div>');
+		$('.nextQue').prop('disabled', true);
+	}
+		
+	$( "."+inputClass ).keyup(function() {
+		
+		if($("."+inputClass).val().length > 0)
+		{
+			$('.errorBox').html('');
+			$('.nextQue').prop('disabled', false);
+		}else{
+			$('.errorBox').html('<div class="alert alert-danger">'+
+			'<strong>Danger!</strong> Please Enter Details</div>');
+		    $('.nextQue').prop('disabled', true);	
+		}
+		});
+}
+	
+	
 
 </script>
 

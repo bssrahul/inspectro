@@ -1,5 +1,5 @@
 <?php namespace App\Http\Controllers;
-
+session_start();
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
