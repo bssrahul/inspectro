@@ -23,7 +23,7 @@
 			<th>Zip Code</th>
 			<th>Request Date</th>
 			<th>Service Request Date</th>
-			<th>Status</th>
+			<th>Offer Status</th>
 			<th class="text-center">Action</th>
 		</thead>
 		<tbody>
@@ -31,7 +31,7 @@
 			<tr>
 				<td>{!! $no !!}</td>
 				<td>{!! $quote->full_name !!}</td>
-				<td>{!! $quote->contact_mode !!}</td>
+				<td>{!! $quote->email !!}  @if(!empty($quote->phone_no)) /  {!! $quote->phone_no !!} @endif</td>
 				<td>{!! $quote->zipcode !!}</td>
 				<td>{!! date('F d, Y', strtotime($quote->created_at))  !!}</td>
 				<td>{!! date('F d, Y', strtotime($quote->service_request_date))  !!}</td>
@@ -63,10 +63,18 @@
 		</tbody>
 	</table>
 	<?php }else{ ?>
-	
+		
 		<table class="table_info">
 		<thead >
-			@foreach ($quotes as $k=>$quote)
+				@foreach ($quotes as $k=>$quote)
+		<div >
+				<a href="{!! route('admin.quotes.create', ['requestId'=>$quote->id]) !!}"><input type="submit" name="reply" value="Send a Request Reply" class="reply_btn"></a>
+				
+		</div>
+		<tr class="mid">
+							
+				 	  <td colspan="2"> Personal Information :</td>
+		</tr>
 		<tr>
 			<td><label> Name :</label></td><td>{!! $quote->full_name !!}</td>
 		</tr>
@@ -74,7 +82,7 @@
 			<td><label>Zip Code</label></td><td>{!! $quote->zipcode !!}</td>
 		</tr>
 		<tr>
-			<td><label> Contact Detail :</label></td><td >{!! $quote->contact_mode !!}</td>
+			<td><label> Contact Detail :</label></td><td >{!! $quote->email !!}    @if(!empty($quote->phone_no)) / {!! $quote->phone_no !!} @endif </td>
 		
 		</tr>
 		<tr>
@@ -90,17 +98,20 @@
 			<td colspan="2">	
 			<table class="table">
 				<thead class="thead-default">
-				
-				<?php foreach($selOpArr as $selOpdata){ ?>
+			
+				<?php foreach($selOpArr as $k=>$selOpdata){
+						$k=$k+1;?>
 				<tr class="mid">
-				 	  <td><?php echo $selOpdata->qid;?></td>
+							
+				 	  <td class="td"><?php echo "Que ".$k.".  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$selOpdata['quesName'];?></td>
 				</tr>
-					<?php $ttl= count($selOpdata); 
-					for($i=2;$i<= $ttl ; $i++){ ?>
+					<?php $obj=(array)$selOpdata;
+					 $ttl= count($obj); for($i=1;$i< $ttl-1 ; $i++){ ?>
 					<tr >
-						<td><?php echo $selOpdata->op1;?></td>
-					</tr>
-				<?php } } ?>
+							<td class="td"><?php if(!empty($obj['op'.$i])){ echo $obj['op'.$i]; } ?></td>
+					</tr> 
+			
+				<?php } } ?>	
 				</thead>
 							
 				
@@ -125,12 +136,37 @@
 
 @section('style')
 <style>
+.reply_btn{
+	height:50px;
+	width:20%;
+	float:right;
+	margin:0 5% 2% 0;
+	color:#ecf0f1;
+	text-decoration:none;
+	border-radius:5px;
+	border:solid 1px #f39c12;
+	background:#e67e22;
+	text-align:center;
+	-webkit-transition: all 0.1s;
+	 -moz-transition: all 0.1s;
+	 transition: all 0.1s;
+	 
+	 -webkit-box-shadow: 0px 6px 0px #d35400;
+	 -moz-box-shadow: 0px 6px 0px #d35400;
+	 box-shadow: 0px 6px 0px #d35400;
+	
+}
+
+.td{
+	float:left;
+	margin-left:5%;
+}
 .table_info{
 	
-	width:70%;
-	background-color:#e1e1e1;
+	width:90%;
+	border:3px solid #165489;
 	text-align:center;
-	margin: 5% 10%;
+	margin: 5% 5%;
 	padding:50px;
 }
 td label{
@@ -144,11 +180,13 @@ td label{
 	//padding-left:10px;
 	//left:0px;
 	font-weight:bold;
-	background-color:#331a00;
+	background-color:#165489;
 	color:#fff;
 	font-size:16px;
-	
+	width:100%;
+	height:35px;
 }
+
 
 
 .active{

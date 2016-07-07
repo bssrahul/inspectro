@@ -40,6 +40,7 @@ return [
 	
 
     'page' => [
+		'model' => 'Pingpong\Admin\Entities\Page',
         'perpage' => 10
     ],
     'user' => [
@@ -72,6 +73,10 @@ return [
     ],
 	'quote' => [
         'model' => 'Pingpong\Admin\Entities\Quote',
+        'perpage' => 10
+    ],
+	'block' => [
+        'model' => 'Pingpong\Admin\Entities\Block',
         'perpage' => 10
     ],
 ];

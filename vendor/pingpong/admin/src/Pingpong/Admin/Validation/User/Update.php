@@ -11,8 +11,8 @@ class Update extends Validator
         $id = Request::segment(3);
 
         $rules = [
-            'fname' => 'required',
-			'lname' => 'required',
+            'fname' => 'required|alpha',
+			'lname' => 'required|alpha',
             'email' => 'required|email|unique:users,email,' . $id,
         ];
 
@@ -26,8 +26,13 @@ class Update extends Validator
     {
         $current_year = date('Y');
         return [
-            
+            'fname.required' => 'This field is required',
+            'fname.alpha' => 'This field Should be Character only ',
+            'lname.alpha' => 'This field Should be Character only ',
+			'lname.required' => 'This field is required',
+            'email.required' => 'This field is required'
             
         ];
     }
 }
+

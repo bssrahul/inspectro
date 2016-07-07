@@ -33,10 +33,6 @@
 			<tr>
 				<td><?php echo $no; ?></td>
 				<td><?php echo $article->title; ?></td>
-				
-				<?php if( ! isOnPages()): ?>
-				<td><?php echo $article->category ? $article->category->name : null; ?></td>
-				<?php endif; ?>
 				<td><?php echo $article->created_at; ?></td>
 				<td class="text-center">
 					<?php if(isOnPages()): ?>

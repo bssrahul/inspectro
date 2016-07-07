@@ -52,4 +52,6 @@ class PagesController extends Controller {
 		return Redirect::to('/auth/login');
     */
 	}
+	 
+
 }

@@ -20,7 +20,7 @@ class Quote extends Model
      */
 	/* public function question()
     {
-        return $this->belongsTo(__NAMESPACE__ . '\\Question','question_id','id');
+        return $this->belongsTo(__NAMESPACE__ . '\\Question','id','id');
     }
 	public function nextQuestion()
     {

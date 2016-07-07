@@ -35,10 +35,6 @@
 			<tr>
 				<td>{!! $no !!}</td>
 				<td>{!! $article->title !!}</td>
-				
-				@if( ! isOnPages())
-				<td>{!! $article->category ? $article->category->name : null !!}</td>
-				@endif
 				<td>{!! $article->created_at !!}</td>
 				<td class="text-center">
 					@if(isOnPages())

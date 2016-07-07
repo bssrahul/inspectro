@@ -2,10 +2,9 @@
 
 namespace Pingpong\Admin\Repositories\Pages;
 
-use Pingpong\Admin\Repositories\Articles\EloquentArticleRepository;
-use Pingpong\Admin\Repositories\Repository;
+use Pingpong\Admin\Entities\Page;
 
-class EloquentPageRepository extends EloquentArticleRepository implements Repository
+class EloquentPageRepository implements PageRepository
 {
     public function perPage()
     {
@@ -14,48 +13,67 @@ class EloquentPageRepository extends EloquentArticleRepository implements Reposi
 
     public function getModel()
     {
-        $model = config('admin.article.model');
+        $model = config('admin.page.model');
         
         return new $model;
     }
 
-    public function getPage()
+    public function allOrSearch($searchQuery = null,$serviceid = null)
     {
-        return $this->getModel()->onlyPage();
-    }
-
-    public function create(array $data)
-    {
-        if (! isset($data['type'])) {
-            $data['type'] = 'page';
+		
+        if (is_null($searchQuery)) {
+            return $this->getAll($serviceid);
         }
-
-        return $this->getModel()->create($data);
+        return $this->search($searchQuery, $serviceid);
     }
 
-    public function getAll()
+	
+    public function getAll($serviceid = null)
     {
-        return $this->getPage()->latest()->paginate($this->perPage());
+		
+		
+        if(!empty($serviceid)){
+				return $this->getModel()->where('service_id','=',$serviceid)->latest()->paginate($this->perPage());
+		}else{
+				return $this->getModel()->latest()->paginate($this->perPage());
+		}
     }
 
-    public function search($searchQuery)
+    public function search($searchQuery = null,$serviceid = null )
     {
         $search = "%{$searchQuery}%";
-        
-        return $this->getPage()->where('title', 'like', $search)
-            ->orWhere('body', 'like', $search)
-            ->orWhere('id', '=', $searchQuery)
+		
+        return $this->getModel()->where('title', 'like', $search)
+            ->orWhere('title', 'like', $search)
+			->orWhere('service_id', '=', $serviceid)
             ->paginate($this->perPage())
         ;
     }
 
     public function findById($id)
     {
-        return $this->getPage()->find($id);
+        return $this->getModel()->find($id);
     }
 
     public function findBy($key, $value, $operator = '=')
     {
-        return $this->getPage()->where($key, $operator, $value)->paginate($this->perPage());
+        return $this->getModel()->where($key, $operator, $value)->paginate($this->perPage());
+    }
+
+    public function delete($id)
+    {
+        $article = $this->findById($id);
+
+        if (!is_null($article)) {
+            $article->delete();
+            return true;
+        }
+
+        return false;
+    }
+
+    public function create(array $data)
+    {
+        return $this->getModel()->create($data);
     }
 }

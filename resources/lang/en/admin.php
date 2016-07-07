@@ -13,6 +13,11 @@ return [
 			'all' => 'All Pages',
 			'create' => 'Add New'
 		],
+		'blocks' => [
+			'title' => 'Static Block',
+			'all' => 'All Static Blocks',
+			'create' => 'Add New'
+		],
 		'users' => [
 			'title' => 'Users',
 			'all' => 'All Users',
@@ -48,6 +53,11 @@ return [
 			'all' => 'All QuoteRequests'
 			
 		],
+		/* 'staticpages' => [
+			'title' => 'Static Pages',
+			'all' => 'All Static Pages',
+			'create' => 'Add New'
+		], */
 		'roles' => 'Roles',
 		'permissions' => 'Permissions',
 		'categories' => 'Categories'

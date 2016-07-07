@@ -29,6 +29,7 @@ class RepositoriesServiceProvider extends ServiceProvider
 	    'Sqoption',
 	    'Answer',
 	    'Quote',
+	    'Block',
 
     ];
 
@@ -154,6 +155,13 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind(
             'Pingpong\Admin\Repositories\Pages\PageRepository',
             'Pingpong\Admin\Repositories\Pages\EloquentPageRepository'
+        );
+    }
+	 protected function bindBlockRepository()
+    {
+        $this->app->bind(
+            'Pingpong\Admin\Repositories\Blocks\BlockRepository',
+            'Pingpong\Admin\Repositories\Blocks\EloquentBlockRepository'
         );
     }
 }

@@ -36,10 +36,7 @@ class EloquentQuoteRepository implements QuoteRepository
 		}else{
 				return $this->getModel()->latest()->paginate($this->perPage());
 		}
-			
-			
-		
-        
+		    
     }
 
     public function search($searchQuery = null,$request_id = null )

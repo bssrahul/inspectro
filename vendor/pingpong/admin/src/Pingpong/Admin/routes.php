@@ -61,7 +61,7 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
             ]
         ]);
 		
-        Route::resource('pages', 'ArticlesController', [
+        Route::resource('pages', 'PagesController', [
             'except' => 'show',
             'names' => [
                 'index' => 'admin.pages.index',
@@ -73,6 +73,31 @@ Route::group(['prefix' => config('admin.prefix', 'admin'), 'namespace' => 'Pingp
                 'destroy' => 'admin.pages.destroy',
             ]
         ]);
+		
+		 Route::resource('blocks', 'BlocksController', [
+            'except' => 'show',
+            'names' => [
+                'index' => 'admin.blocks.index',
+                'create' => 'admin.blocks.create',
+                'store' => 'admin.blocks.store',
+                'show' => 'admin.blocks.show',
+                'update' => 'admin.blocks.update',
+                'edit' => 'admin.blocks.edit',
+                'destroy' => 'admin.blocks.destroy',
+            ]
+        ]);
+		/* Route::resource('statics', 'StaticsController', [
+            'except' => 'show',
+            'names' => [
+                'index' => 'admin.statics.index',
+                'create' => 'admin.statics.create',
+                'store' => 'admin.statics.store',
+                'show' => 'admin.statics.show',
+                'update' => 'admin.statics.update',
+                'edit' => 'admin.statics.edit',
+                'destroy' => 'admin.statics.destroy',
+            ]
+        ]); */
         Route::resource('users', 'UsersController', [
             'except' => 'show',
             'names' => [
