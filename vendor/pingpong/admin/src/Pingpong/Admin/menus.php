@@ -13,7 +13,7 @@ Menu::create('admin-menu', function ($menu) {
      $menu->dropdown(trans('admin.menus.pages.title'), function ($sub) {
         $sub->route('admin.pages.index', trans('admin.menus.pages.all'), [], 1);
         $sub->route('admin.pages.create', trans('admin.menus.pages.create'), [], 2);
-    }, 2, ['icon' => 'fa fa-flag']); 
+    }, 2, ['icon' => 'fa fa-file-text']); 
 	 $menu->dropdown(trans('admin.menus.blocks.title'), function ($sub) {
         $sub->route('admin.blocks.index', trans('admin.menus.blocks.all'), [], 1);
         $sub->route('admin.blocks.create', trans('admin.menus.blocks.create'), [], 2);
@@ -37,7 +37,7 @@ Menu::create('admin-menu', function ($menu) {
 	
 	$menu->dropdown(trans('admin.menus.quoterequests.title'), function ($sub) {
         $sub->route('admin.quotes.index', trans('admin.menus.quoterequests.all'), [], 1);
-       }, 5, ['icon' => 'fa fa-list']);
+       }, 5, ['icon' => 'fa fa-question-circle']);
 	
 	/* $menu->dropdown(trans('admin.menus.staticpages.title'), function ($sub) {
         $sub->route('admin.statics.index', trans('admin.menus.staticpages.all'), [], 1);
