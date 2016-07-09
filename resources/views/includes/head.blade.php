@@ -4,6 +4,10 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>Instectaro</title>
+<script src="{{ asset('/public/js/jquery.min.js') }}"></script>
+<script src="{{ asset('/public/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('/public/js/fm.checkator.jquery.js') }}"></script> 
+<script src="{{ asset('/public/js/jquery-ui.js') }}"></script> 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -13,3 +17,4 @@
 <!-- jQuery -->
 
 {!! HTML::style('/public/css/style.css', array('media' => 'all')) !!}
+{!! HTML::style('/public/css/jquery-ui.css', array('media' => 'all')) !!}

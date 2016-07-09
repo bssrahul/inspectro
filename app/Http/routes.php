@@ -11,11 +11,13 @@
 |
 */
 
-
-
 Route::get('/','HomeController@index');
-// Route::get('pages/{slug?}', 'PagesController@view');
 Route::get('serviceslist', 'HomeController@serviceList');
+Route::get('nextquestion', 'HomeController@nextQue');
+Route::get('localstorage', 'HomeController@localStorage');
+Route::get('stQfrontStorage', 'HomeController@stQfrontStorage');
+Route::get('sendRequest', 'HomeController@sendRequest');
+Route::get('cancelProject', 'HomeController@cancelProject');
 Route::get('pages/{slug}', [
     'as' => 'pages', 'uses' => 'PagesController@view'
 ]);

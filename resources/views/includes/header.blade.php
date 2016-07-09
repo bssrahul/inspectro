@@ -1,7 +1,7 @@
  
 	<!--[Header]-->  
     	<header id="head-wrap">
-        	      
+        	
             	<div class="container">
                 <!--Logo wrap-->
         		<div class="logo-wrap">
@@ -41,7 +41,16 @@
                         	<h1> We make it easy to hire the <span>right professional for any project</span></h1>
                             	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
                                 Lorem Ipsum has been the industry's<span> standard dummy text ever since the 1500s, when an unknown printer took a galley of type</span></p>
-                            	<ul class="ban-list">
+                            	
+								<ul class="ban-list">                                	
+                                        <li class="control-group">
+                                        	<input type="checkbox" name="checkboxG3" id="checkboxG3" class="css-checkbox" checked="checked" />
+                                            <label for="checkboxG3" class="css-label"></label>  Lorem Ipsum is simply dummy text of the printing and typesetting industry.</li>                                                                                                                                                                                                                                                                          <li class="control-group">
+                                        	   <input type="checkbox" name="checkboxG3" id="checkboxG4" class="css-checkbox" checked="checked"/>
+                                              <label for="checkboxG4" class="css-label"></label> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</li> 
+                                                                                
+                                </ul>
+								<!--<ul class="ban-list">
                                 	<li class="control-group"><label class="control control--checkbox"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
                                            <input type="checkbox" />
                                           <div class="control__indicator"></div>  </label>                                       
@@ -50,7 +59,7 @@
                                            <input type="checkbox" />
                                           <div class="control__indicator"></div>  </label>                                       
                                        </li>
-                                </ul>
+                                </ul>-->
                         </div>
                     </div>
                 </div>
@@ -66,10 +75,10 @@
                             </div>
 	
                             <form>
-                            	<ul class="s-list">
-                                	<li><a href="javascript:void(0)" id="{{$services[0]->id}}" class="serviceList" title="Haus"><img src="{{asset('public/img/search-icon1.png')}}"  alt="Haus"/>Haus</a></li>
-                                    <li><a href="javascript:void(0)" id="{{$services[1]->id}}" class="serviceList" title="Wohnung"><img src="{{asset('public/img/search-icon2.png')}}"  alt="Wohnung"/>Wohnung</a></li>
-                                    <li><a href="javascript:void(0)" id="{{$services[2]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon3.png')}}"  alt="Gewerbe"/>Gewerbe</a></li>
+                            	<ul class="s-list ulserviceList">
+                                	<li><a href="javascript:void(0)"  id="{{$services[0]->id}}" class="serviceList" title="Haus"><img src="{{asset('public/img/search-icon1.png')}}"  alt="Haus"/>{{$services[0]->title}}</a></li>
+                                    <li><a href="javascript:void(0)"  id="{{$services[1]->id}}" class="serviceList" title="Wohnung"><img src="{{asset('public/img/search-icon2.png')}}"  alt="Wohnung"/>{{$services[1]->title}}</a></li>
+                                    <li><a href="javascript:void(0)"  id="{{$services[2]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon3.png')}}"  alt="Gewerbe"/>{{$services[2]->title}}</a></li>
                                 </ul> 
 								<input type="button" value="NEXT" class="btn btn-success next" id="myBtn">
                             </form>	                    	
