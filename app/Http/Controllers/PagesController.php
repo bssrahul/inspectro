@@ -29,12 +29,14 @@ class PagesController extends Controller {
      */
     public function view($slug)
     {
+		//echo $slug;die;
 		if($slug!=''){
-			$pageData = DB::table('articles')
-						->whereTypeAndSlug('page',$slug)
+			$pageData = DB::table('static_pages')
+						->where('page_link',$slug)->where('status','1')
 						->first();
-			
-			return view('home.cms',compact('pageData'));
+			$ourTestimonialData= DB::table('static_blocks')->where('type','testimonial')->get();
+			//echo "<pre>"; print_r($pageData);die;
+			return view('page.view',compact('pageData','slug','ourTestimonialData'));
 		}
 	
 		/*
@@ -52,4 +54,6 @@ class PagesController extends Controller {
 		return Redirect::to('/auth/login');
     */
 	}
+	 
+
 }

@@ -9,7 +9,7 @@ use Pingpong\Admin\Repositories\Quotes\QuoteRepository;
 use Pingpong\Admin\Validation\Quote\Create;
 use Pingpong\Admin\Validation\Quote\Update;
 use DB;
-
+use Mail;
 class QuotesController extends BaseController
 {
     protected $repository;
@@ -38,12 +38,36 @@ public function index(Request $request)
 		$request_id=$request->get('reqid');
 		if(!empty($request_id)){
 			$quotes = $this->repository->allOrSearch($request->get('q'),$request_id);
+			//echo "<pre>"; print_R($quotes);die;
 			$SelOptionArr=array();
 			foreach($quotes as $quote){
 				$SelOptionArr=$quote->selected_options;
 			}
 			$selOpArr=json_decode($SelOptionArr);
-			//echo "<pre>"; print_r($selOpArr);die;
+		
+			foreach($selOpArr as $k=>$selOp){
+					$qid= $selOp->qid;	
+					$questionData=DB :: table('questions')->where('id',$qid)->get();
+					//echo "<pre>"; print_r($questionData[0]->title);
+					$selOp->quesName=$questionData[0]->title;
+					$obj=(array)$selOp;
+					$ttl= count($obj); 
+					for($i=1;$i< $ttl-1 ; $i++){ 
+						$optionid=$obj['op'.$i];
+						if (is_numeric($optionid)) {
+							$answersData=DB :: table('answers')->where('id',$optionid)->get();
+							$obj['op'.$i]=@$answersData[0]->answers;
+						}else{
+							$obj['op'.$i]=@$optionid;
+						}
+						$selOpArr[$k]=$obj;	
+					}	
+					
+			}
+			//echo "<pre>"; print_r($selOpArr);
+			//echo "<pre>"; print_r($SelOpArr);
+			//die;
+			
 		}
 		else{
 			$quotes = $this->repository->allOrSearch($request->get('q'));
@@ -65,94 +89,24 @@ public function index(Request $request)
 public function create(Request $request)
 {
 		// for no repeat a queston
-		if(!empty($request->get('que_id'))){
-			$qid=$request->get('que_id');
-			$optId=$request->get('opt');
-			$serviceid=$request->get('serv_id');
-			$question=$request->get('que_id');
-		
-		}
-		if(!empty($request->get('opt'))){
 			
-			$optId=$request->get('opt');
-			$serviceid=$request->get('serv_id');
-			$questionid=$request->get('question_id');
-			
-			
-		}
-		if(!empty($question)){
-			$questionid=$question;
-		}
-			//echo "<pre>"; print_R($questionid);
-			$selectedQuestionName=DB :: table("questions")->where('id',$questionid)->lists('title','id');
-		
-			$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
-			$nextQuestionData=DB :: table("questions")->where('service_id',$serviceid)->lists('title','id');
-
-			$nextQuestionArr=array();
-			foreach($nextQuestionData as $k=>$nextQuestions){
-				
-				if($k != $questionid){
-					echo $nextQuestionArr[$k]=$nextQuestions;
-				}
-			
-			}
-			
-			
-			$nextQuestionArr[0]=' End Questionaire ';
-			$nextQuestionArr[null]='---Select Next Question---';
-			ksort($nextQuestionArr);
-			//echo "<pre>"; print_R($qid);die;
-			//echo "<pre>"; print_R($selectedServiceName);
-			//echo "<pre>"; print_R($nextQuestionArr);die;
-			$preQuestionData=DB::table('answers')->get();
-			
-			$preArr=array();
-			foreach($preQuestionData as $k=>$preQuestion){
-				$preArr[]=$preQuestionData[$k]->question_id;
-			}
-		
-			$questiondata = DB::table('questions')->lists('title','id');
-			$questionArr=array();
-		
-			$diffarray=array();
-			if(!empty($request->get('question_id'))){
-				$question_id=$request->get('question_id');
-				$qid=$question_id;
-			}
-		
-			if(!empty($question_id)){
-				$diffarray = array_diff($preArr, array($question_id));
-				$preArr=$diffarray;
-			}
-			foreach($questiondata as $k=>$questionValue){
-				if(in_array($k,$preArr)){
+		if(!empty($request->get('requestId'))){
+			echo $reqId=$request->get('requestId');
 					
-				}else{
-					$questionArr[$k]=$questionValue;
-				}
-			}
-			
+		}
+		$requestData= DB::table('quote_requests')->where('id',$reqId)->get();
 		
-			
-		
-		$sel1[]='---Select Question---';
 	
-		$questionArr=$sel1+$questionArr;
-		
-		//echo "<pre>"; print_r($questionArr);
-		//echo "<pre>"; print_r($questiondata);die;
+		//echo "<pre>"; print_r($requestData);die;
+		//echo "<pre>"; print_r($questiondata);
 		//end of no repeat a question	
 		
 	
 		//echo "<pre>"; print_r($qid);die;
 		//echo "<pre>"; print_R($qid);die;
-		if(!empty('qid')){
-				return $this->view('quotes.create', compact('id','type','questionArr','questiondata','qid','optId','nextQuestionArr','selectedServiceName','selectedQuestionName','serviceid'));
-		}else{
-			$qid=$questionid;
-			return $this->view('quotes.create', compact('id','type','questionArr','questiondata','qid','nextQuestionArr','selectedServiceName','serviceid'));
-		}
+		
+		return $this->view('quotes.create', compact('requestData','reqId'));
+		
 	
 
 }
@@ -165,42 +119,41 @@ public function create(Request $request)
 public function store(Create $request)
 {
 		$data = $request->all();
-			//echo "<pre>"; print_R($data);die;
-		if(!empty($data['qid'])){
-				$qid=$data['qid'];
-				$service_id=$data['service_id'];
+	//	echo "<pre>"; print_R($data);die;
+		$id=$data['id'];
+		$contactName=$data['full_name'];
+		$contactEmail=$data['email'];
+		if(!empty($data['phone_no'])){
+			$phone_no=$data['phone_no'];
 		}
-		//echo "<pre>"; print_R($service_id);die;
-		foreach($data['answers'] as $k=>$value){
-			$tempArr = array();
-			$tempArr['answers'] = $value;
+		$contactMessage=$data['message'];
+		//echo "<pre>"; print_R($id);die;
+		$data = array(
+			'name'=>$contactName, 
+			'email'=>$contactEmail, 
+			'message'=>$contactMessage
+		);
+		Mail::send('vendor.pingpong.admin.quotes.reply', $data, function($message) use ($contactEmail, $contactName)
+		{   
+				$message->to($contactEmail, $contactName)->subject('Mail via aallouch.com');
+				//$message->to('info@aallouch.com', 'myName')->subject('Mail via aallouch.com');
+		});
+		
+		/* Mail::send( $text, function ($message) {
+		$message->from('us@example.com', 'Laravel');
+		$message->to('rohitbss@mailinator.com');
+		}); */
+		/* if(	(!empty($id))&& (!empty($email))){
+					
+			$quoteData = $this->repository->findById($id);
+			$data1['status'] = 1;
+			//echo "<pre>"; print_R($data1);die;
+			$quoteData->update($data1);	
+		} */
+		
+		
+		return $this->redirect('quotes.index');
 			
-			if((!empty($data['question_id'])) ){
-				$tempArr['question_id'] = $data['question_id'];
-			}elseif(!empty($qid)){
-				$tempArr['question_id'] = $qid;
-			}
-		
-			if(!empty($data['custom_answer'][$k])  ){
-				$tempArr['custom_answer'] = $data['custom_answer'][$k];
-			}else{
-				$tempArr['custom_answer'] = 0;
-			}
-			$tempArr['next_question_id'] = $data['next_question_id'][$k];
-			$tempArr['option_description'] = $data['option_description'][$k];
-			$tempArr['sort'] = $data['sort'][$k];
-			
-			Answer::create($tempArr);
-		}
-		//echo "<pre>"; print_R($tempArr);die;
-		
-		if(!empty($qid)){
-			//echo "<pre>"; print_R($service_id);die;
-			return $this->redirect('quotes.index',['ques_id'=>$qid,'serv_id'=>$service_id]);
-		}else{
-			return $this->redirect('quotes.index');
-		}
-		
 }
 
 /**

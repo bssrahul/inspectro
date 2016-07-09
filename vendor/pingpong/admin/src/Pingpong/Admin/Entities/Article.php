@@ -16,7 +16,6 @@ class Article extends Model
     protected $fillable = [
         'type',
         'user_id',
-        'category_id',
         'title',
         'slug',
         'body',
@@ -35,10 +34,10 @@ class Article extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category()
+    /* public function category()
     {
         return $this->belongsTo(__NAMESPACE__ . '\\Category');
-    }
+    } */
 
     /**
      * Coming soon.

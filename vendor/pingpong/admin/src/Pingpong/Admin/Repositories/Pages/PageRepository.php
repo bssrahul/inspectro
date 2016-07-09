@@ -6,5 +6,4 @@ use Pingpong\Admin\Repositories\Repository;
 
 interface PageRepository extends Repository
 {
-    public function getPage();
 }

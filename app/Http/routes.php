@@ -14,9 +14,11 @@
 
 
 Route::get('/','HomeController@index');
-Route::get('pages/{pageslug?}', 'PagesController@view');
+// Route::get('pages/{slug?}', 'PagesController@view');
 Route::get('serviceslist', 'HomeController@serviceList');
-
+Route::get('pages/{slug}', [
+    'as' => 'pages', 'uses' => 'PagesController@view'
+]);
 
 // Route::post('serviceslist', ['as' => 'servicesList', 'uses' => 'HomeController@serviceList']);
 

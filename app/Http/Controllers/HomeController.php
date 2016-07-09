@@ -40,7 +40,15 @@ class HomeController extends Controller {
 		
 		$services = DB::table('services')->select('title','id')->take(3)->get();
 		//print_r($services);die;
-		return view('home.index',compact('services'));
+		$howItWorkData= DB::table('static_blocks')->where('type','process')->where('status','1')->get();
+		//echo "<pre>"; print_r($howItWorkData);die;
+		$ourServicesData= DB::table('static_blocks')->where('type','services')->where('status','1')->get();
+		//echo "<pre>"; print_r($ourServicesData);die;
+		$ourFeaturesData= DB::table('static_blocks')->where('type','features')->where('status','1')->get();
+		//echo "<pre>"; print_r($ourFeaturesData);die;
+		$ourTestimonialData= DB::table('static_blocks')->where('type','testimonial')->where('status','1')->get();
+		//echo "<pre>"; print_r($ourTestimonialData);die;
+		return view('home.index',compact('services','howItWorkData','ourServicesData','ourFeaturesData','ourTestimonialData'));
 	}
 	
 	public function serviceList()

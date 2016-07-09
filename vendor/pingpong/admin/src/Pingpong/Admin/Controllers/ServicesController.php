@@ -39,7 +39,7 @@ class ServicesController extends BaseController
 			$services = $this->repository->findById($id);
 			
 			$data['status'] = $request->get('updateStatus');
-			
+			//echo "<pre>"; print_R($QuestionData);die;
             $services->update($data);
 
 		}

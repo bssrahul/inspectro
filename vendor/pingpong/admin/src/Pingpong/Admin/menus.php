@@ -10,10 +10,14 @@ Menu::create('admin-menu', function ($menu) {
         $sub->divider(3);
         $sub->route('admin.categories.index', trans('admin.menus.categories'), [], 4);
     }, 1, ['icon' => 'fa fa-book']);*/
-   /*  $menu->dropdown(trans('admin.menus.pages.title'), function ($sub) {
+     $menu->dropdown(trans('admin.menus.pages.title'), function ($sub) {
         $sub->route('admin.pages.index', trans('admin.menus.pages.all'), [], 1);
         $sub->route('admin.pages.create', trans('admin.menus.pages.create'), [], 2);
-    }, 2, ['icon' => 'fa fa-flag']); */
+    }, 2, ['icon' => 'fa fa-file-text']); 
+	 $menu->dropdown(trans('admin.menus.blocks.title'), function ($sub) {
+        $sub->route('admin.blocks.index', trans('admin.menus.blocks.all'), [], 1);
+        $sub->route('admin.blocks.create', trans('admin.menus.blocks.create'), [], 2);
+    }, 2, ['icon' => 'fa fa-flag']); 
    /*  $menu->dropdown(trans('admin.menus.users.title'), function ($sub) {
         $sub->route('admin.users.index', trans('admin.menus.users.all'), [], 1);
         $sub->route('admin.users.create', trans('admin.menus.users.create'), [], 2);
@@ -33,8 +37,12 @@ Menu::create('admin-menu', function ($menu) {
 	
 	$menu->dropdown(trans('admin.menus.quoterequests.title'), function ($sub) {
         $sub->route('admin.quotes.index', trans('admin.menus.quoterequests.all'), [], 1);
-       }, 5, ['icon' => 'fa fa-list']);
+       }, 5, ['icon' => 'fa fa-question-circle']);
 	
+	/* $menu->dropdown(trans('admin.menus.staticpages.title'), function ($sub) {
+        $sub->route('admin.statics.index', trans('admin.menus.staticpages.all'), [], 1);
+        $sub->route('admin.statics.create', trans('admin.menus.staticpages.create'), [], 2);
+    }, 2, ['icon' => 'fa fa-flag']); */
 	/* $menu->dropdown(trans('Subcategories'), function ($sub) {
         $sub->route('admin.subcategories.index', ' Subcategories Listing', [], 1);
         $sub->route('admin.subcategories.create', 'Add Subcategories', [], 2);

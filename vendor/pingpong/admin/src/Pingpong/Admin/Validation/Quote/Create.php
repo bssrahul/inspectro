@@ -8,16 +8,18 @@ class Create extends Validator
     public function rules()
     {
         return [
-			//'question_id' => 'required|not_in:0',
-           	
-			
+			'message' => 'required',
+           	'email' => 'required',
+			'phone_no' => 'required',
         ];
     }
 	
 	public function messages()
     {
         return [
-          
+            'message.required' => 'This field is required',
+            'email.required' => 'This field is required',
+            'phone_no.required' => 'This field is required',
         ];
     }
 }

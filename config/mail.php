@@ -41,7 +41,7 @@ return [
 	|
 	*/
 
-	'port' => env('MAIL_PORT', 587),
+	'port' => env('MAIL_PORT', 465),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'community@flyingchalks.com', 'name' => 'Flying Chalks'],
+	'from' => ['address' => 'mobilyte@gmail.com', 'name' => 'Inspectro'],
 	
 
 	/*
@@ -81,7 +81,7 @@ return [
 	|
 	*/
 
-	'username' => env('MAIL_USERNAME'),
+	'username' => env('mobilytedev@gmail.com'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ return [
 	|
 	*/
 
-	'password' => env('MAIL_PASSWORD'),
+	'password' => env('mobilyte@123'),
 
 	/*
 	|--------------------------------------------------------------------------
