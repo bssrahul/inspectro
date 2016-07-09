@@ -116,7 +116,7 @@ $(document).ready(function(){
 		queArray=[];
 		
 		var serviceId=$(this).attr('id');
-		var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
+		var loadingImage="<?php echo e(asset('/public/img/ajaxloader/ajaxloader.gif')); ?>";
 		quoteOptionsArr['serviceId_'+serviceId] = new Array();
 
 		$.ajax({
@@ -294,7 +294,7 @@ $(document).on('click','.nextQue,.back',function(){
 		return;
 	}
 	
-	var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
+	var loadingImage="<?php echo e(asset('/public/img/ajaxloader/ajaxloader.gif')); ?>";
 	if(CheckArrayIndex(queArray,$.trim(Qid)) != -1 &&  CheckArrayIndex(queArray,$.trim(Qid))>0)
 	{
 		backQueIndex=CheckArrayIndex(queArray,$.trim(Qid))-1;
