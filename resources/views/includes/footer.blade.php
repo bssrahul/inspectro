@@ -100,7 +100,6 @@ $(document).ready(function(){
 $(document).ready(function(){
 	i=2;
 	$("#myBtn"+i).click(function(){
-	//console.log(i);
 	$(".popup-foot").attr('id',i+1);
 });
 });	
@@ -137,9 +136,21 @@ $(document).ready(function(){
 
 $(document).on('click','.childbox',function(){
 	
+	
+	if($(this).hasClass('for_zip') || $(this).hasClass('for_email') || $(this).hasClass('for_phone')){
+		return false;
+	}
+	
 	$('.innerAns').hide();
 	var nexQueId=$(this).data('next');
 	$('.nextQue').attr('data-qid',nexQueId);
+	
+	$('.customAnswerText').removeClass('required');
+	if($(this).hasClass('customAnswer')){
+		$(this).parent().next('.customAnswerText').addClass('required');
+	}
+	
+	
 	popupValidation();
 	
 	if($('#email').is(':checked')){
@@ -154,7 +165,7 @@ $(document).on('click','.childbox',function(){
 	var inputType1 = $('.for_email').attr('type');
 	if(inputType1=='text')
 	{
-	if($('.for_email').is(':visible')=== true)
+		if($('.for_email').is(':visible')=== true)
 		{
 			errorMsg('for_email','Email');
 		}
@@ -175,200 +186,207 @@ var Tellusflag = true;
 var opId,dateOfServ,TellusData;
 $(document).on('click','.nextQue,.back',function(){
 	
-	if (typeof $(this).data('qid') ==='undefined')
-		{
-			alert("Please choose Any Option");
-			return;
-		}else{
-	var backQueId = $('.nextQue').data('current_id');
-	
-	var serviceId=$(this).data('serviceid');
-	$('.innerAns').hide();
-	
-	var Qid=$(this).attr('data-qid');
-	if (typeof(Storage) !== "undefined") {
-	if($(this).hasClass('nextQue'))
-	{
-		
-		var inputType = $('.childbox').attr('type');
-	    var inputName = $('.childbox').attr('name');
-		//alert(inputType);
-		
-		//alert(selectOption);
-		if(((inputType=='checkbox' || inputType=='radio') &&  $('.childbox').is(':checked')) || ((inputType=='text' || inputType=='text') && $('.childbox').val().length > 0) || selectOption==true || selectDateOption==true || Tellusflag==true)
-		{
-			
-			
-			if($.inArray(backQueId,queArray)==-1)
-			{
-				
-				queArray.push($.trim(backQueId));
-				
-			}
-			
-			var data={};
-			var OptArray=[];
-			if(selectOption==true)
-			{
-				//alert(opId);
-				OptArray.push(parseInt(opId));
-			}
-			//alert(Tellusflag);
-			if(Tellusflag==true)
-			{
-			
-				TellusData=$('#TellUs').val();
-				//alert("tell us"+TellusData);
-				OptArray.push({'TellusData':TellusData});
-			}
-			
-			if(selectDateOption==true)
-			{
-				if(opId=='selected_date')
-				{
-					dateOfServ = $('.for_date').val();
-					//alert(dateOfServ);
-					OptArray.push({'selected_date':dateOfServ});
-				}
-				else{
-					OptArray.push({'serviceDate':opId});
-				}
-			}
-			data.serviceId=serviceId;
-			data.QId = backQueId;
-			var $j_object=$('.childbox');
-			$j_object.each( function(i) {	
-			if(($(this).attr('type')=='checkbox') || ($(this).attr('type')=='radio')){
-			if($(this).is(':checked'))
-			{
-				optionId=$(this).attr('value');	
-				OptArray.push(parseInt(optionId));
-			}}
-			if($(this).attr('type')=='text'){
-				var value=$.trim($(this).val());
-				if(value.length>0)
-				{
-					var opName=$(this).attr('name');
-					var opValue=$(this).attr('value');
-					switch (opName) {
-					case 'email':
-						OptArray.push({email:value});
-						break;
-					case 'phone':
-						OptArray.push({phone:value});
-						break;
-					case 'zip':
-						OptArray.push({zip:value});
-						break;
-					case 'name':
-						OptArray.push({name:value});
-						break;
-					case 'customAns':
-						OptArray.push({customAns:value});
-						
-				}		
-				}
-			}
-			});	
-			data.options=OptArray;
-			$.ajax({
-			url: '<?php echo url('/')."/localstorage"; ?>',
-			type: 'get',
-			data: 'data='+JSON.stringify(data)+'&_token='+CSRF_TOKEN,
-			success: function (RetData){   		
-			}
-			}); 
-		}
-		
-		
-
-	}
-	} else {
-    // Sorry! No Web Storage support..
-	alert('your browser is out of date! Update It');
-	}
-	
-	if(Qid==0 || Qid=='p2' || Qid=='p3'|| Qid=='p4' || Qid=='p5' || Qid=='p6')
-	{
-		stQfrontStorage(Qid);	
+	if (typeof $(this).data('qid') ==='undefined') {
+		alert("Please choose Any Option");
 		return;
-	}
+	}else {
+		
+		var customAnswer = 0;	
+		var customAnsObj = '';
+		
+		$('.customAnswer').each(function(){
+			if($(this).is(':checked')){
+				customAnswer = 1;
+				customAnsObj = $(this);
+			}
+		});	
+			
+		var backQueId = $('.nextQue').data('current_id');
+		var serviceId=$(this).data('serviceid');
+		$('.innerAns').hide();
+		var Qid=$(this).attr('data-qid');
+		if (typeof(Storage) !== "undefined") {
+			if($(this).hasClass('nextQue')) {
+			
+			var inputType = $('.childbox').attr('type');
+			var inputName = $('.childbox').attr('name');
+			
+			if(((inputType=='checkbox' || inputType=='radio') &&  $('.childbox').is(':checked')) || ((inputType=='text' || inputType=='text') && $('.childbox').val().length > 0) || selectOption==true || selectDateOption==true || Tellusflag==true)
+			{
+				if($.inArray(backQueId,queArray)==-1)
+				{		
+					queArray.push($.trim(backQueId));
+				}
+				
+				var data={};
+				var OptArray=[];
+				if(selectOption==true)
+				{
+					OptArray.push(parseInt(opId));
+					selectOption = false;
+				}
+				if(Tellusflag==true)
+				{
+					TellusData=$('#TellUs').val();
+					OptArray.push({'TellusData':TellusData});
+					Tellusflag = false;
+				}
+
+				if(selectDateOption==true)
+				{
+					if(opId=='selected_date')
+					{
+						dateOfServ = $('.for_date').val();
+						OptArray.push({'selected_date':dateOfServ});
+						selectDateOption=false;
+					}
+					else{
+						console.log(opId);
+						OptArray.push({'serviceDate':opId});
+						selectDateOption=false;
+					}
+				}
+				data.serviceId=serviceId;
+				data.QId = backQueId;
+				var $j_object=$('.childbox');
+				$j_object.each( function(i) {	
+				if(($(this).attr('type')=='checkbox') || ($(this).attr('type')=='radio')){
+				
+				
+				if($(this).is(':checked') && customAnswer=='0' && ($(this).attr('type')=='radio'))
+				{
+					optionId=$(this).attr('value');	
+					OptArray.push(parseInt(optionId));
+				}
+				
+				if($(this).is(':checked') && ($(this).attr('type')=='checkbox')) {
+					optionId=$(this).attr('value');	
+					
+					if(!$(this).parent().next().hasClass('customAnswerText')){
+						
+						OptArray.push(parseInt(optionId));
+					}
+				}
+			
+				}
 	
-	var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
-	if(CheckArrayIndex(queArray,$.trim(Qid)) != -1 &&  CheckArrayIndex(queArray,$.trim(Qid))>0)
-	{
-		backQueIndex=CheckArrayIndex(queArray,$.trim(Qid))-1;
-		backQueId=queArray[backQueIndex];
-	}else if(CheckArrayIndex(queArray,$.trim(Qid))==0)
-	{
-		backQueId='undefined';
+				if($(this).attr('type')=='text'){
+					var value=$.trim($(this).val());
+					if(value.length>0)
+					{
+						var opName=$(this).attr('name');
+						var opValue=$(this).attr('value');
+						switch (opName) {
+						case 'email':
+							OptArray.push({email:value});
+							break;
+						case 'phone':
+							OptArray.push({phone:value});
+							break;
+						case 'zip':
+							OptArray.push({zip:value});
+							break;
+						case 'name':
+							OptArray.push({name:value});
+							break;
+						case 'customAns':
+							OptArray.push({customAns:value});
+							
+					}		
+					}
+				}
+				});	
+				
+				if(customAnswer=='1')
+				{
+					if(customAnsObj.parent().next('input[type=text]').val()!=''){
+						OptArray.push({'answerId':parseInt(customAnsObj.val()),'customAnswer':customAnsObj.parent().next('input[type=text]').val()});
+					}
+				}
+				data.options=OptArray;
+				$.ajax({
+						url: '<?php echo url('/')."/localstorage"; ?>',
+						type: 'get',
+						data: 'data='+JSON.stringify(data)+'&_token='+CSRF_TOKEN,
+						success: function (RetData){   		
+						}
+					}); 
+			}
+			}
+		} else {
+				// Sorry! No Web Storage support..
+				alert('your browser is out of date! Update It');
+			}
+		
+			if(Qid==0 || Qid=='p2' || Qid=='p3'|| Qid=='p4' || Qid=='p5' || Qid=='p6')
+			{
+				stQfrontStorage(Qid);	
+				return;
+			}
+		
+			var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
+			if(CheckArrayIndex(queArray,$.trim(Qid)) != -1 &&  CheckArrayIndex(queArray,$.trim(Qid))>0)
+			{
+				backQueIndex=CheckArrayIndex(queArray,$.trim(Qid))-1;
+				backQueId=queArray[backQueIndex];
+			}else if(CheckArrayIndex(queArray,$.trim(Qid))==0)
+			{
+				backQueId='undefined';
+			}
+			popupValidation();
+			$.ajax({
+					url: '<?php echo url('/')."/nextquestion"; ?>',
+					type: 'get',
+					data: 'serviceId='+serviceId+'&backQid='+backQueId+'&Qid='+Qid+'&_token='+CSRF_TOKEN,
+					success: function (data) {
+						$('#myModal').html(data);
+						popupValidation();
+					}
+				}); 
 	}
-	
-	$.ajax({
-		url: '<?php echo url('/')."/nextquestion"; ?>',
-		type: 'get',
-		data: 'serviceId='+serviceId+'&backQid='+backQueId+'&Qid='+Qid+'&_token='+CSRF_TOKEN,
-		/* beforeSend: function( xhr ) {
-				$('.inner-popup').append('<div id="loadering"><img src="'+loadingImage+'"></div>');
-				//return false;
-		},
-		complete: function() {
-			$("#loadering").remove();
-		}, */
-		success: function (data) {
-		  // alert(data);    
-				$('#myModal').html(data);
-				popupValidation();
-				//console.log(data);	
-		}
-	}); 
-		}
 	
 });
 
 $(document).ready(function() {
 	
-    $('body').on('click','.plist li',function(event) {
+    $('body').on('click','.plist li.actionPerform',function(event) {
 	   if (event.target.type !== 'checkbox') {
             $(':checkbox', this).trigger('click');
         }
         if (event.target.type !== 'radio') {
             $(':radio', this).trigger('click');
         }
+		popupValidation();
     });
-sendRequest();
-cancelProject();
-
+	sendRequest();
+	cancelProject();
 	
 	$('body').on('click','.tellusData', function(){
 		
 		if($(this).hasClass('customInfoNo')){
 			$('#TellUs').hide();
 			$('#TellUs').val('');
-			
-			
 		}else{
-			
 			$('#TellUs').show();
-			
 		}
 		
 	});
 	
-	/*if($('#customInfoYes').is(':checked'))
-	{
-		
-		$('#TellUs').hide();
-		Tellusflag = true;
-	}
-	if($('#customInfoNo').is(':checked'))
-	{
-		
-		$('#TellUs').show();
-		Tellusflag = true;
-		$('#TellUs').val('');
-	}*/
-
+	$('body').on('keyup','.customAnswerText', function(){
+		if($(this).val()!=''){
+			$(this).removeClass('required');
+		}else{
+			
+			$(this).addClass('required');
+		}
+		popupValidation();
+	});
+	
+	$('body').on('keyup','#TellUs', function(){
+		popupValidation();
+	});
+	
+	
 
 });
 /**
@@ -395,68 +413,90 @@ function popupValidation()
 	var inputName = $('.childbox').attr('name');
 	
 	$('.drop-list').hide();
-	ServdateTime();
-	TellUs();
-	$(document).on('change', '#selectTime', function() {
-		ServdateTime();
-	});
 	
 	
-	if($('#selectAns').val()>0)
-	{
-		var nexQueId = $('option:selected', $('#selectAns')).data('next');
-		console.log(nexQueId);
-		setTimeout(function(){$('.nextQue').removeAttr('disabled')},300);
-		$('.nextQue').attr('data-qid',nexQueId);
-		backQueId = $('.nextQue').attr('data-current_id');
-		opId = $('#selectAns').val();
-		if($.inArray(backQueId,queArray)==-1)
-			{	
-				queArray.push($.trim(backQueId));
-				selectOption=true;
-				//alert(selectOption);
-			}
-			
-	}
+	$('.error-box').hide();
+	$('.error-box').html('<p></p>');
 	
-	$('#selectAns').change(function(){
-		console.log(opId);
-		var nexQueId = $('option:selected', this).data('next');console.log(nexQueId);
-		$('.nextQue').attr('data-qid',nexQueId);
-		backQueId = $('.nextQue').attr('data-current_id');
-		opId = $(this).val();
-		if($.inArray(backQueId,queArray)==-1)
-			{	
-				queArray.push($.trim(backQueId));
-				selectOption=true;
-				//alert(selectOption);
-			}
-			
-		setTimeout(function(){$('.nextQue').removeAttr('disabled')},300);
-	});
+	/*Code to validate option with custome answer*/
+	var messageErr = '';
 	
-	if(((inputType=='checkbox') || (inputType=='radio')) && $('.childbox').is(':checked'))
-	{
-		//console.log('checked');
-		var nexQueId = $('.childbox').data('next');
-		$('.nextQue').attr('data-qid',nexQueId);
-		setTimeout(function(){$('.nextQue').removeAttr('disabled')},300);
+	$('.customAnswerText.required').each(function(){
+		if($(this).val()==''){
+			messageErr = 'This field is required.';
+			$(this).next('.error-box').children('p').text(messageErr);
+			$(this).next('.error-box').show();
+		}
 		
-	}
-
-	if(inputType=='text')
-	{	
-		if(inputName=='zip')
-		{
-			errorMsg('for_zip','zip Code');
-		}
-		if(inputName=='name')
-		{
-			
-			errorMsg('childbox','name');
-		}
-	}
+	});
 	
+	if(messageErr!=''){	
+		return false;
+	}else{
+		
+		ServdateTime();
+		TellUs();
+		$(document).on('change', '#selectTime', function() {
+			ServdateTime();
+		});
+		
+		if($('#selectAns').val()>0)
+		{
+			var nexQueId = $('option:selected', $('#selectAns')).data('next');
+			console.log(nexQueId);
+			setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
+			$('.nextQue').attr('data-qid',nexQueId);
+			backQueId = $('.nextQue').attr('data-current_id');
+			opId = $('#selectAns').val();
+			if($.inArray(backQueId,queArray)==-1)
+				{	
+					queArray.push($.trim(backQueId));
+					selectOption=true;
+				}
+		}
+		
+		$('#selectAns').change(function(){
+			console.log(opId);
+			var nexQueId = $('option:selected', this).data('next');console.log(nexQueId);
+			$('.nextQue').attr('data-qid',nexQueId);
+			backQueId = $('.nextQue').attr('data-current_id');
+			opId = $(this).val();
+			if($.inArray(backQueId,queArray)==-1)
+				{	
+					queArray.push($.trim(backQueId));
+					selectOption=true;
+				}
+				
+			setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
+		});
+		
+		if(((inputType=='checkbox') || (inputType=='radio')) && $('.childbox').is(':checked'))
+		{
+			var nexQueId = $('.childbox').data('next');
+			$('.nextQue').attr('data-qid',nexQueId);
+			if($('#TellUs').val()=='' && $('#customInfoYes').is(':checked')){
+				setTimeout(function(){$('.nextQue').attr('disabled',true);},100);
+				
+				return false;
+			}else{
+				setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
+			}
+			
+			
+		}
+
+		if(inputType=='text')
+		{	
+			if(inputName=='zip')
+			{
+				errorMsg('for_zip','zip Code');
+			}
+			if(inputName=='name')
+			{
+				errorMsg('childbox','name');
+			}
+		}
+	}
 }
 /**
   * Function to display the error
@@ -468,24 +508,132 @@ function errorMsg(inputClass,fieldName)
 	
 	if($("."+inputClass).val().length>0)
 	{
+		
 		$('.nextQue').prop('disabled', false);
 	}else{
 		
 		$('.nextQue').prop('disabled', true);
-		//$('.nextQue').attr("disabled", 'disabled');
-	}	
+	}
+	
 	$( "."+inputClass ).keyup(function(){
+		
 		
 		if($("."+inputClass).val().length > 0)
 		{
-			$("."+inputClass).closest('.errorBox').html('');
-			$('.nextQue').prop('disabled', false);
+			if($( "."+inputClass ).hasClass('zip')){
+				if(validateZIP($("."+inputClass).val(),inputClass)==true){
+					$("."+inputClass).next('.error-box').html('<p></p>');
+					$("."+inputClass).next('.error-box').hide();
+					$('.nextQue').prop('disabled', false);
+				}
+			}
+			
+			if($( "."+inputClass ).hasClass('email')){
+				if(validateEmail($("."+inputClass).val(),inputClass)==true){
+					$("."+inputClass).next('.error-box').html('<p></p>');
+					$("."+inputClass).next('.error-box').hide();
+					$('.nextQue').prop('disabled', false);
+				}else{
+					$("."+inputClass).next('.error-box').children().html('Please enter valid email address.');
+					$("."+inputClass).next('.error-box').show();
+					$('.nextQue').prop('disabled', true);	
+					return false;
+				}
+			}
+			
+			if($( "."+inputClass ).hasClass('phone')){
+				if(validatePhone($("."+inputClass).val(),inputClass)==true){
+					$("."+inputClass).next('.error-box').html('<p></p>');
+					$("."+inputClass).next('.error-box').hide();
+					$('.nextQue').prop('disabled', false);
+				}
+			}
+			if($( "."+inputClass ).hasClass('name')){
+				
+				var fld = $( "."+inputClass );
+				validateUsername(inputClass,fld)
+			}
+			
+			
 		}else{
-			$("."+inputClass).closest('.errorBox').html('<div class="alert alert-danger">'+
-			'<strong>Error!</strong> Please Enter '+fieldName+'</div>');
+			$("."+inputClass).next('.error-box').children().html('This field is required.');
+			$("."+inputClass).next('.error-box').show();
 		    $('.nextQue').prop('disabled', true);	
 		}
+		
 		});
+}
+
+function validateZIP(field,inputClass) {
+	var valid = "0123456789-";
+	var hyphencount = 0;
+
+	if (field.length!=5 && field.length!=10) {
+			$("."+inputClass).next('.error-box').children().html('Please enter your 5 digit or 5 digit+4 zip code.');
+			$("."+inputClass).next('.error-box').show();
+		    $('.nextQue').prop('disabled', true);	
+			return false;
+	}
+	for (var i=0; i < field.length; i++) {
+		temp = "" + field.substring(i, i+1);
+		if (temp == "-") hyphencount++;
+		if (valid.indexOf(temp) == "-1") {
+			$("."+inputClass).next('.error-box').children().html('Invalid characters in your zip code.  Please try again.');
+			$("."+inputClass).next('.error-box').show();
+		    $('.nextQue').prop('disabled', true);	
+			return false;
+		}
+		if ((hyphencount > 1) || ((field.length==10) && ""+field.charAt(5)!="-")) {
+			
+			$("."+inputClass).next('.error-box').children().html('The hyphen character should be used with a properly formatted 5 digit+four zip code, like \'12345-6789\'.   Please try again.');
+			$("."+inputClass).next('.error-box').show();
+		    $('.nextQue').prop('disabled', true);	
+			return false;
+		   }
+	}
+	return true;
+}
+
+function validateEmail(field,inputClass) {
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(field);
+}
+
+function validatePhone(field,inputClass){  
+  var phoneno = /^\d{10}$/;  
+  if((field.match(phoneno))) {  
+	  return true;  
+  }else {  
+		$("."+inputClass).next('.error-box').children().html('Please enter valid phone number.');
+		$("."+inputClass).next('.error-box').show();
+		$('.nextQue').prop('disabled', true);	
+		return false;
+		
+	}  
+}  
+function validateUsername(inputClass,fld) {
+    var error = "";
+    var illegalChars = /\W/; // allow letters, numbers, and underscores
+	console.log(illegalChars.test(fld.val()));
+    if (fld.val() == "") {
+        error = "This field is required.";
+		$("."+inputClass).next('.error-box').children().html(error);
+		$("."+inputClass).next('.error-box').show();
+        return false;
+ 
+    } else if (fld.val().length < 3) {
+        error = "Name should be greater then 3 characters.";
+		$("."+inputClass).next('.error-box').children().html(error);
+		$("."+inputClass).next('.error-box').show();
+		return false;
+ 
+    } else if (illegalChars.test(fld.val())===true || isNaN(fld.val())===false) {
+        error = "The username contains illegal characters.";
+		$("."+inputClass).next('.error-box').children().html(error);
+		$("."+inputClass).next('.error-box').show();
+		return false;
+    } 
+    return true;
 }
 /**
   * Function to display the hardcoded popup
@@ -501,7 +649,7 @@ function stQfrontStorage(staticModal)
 		data: '_token='+CSRF_TOKEN+'&staticModal='+staticModal,
 		success: function (data){
 			$('#myModal').html(data);
-			$( "#datepicker" ).datepicker();
+			$( "#datepicker" ).datepicker({onSelect: popupValidation});
 			popupValidation();		
 		}
 	}); 
@@ -522,9 +670,7 @@ function sendRequest()
 		type: 'get',
 		data: '_token='+CSRF_TOKEN,
 		success: function (data){
-			
 			console.log(data);
-			//alert(data);
 		}
 	}); 
 		
@@ -540,13 +686,13 @@ function cancelProject()
 {
 	$(document).on('click','#CancelProject',function(){
 		$.ajax({
-		url: '<?php echo url('/')."/cancelProject"; ?>',
-		type: 'get',
-		data: '_token='+CSRF_TOKEN,
-		success: function (data){
-			console.log(data);
-		}
-	}); 	
+			url: '<?php echo url('/')."/cancelProject"; ?>',
+			type: 'get',
+			data: '_token='+CSRF_TOKEN,
+			success: function (data){
+				console.log(data);
+			}
+		}); 	
 	});	
 }
 
@@ -559,67 +705,70 @@ function ServdateTime()
 		var val=$('#selectTime').val();
 		if(val=='selected_date')
 		{
+			
 			$('.drop-list').show();
 			backQueId = $('.nextQue').attr('data-current_id');
-			//opId = $(this).val();
 			if($.inArray(backQueId,queArray)==-1)
 			{	
 				queArray.push($.trim(backQueId));
 				selectDateOption=true;
-				//alert(selectOption);
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
 			opId = val;
+			
+			if($('#datepicker').val()==''){
+				messageErr = 'This field is required.';
+				$('#datepicker').next('.error-box').children('p').text(messageErr);
+				$('#datepicker').next('.error-box').show();
+				$('.nextQue').attr('disabled',true);
+				return false;
+			}
+			
+				
+
 			
 		}else if(val=='flexible_time' || val=='next_few_days' || val=='immediate')
 		{
 			backQueId = $('.nextQue').attr('data-current_id');
-			//opId = $(this).val();
 			if($.inArray(backQueId,queArray)==-1)
 			{	
 				queArray.push($.trim(backQueId));
 				selectDateOption=true;
-				//alert(selectOption);
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
 			opId = val;
 		}
+	
 		
-		setTimeout(function(){$('.nextQue').removeAttr('disabled')},300);
+		setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
 	}
-	
-	
-	 
-	
-	
 }
-function TellUs()
-	{
+function TellUs() {
 		var nexQueId = $('.nextQue').attr('data-qid');
 		if($('#customInfoYes').is(':checked'))
 		{
 			backQueId = $('.nextQue').attr('data-current_id');
-			//opId = $(this).val();
 			if($.inArray(backQueId,queArray)==-1)
 			{	
 				queArray.push($.trim(backQueId));
-				
-				//alert(selectOption);
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
+			if($('#TellUs').val()==''){
+				messageErr = 'This field is required.';
+				$('#TellUs').next('.error-box').children('p').text(messageErr);
+				$('#TellUs').next('.error-box').show();
+				$('.nextQue').attr('disabled',true);
+				return false;
+			}
 			
 		}
-	if($('#customInfoNo').is(':checked'))
-		{
+		if($('#customInfoNo').is(':checked')){
 			backQueId = $('.nextQue').attr('data-current_id');
-			//opId = $(this).val();
 			if($.inArray(backQueId,queArray)==-1)
 			{	
 				queArray.push($.trim(backQueId));
-				
-				//alert(selectOption);
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
 			TellusData = '';

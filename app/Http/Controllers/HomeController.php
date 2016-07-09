@@ -98,17 +98,12 @@ class HomeController extends Controller {
 	   if(isset($_REQUEST['backQid'])){
 		   $backQid=$_REQUEST['backQid'];
 		   $_SESSION['backQid']=$backQid;
-		// echo "<script> alert($backQid); </script>";
-	  
-		//echo "backQid".gettype($backQid);
-   //  echo"ghgggggggggggggggggggggggggg"; print_r($backQid);
-	
-	  //die;
+		
 	  $Qid = $_REQUEST['Qid'];
 	  $_SESSION['Qid']=$Qid;
 	   //$questions = DB::table('questions')->where('service_id',$serviceId)->get();
 	   $CqueParent = DB::table('services')->where('title','Common Ques')->first();
-	   $compQues   = DB::table('questions')->where('service_id',$CqueParent->id)->get();
+	   $compQues   = DB::table('questions')->where('service_id',@$CqueParent->id)->get();
 	   if(isset($_SESSION['userTmpId'])){
 		   
 		   $checkEntry = DB::table('localstorage')
@@ -118,23 +113,7 @@ class HomeController extends Controller {
 	   }
 	   
 			
-		/* foreach($questions as $k=>$v)
-		{
-		  $Qids[]=$v->id;
-		}
-		foreach($compQues as $k=>$v)
-		{
-		  $CQids[]=$v->id;
-		}
-		$Qids=array_unique(array_merge($Qids,$CQids));
-		print_r($Qids);
-		$key=array_search($Qid,$Qids);
-		if($key < count($Qids)){
-		$i=$key+1;
-		}
-		if($key>0){
-		$j=$key-1;
-		} */
+		
 		if(!empty($Qid)){
 		$queData = DB::table('questions')
 				->select(array('questions.*','option_type.*','questions.id AS que_id'))
@@ -150,7 +129,7 @@ class HomeController extends Controller {
 	    $formtype=$queData->op_type;
 	   $serviceId=$queData->service_id;
 		}
-	 // print_r($formtype);die;
+	 //echo '<pre>';print_r($checkEntry);die;
 	 if(isset($checkEntry))
 	 {
 		 foreach($checkEntry as $k=>$v)
@@ -159,7 +138,7 @@ class HomeController extends Controller {
 			if($v->question_id==$queData->que_id && !empty($v->options))
 			{
 				$options=json_decode($v->options,true);
-				//echo "<pre>"; print_r($options);
+				
 			}
 		} 
 	 }
@@ -186,20 +165,29 @@ class HomeController extends Controller {
 					</div>
 		<!--/popup head-->
 		<!--popup Content-->
-			<div class="popup-cont">
-				 <ul class="plist">';
+			<div class="popup-cont">';
 				if($formtype=='Drop Down')
-							{
-							 $popup .= '<select class="form-control childbox" id="selectAns"><option>Select your answer</option>';	
-							}
+				{
+					$popup .= '<ul class="plist-2"><li class="option"><select class="form-control childbox" id="selectAns"><option>Select your answer</option>';	
+				}else{
+					$popup .='<ul class="plist">';
+				}
 				//print_r($answers);
 		if(isset($options) && !empty($options)){
 				//
 					 foreach($answers as $k=>$v){
 						 
 						if(isset($options)){
+							$customAnswerText = '';
 							if(in_array($v->id,$options))
 							{
+								foreach($options as $optKey=>$optVal){
+									if(@$optVal['answerId']==$v->id){
+										$customAnswerText = $optVal['customAnswer'];
+									}
+								}
+								
+								//$customAnswerVal = answerId
 								$checked='checked = "checked"';
 								$selected='selected';
 							}else{
@@ -211,27 +199,40 @@ class HomeController extends Controller {
 							
 						  if($formtype=='Multi Select')
 							{	
-							 $popup .=   '<li><input type="checkbox" class="childbox" '.$checked.' data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="Lorem Ipsum is simply dummy text of the printing and typesetting industry." data-placement="top" data-toggle="tooltip" href="#" class="test">
-       	    <img width="14" height="14" alt="" src="img/tt-icon.png"> </a></li>';
+							
+			
+								if($v->custom_answer == "text") {
+								$popup .= '<li class="other actionPerform" ><span><input type="checkbox" '.$checked.' class="childbox required customAnswer"  name="ck['.$k.']" data-next="'.$v->next_question_id.'" value="'.$v->id.'"></span><input class="'.(@$checked?'required':'').' customAnswerText" name="innerAns['.$k.']"  type="text" placeholder="'.$v->answers.'" value='.$customAnswerText.'>
+											<div class="error-box"><p>Fill Details</p></div>
+											</li>';
+											
+								}else{
+									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox required" '.$checked.' data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="Lorem Ipsum is simply dummy text of the printing and typesetting industry." data-placement="top" data-toggle="tooltip" href="#" class="test">
+												<img width="14" height="14" alt="" src="img/tt-icon.png"> </a></li>';
+								}
+			
 							}
 							if($formtype=='Single  Select')
 							{
-							 $popup .=   '<li><input type="radio" class="childbox" '.$checked.' name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</li>';	
+								if($v->custom_answer == "text") {
+								 $popup .= '<li class="other actionPerform" ><span><input type="radio" class="childbox required customAnswer" '.$checked.'  name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'"></span><input class="'.(@$checked?'required':'').' customAnswerText" name="innerAns['.$k.']"  type="text" placeholder="'.$v->answers.'" value='.$customAnswerText.'>
+											<div class="error-box"><p>Fill Details</p></div>
+											</li>';
+											
+								}else{
+									$popup .=   '<li class="actionPerform"><input type="radio" class="childbox required" '.$checked.'  name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</li>';	
+								}	
+							 
 							}
 							if($formtype=='Drop Down')
 							{
 							 $popup .=   '<option class="childbox" '.$selected.' data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</option>';	
 							}
-							if($v->custom_answer=="text")
-							{
-							 $popup .= '<li class="other" ><input class="innerAns" name="innerAns['.$k.']"  type="text" placeholder="Enter your details">
-										<div class="error-box"><p>Fill Details</p></div>
-										</li>';
-							}
+							
 				        }
 							if($formtype=='Drop Down')
 							{
-							 $popup .= '</select>';	
+							 $popup .= '</select></li>';	
 							}
 								 
 		if($queData->other_custom_field==1)
@@ -242,25 +243,40 @@ class HomeController extends Controller {
 		}
 	   }else{   
 				foreach($answers as $k=>$v){
+					echo 'answertype'.$v->custom_answer;
 						  if($formtype=='Multi Select')
 							{	
-							 $popup .=   '<li><input type="checkbox" class="childbox"  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="Lorem Ipsum is simply dummy text of the printing and typesetting industry." data-placement="top" data-toggle="tooltip" href="#" class="test">
-       	    <img width="14" height="14" alt="" src="img/tt-icon.png"> </a></li>';
+								
+			
+								if($v->custom_answer == "text") {
+								$popup .= '<li class="other actionPerform" ><span><input type="checkbox" class="childbox customAnswer"  name="ck['.$k.']" data-next="'.$v->next_question_id.'" value="'.$v->id.'"></span><input class="customAnswerText" name="innerAns['.$k.']"  type="text" placeholder="'.$v->answers.'">
+											<div class="error-box"><p>Fill Details</p></div>
+											</li>';
+											
+								}else{
+									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox "  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="Lorem Ipsum is simply dummy text of the printing and typesetting industry." data-placement="top" data-toggle="tooltip" href="#" class="test">
+												<img width="14" height="14" alt="" src="img/tt-icon.png"> </a></li>';
+								}
+			
 							}
 							if($formtype=='Single  Select')
 							{
-							 $popup .=   '<li><input type="radio" class="childbox"  name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</li>';	
+								if($v->custom_answer == "text") {
+								 $popup .= '<li class="other actionPerform" ><span><input type="radio" class="childbox customAnswer"  name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'"></span><input class="customAnswerText" name="innerAns['.$k.']"  type="text" placeholder="'.$v->answers.'">
+											<div class="error-box"><p>Fill Details</p></div>
+											</li>';
+											
+								}else{
+									$popup .=   '<li class="actionPerform"><input type="radio" class="childbox"  name="rd" data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</li>';	
+								}
+								
 							}
 							if($formtype=='Drop Down')
 							{
-							 $popup .=   '<option class="childbox"  data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</option>';	
+							 $popup .=   '<option class="childbox required"  data-next="'.$v->next_question_id.'" value="'.$v->id.'">'.$v->answers.'</option>';	
 							}
-							if($v->custom_answer=="text")
-							{
-							 $popup .= '<li class="other" ><input class="innerAns" name="innerAns['.$k.']"  type="text" placeholder="Enter your details">
-										<div class="error-box"><p>Fill Details</p></div>
-										</li>';
-							}
+							
+							
 				        }
 				if($formtype=='Drop Down')
 							{
@@ -269,7 +285,7 @@ class HomeController extends Controller {
 								 
 		if($queData->other_custom_field==1)
 		{
-			$popup .=   '<li class="other" ><input type="text" name="customAns" placeholder="Other">
+			$popup .=  '<li class="other" ><input type="text" name="customAns" class="required" placeholder="Other">
 					<div class="error-box"><p>Fill Details</p></div>
 				   </li>';
 		}
@@ -413,8 +429,8 @@ class HomeController extends Controller {
 					  
 					<ul class="drop-list">
 						<li><label>Best date(s) and time(s) for painting</label>
-							 <input type="text" name="date" class="childbox for_date" id="datepicker"  placeholder="Click to pick a date" value='.(@$date?$date:'').'>
-							 <div class="errorBbox"></div>
+							 <input type="text" name="date" class="childbox for_date" id="datepicker" readonly="readonly"  placeholder="Click to pick a date" value='.(@$date?$date:'').'>
+							 <div class="error-box marginL0"></div>
 						</li>
 					<ul>  
 					  </li>
@@ -453,10 +469,10 @@ class HomeController extends Controller {
 						<!--popup Content-->
 							<div class="popup-cont">
 								 <ul class="plist">
-								   <li><input name="customInfo" '.(@$TellusData!=''?'checked':'').' id="customInfoYes" class="childbox tellusData customInfoYes" type="radio"> Yes</li>
-								   <li><input name="customInfo" '.(@$TellusData==''?'checked':'').' id="customInfoNo" class="childbox tellusData customInfoNo" type="radio"> No</li>		   
-								   <li><textarea class="txtarea" name="TellUs" id="TellUs" class="childbox" placeholder="Tell us more" '.(@$TellusData!=''?'':'style="display:none;"').'>'.(@$TellusData?$TellusData:'').'</textarea>
-									 <div class="error-box"><p>Fill Details</p></div>
+								   <li class="actionPerform"><input name="customInfo" '.(@$TellusData!=''?'checked':'').' id="customInfoYes" class="childbox tellusData customInfoYes" type="radio"> Yes</li>
+								   <li class="actionPerform"><input name="customInfo" '.(@$TellusData==''?'checked':'').' id="customInfoNo" class="childbox tellusData customInfoNo" type="radio"> No</li>		   
+								   <li class="actionPerform"><textarea class="txtarea" name="TellUs" id="TellUs" class="childbox" placeholder="Tell us more" '.(@$TellusData!=''?'':'style="display:none;"').'>'.(@$TellusData?$TellusData:'').'</textarea>
+									 <div class="error-box marginL0"><p>Fill Details</p></div>
 								   </li>		   
 								 </ul>
 							</div>
@@ -492,8 +508,8 @@ class HomeController extends Controller {
 								<div class="popup-cont">
 									 <ul class="plist">
 									   <li class="option">
-									   <input type="text" name="zip" class="txt childbox for_zip" id="ZipInput" placeholder="Zip Code" value='.(@$zip?$zip:'').'>
-											<div class="errorBox"></div>
+									   <input type="text" maxlength="5" name="zip" class="txt childbox for_zip zip" id="ZipInput" placeholder="Zip Code" value='.(@$zip?$zip:'').'>
+											<div class="error-box marginL0"><p></p></div>
 									   </li>
 									   
 									 </ul>
@@ -529,7 +545,7 @@ class HomeController extends Controller {
 												
 											<div class="popup-cont">
 												 <ul class="plist-2">		
-														<li>
+														<li class="actionPerform">
 															<div class="option-txt">
 															<p class="phead">  </p>
 															<input type="radio" name="comm_medium" class="childbox" id="email" '.@$emailOnly.'> I want quotes by email only</br>
@@ -538,12 +554,12 @@ class HomeController extends Controller {
 															</div>
 															
 															<label class="for_email_label" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').'> What\'s your email address? </label>
-															<input type="text" name="email"   class="for_email childbox" placeholder="Enter Email Id" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').' value='.@$email.'>
-															<div class="errorBox for_email"></div>
+															<input type="text" name="email"   class="for_email childbox email" placeholder="Enter Email Id" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').' value='.@$email.'>
+															<div class="error-box for_email marginL0"></div>
 													  
 															<label class="for_phone_label" '.(@$email_text=='checked'?'style="display:block;"':'style="display:none;"').'>Phone number </label>
-															<input type="text" name="phone"  class="for_phone childbox" placeholder="Ex. 9864646456" '.(@$email_text=='checked'?'style="display:block;"':'style="display:none;"').' value='.@$phone.'>	
-															<div class="errorBox for_phone"></div>
+															<input type="text" name="phone"  class="for_phone childbox phone" placeholder="Ex. 9864646456" '.(@$email_text=='checked'?'style="display:block;"':'style="display:none;"').' value='.@$phone.'>	
+															<div class="error-box for_phone marginL0"></div>
 														</li>
 											
 												 </ul>
@@ -581,8 +597,8 @@ class HomeController extends Controller {
 								<div class="popup-cont">
 									 <ul class="plist">
 									   <li class="option">
-									   <input type="text" name="name" class="txt childbox" placeholder="First and Last Name" value='.(@$name?$name:'').'> 
-										<div class="errorBox"></div>
+									   <input type="text" name="name" class="txt childbox name" placeholder="First and Last Name" value='.(@$name?$name:'').'> 
+										<div class="error-box marginL0"></div>
 									   </li>
 									   
 									 </ul>
@@ -668,54 +684,71 @@ class HomeController extends Controller {
 					if(isset($options[$k]['phone'])){ 
 					 $phone = $options[$k]['phone'];}
 					 
-				}
-		}
-		//print_r($checkEntry);die;
-		foreach($checkEntry as $key=> $value){
-			$qid = trim($value->question_id);
-			
-			if($qid == 0 || $qid == 'p2' || $qid == 'p3')
-			{
-				continue;
-			}else{	
-				$index=array('qid');
-				$values=array($qid);
-				$mainArr=array();
-				$options=json_decode($value->options,true);
-				foreach($options as $k=>$v)
-				{	
-					array_push($index,"op".++$k);
-					array_push($values,$v);
+					 if(isset($options[$k]['selected_date'])){ 
+					$selected_date = $options[$k]['selected_date'];}
 					
-					//$arr=array('op'.$k+1=>$v);
-					//$mainArr[]=$arr;	
+					if(isset($options[$k]['TellusData'])){ 
+					$TellusData = $options[$k]['TellusData'];}
+					 
+					
+					 
 				}
-				$temp[]=array_combine($index,$values);
-				//echo "<pre>";
-				//print_r($value->question_id);
-		
-			}
-	}
-	if(@$temp)
-	{
-		$selected_options=json_encode($temp);
-		$entry=DB::table('quote_requests')->insert(['full_name' => $name,'service_id'=>$_SESSION['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'email'=>$email,'phone_no'=>$phone,'zipcode'=>$zip,'selected_options'=>$selected_options]);
-
-	}
-		
-		}}
-		if($entry)
+		}
+			//print_r($checkEntry);die;
+			
+			
+			
+		if(@$_SESSION['serviceId']!='' && @$_SESSION['userTmpId']!='' &&  @$name!='')
 		{
-				DB::table('localstorage')
-						->where('service_id',$_SESSION['serviceId'])
-						->where('user_temp_id',$_SESSION['userTmpId'])
-						->delete();
-				echo "success";
+			
+			$entry=DB::table('quote_requests')->insertGetId(['full_name' => $name,'service_id'=>$_SESSION['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'email'=>$email,'phone_no'=>$phone,'zipcode'=>$zip]);
+			
+			if($entry!='') {
+				
+				foreach($checkEntry as $key=> $value){
+					$qid = trim($value->question_id);
+					
+					if($qid == 0 || $qid == 'p2' || $qid == 'p3' || $qid == 'p4' || $qid == 'p5')
+					{
+						continue;
+					}else{	
+						
+						$options=json_decode($value->options,true);
+						
+						$optionArr = array_filter($options);
+						
+						foreach($optionArr as $k=>$v)
+						{	
+							$optDataSave = array();
+							$optDataSave['question_id'] = $qid;
+							$optDataSave['quote_requests_id'] = $entry;
+							
+							if(@$v['answerId'] && @$v['customAnswer']){ 
+								$optDataSave['answer_id'] = $v['answerId'];
+								$optDataSave['custom_answer'] = $v['customAnswer'];	
+							}else{
+								$optDataSave['answer_id'] = $v;
+								$optDataSave['custom_answer'] = '' ;
+							}
+							
+							$saveQuoteAnswer = DB::table('quote_requests_answers')->insert($optDataSave);
+							
+						}
+					}
+				}
+
+					/*DB::table('localstorage')
+							->where('service_id',$_SESSION['serviceId'])
+							->where('user_temp_id',$_SESSION['userTmpId'])
+							->delete(); */
+					echo "success";
+			}
 		}
 		
+		}
 		
 		return;
-}
+	}}
 
 public function cancelProject()
 {
