@@ -161,31 +161,27 @@ public function create(Request $request)
 */
 public function store(Create $request)
 {
-		$data = $request->all();
+		$Alldata = $request->all();
 	//	echo "<pre>"; print_R($data);die;
-		$id=$data['id'];
-		$contactName=$data['full_name'];
-		$contactEmail=$data['email'];
-		if(!empty($data['phone_no'])){
-			$phone_no=$data['phone_no'];
+		$id=$Alldata['id'];
+		$contactName=$Alldata['full_name'];
+		$contactEmail=$Alldata['email'];
+		if(!empty($Alldata['phone_no'])){
+			$phone_no=$Alldata['phone_no'];
 		}
-		$contactMessage=$data['message'];
-		//echo "<pre>"; print_R($id);die;
+		$contactMessage=$Alldata['message'];
+		//echo "<pre>"; print_R($contactMessage);die;
 		$data = array(
 			'name'=>$contactName, 
-			'email'=>$contactEmail, 
 			'message'=>$contactMessage
 		);
-		Mail::send('vendor.pingpong.admin.quotes.reply', $data, function($message) use ($contactEmail, $contactName)
+		/* Mail::send('vendor.pingpong.admin.emails.replytemplate', $data, function($message) use ($contactEmail, $contactName)
 		{   
-				$message->to($contactEmail, $contactName)->subject('Mail via aallouch.com');
-				//$message->to('info@aallouch.com', 'myName')->subject('Mail via aallouch.com');
-		});
-		
-		/* Mail::send( $text, function ($message) {
-		$message->from('us@example.com', 'Laravel');
-		$message->to('rohitbss@mailinator.com');
+				$message->to($contactEmail, $contactName)->subject('Reply mail');
+				
 		}); */
+		
+		
 		/* if(	(!empty($id))&& (!empty($email))){
 					
 			$quoteData = $this->repository->findById($id);

@@ -72,6 +72,9 @@ public function create(Request $request)
 			$servid=$request->get('serv_id');
 			$optId=$request->get('opt');
 			$service=DB :: table("services")->where('id',$servid)->lists('title','id');
+			$sortData=DB :: table("questions")->where('service_id',$servid)->lists('title','id');
+			$sortIndex=(count($sortData)+1);
+			//echo "<pre>"; print_R($sortIndex);die;
 		}
 	
 		//echo "<pre>"; print_R($service);
@@ -92,9 +95,9 @@ public function create(Request $request)
 		//echo "<pre>"; print_R($formTypeArr);die;
 		if(!empty($service)){
 				$serviceArr=$service;
-				return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr','servid','optId','serviceid','selectedServiceName'));
+				return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr','servid','optId','serviceid','selectedServiceName','sortIndex'));
 		}else{
-			return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr'));
+			return $this->view('questions.create', compact('id','type','serviceArr','formTypeArr','sortIndex'));
 		}
 		
 
@@ -147,6 +150,8 @@ public function edit($id,REQUEST $request)
 		$servid=$request->get('ser_id');
 		$optId=$servid;
 		$serviceid=$servid;
+		//$sortData=DB :: table("questions")->where('service_id',$servid)->lists('title','id');
+		//$sortIndex=(count($sortData)+1);
 		$selectedServiceName=DB :: table("services")->where('id',$servid)->lists('title','id');
 		$serviceArr=DB :: table("services")->lists('title','id');
 		$formTypeArr=DB :: table("option_type")->lists('op_type','id');

@@ -10,7 +10,7 @@ class Create extends Validator
         return [
 			'message' => 'required',
            	'email' => 'required',
-			'phone_no' => 'required',
+			
         ];
     }
 	
@@ -19,7 +19,7 @@ class Create extends Validator
         return [
             'message.required' => 'This field is required',
             'email.required' => 'This field is required',
-            'phone_no.required' => 'This field is required',
+           
         ];
     }
 }

@@ -67,10 +67,10 @@
 		<table class="table_info">
 		<thead >
 				@foreach ($quotes as $k=>$quote)
-		<div >
+		<!-- <div >
 				<a href="{!! route('admin.quotes.create', ['requestId'=>$quote->id]) !!}"><input type="submit" name="reply" value="Send a Request Reply" class="reply_btn"></a>
 				
-		</div>
+		</div> -->
 		<tr class="mid">
 							
 				 	  <td colspan="2"> Personal Information :</td>
@@ -109,7 +109,7 @@
 						$k=$k+1;?>
 				<tr class="mid">
 							
-				 	  <td class="td"><?php echo "Que ".$k.".  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$tempQueData['question_id'];?></td>
+				 	  <td class="td" ><?php echo "Que ".$k.".  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$tempQueData['question_id'];?></td>
 				</tr>
 					<?php 
 							 foreach($tempQueData['answer_id'] as $z=> $answerData){
@@ -172,7 +172,7 @@
 
 .td{
 	float:left;
-	margin-left:5%;
+	width:34%;
 }
 .table_info{
 	
