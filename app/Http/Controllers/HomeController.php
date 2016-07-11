@@ -700,7 +700,7 @@ class HomeController extends Controller {
 		if(@$_SESSION['serviceId']!='' && @$_SESSION['userTmpId']!='' &&  @$name!='')
 		{
 			
-			$entry=DB::table('quote_requests')->insertGetId(['full_name' => $name,'service_id'=>$_SESSION['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'email'=>$email,'phone_no'=>$phone,'zipcode'=>$zip,'service_request_date'=>$selected_date,'anything_else_know'=>$TellusData]);
+			$entry=DB::table('quote_requests')->insertGetId(['full_name' => $name,'service_id'=>$_SESSION['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'email'=>$email,'phone_no'=>$phone,'zipcode'=>$zip,'service_request_date'=>@$selected_date,'anything_else_know'=>@$TellusData]);
 			
 			if($entry!='') {
 				

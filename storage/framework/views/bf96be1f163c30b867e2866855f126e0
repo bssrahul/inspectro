@@ -3,14 +3,17 @@
 		Add New Question
 		&middot;
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
-		
+		<small style="float:right">	
+			<?php echo link_to_route('admin.login.index', 'Home'); ?>&nbsp;&nbsp;>>&nbsp;&nbsp;<?php echo link_to_route('admin.questions.index', ucwords($selectedServiceName[$serviceid]),['ser_id'=>$serviceid,'opt'=>$serviceid]); ?>
+
+		</small>
 	</h1>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
 
 	<div>
-		<?php echo $__env->make('admin::pages.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+		<?php echo $__env->make('admin::questions.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 	</div>
 
 <?php $__env->stopSection(); ?>

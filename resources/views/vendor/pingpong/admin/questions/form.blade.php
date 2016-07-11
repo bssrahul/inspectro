@@ -26,7 +26,7 @@
 		{!! $errors->first('form_type_id', '<div class="text-danger">:message</div>') !!}
 		
 	</div>
-	<div class="form-group">
+	<!-- <div class="form-group">
 		
 		{!! Form::label('other_custom_field', '  Other Custom Input Field  :  ') !!}	
 		&nbsp;&nbsp;&nbsp;
@@ -35,15 +35,15 @@
 		<span> <?php echo"( If you need Other Input field, Please check above box )";?> </span>
 		{!! $errors->first('other_custom_field', '<div class="text-danger">:message</div>') !!}
 		
-	</div>
+	</div> -->
 	<div class="form-group">
 		{!! Form::label('description_1', 'Description 1:') !!}
-		{!! Form::textarea('description_1', null, ['class' => 'form-control required']) !!}
+		{!! Form::textarea('description_1', null, ['class' => 'form-control ']) !!}
 		{!! $errors->first('description_1', '<div class="text-danger">:message</div>') !!}
 	</div>
 	<div class="form-group">
 		{!! Form::label('description_2', 'Description 2:') !!}
-		{!! Form::textarea('description_2', null, ['class' => 'form-control required']) !!}
+		{!! Form::textarea('description_2', null, ['class' => 'form-control ']) !!}
 		{!! $errors->first('description_2', '<div class="text-danger">:message</div>') !!}
 	</div>
 	
@@ -51,7 +51,7 @@
 						
 		<label for="sort[0]"> Sort Question  :</label>
 		&nbsp;&nbsp;&nbsp;
-		<input type="number" name="sort_question" class = 'form-control required'  value = "<?php if(!empty($question['sort_question'])){ echo $question['sort_question'];} ?>">
+		<input type="number" name="sort_que" class = 'form-control required'  value = "<?php if(!empty($question['sort_que'])){ echo $question['sort_que'];}else{ echo $sortIndex; } ?>">
 		<div class="text-danger"></div>
 	
 				

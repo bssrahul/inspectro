@@ -1,0 +1,12 @@
+<h1>Hi, <?php echo $name; ?></h1></br> 
+
+
+
+<p>	<?php echo $message; ?> </p>
+
+<p>Thank you for Choosing Services! </p>
+</br></br>
+Regard,</br>
+
+Inspectro Admin.
+
