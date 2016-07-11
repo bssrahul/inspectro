@@ -22,6 +22,10 @@ Route::get('pages/{slug}', [
     'as' => 'pages', 'uses' => 'PagesController@view'
 ]);
 
+Route::get('sendTestMail', 'HomeController@sendTestMail');
+
+Route::get('thankyouMail', 'HomeController@thankyouMail');
+
 // Route::post('serviceslist', ['as' => 'servicesList', 'uses' => 'HomeController@serviceList']);
 
 
