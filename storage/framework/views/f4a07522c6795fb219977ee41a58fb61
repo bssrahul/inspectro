@@ -137,7 +137,7 @@ $(document).ready(function(){
 $(document).on('click','.childbox',function(){
 	
 	
-	if($(this).hasClass('for_zip') || $(this).hasClass('for_email') || $(this).hasClass('for_phone')){
+	if($(this).hasClass('for_zip') || $(this).hasClass('for_email') || $(this).hasClass('for_phone') || $(this).hasClass('name')){
 		return false;
 	}
 	
@@ -151,7 +151,7 @@ $(document).on('click','.childbox',function(){
 	}
 	
 	
-	popupValidation();
+	
 	
 	if($('#email').is(':checked')){
 		$('.for_email,.for_email_label').show();
@@ -162,6 +162,10 @@ $(document).on('click','.childbox',function(){
 		$('.for_email,.for_email_label').show();
 		$('.for_phone,.for_phone_label').show();
 	}
+	if(!$(this).hasClass('emailCheck')){
+		popupValidation();
+	}
+	
 	var inputType1 = $('.for_email').attr('type');
 	if(inputType1=='text')
 	{
@@ -175,6 +179,7 @@ $(document).on('click','.childbox',function(){
 	{
 	if($('.for_phone').is(':visible')=== true)
 		{
+			
 			errorMsg('for_phone','phone Number');
 		}
 	}
@@ -182,8 +187,9 @@ $(document).on('click','.childbox',function(){
 });
 var selectOption = false;
 var selectDateOption = false;
-var Tellusflag = true;
-var opId,dateOfServ,TellusData;
+var Tellusflag = false;
+var opId,dateOfServ;
+var TellusData = '';
 $(document).on('click','.nextQue,.back',function(){
 	
 	if (typeof $(this).data('qid') ==='undefined') {
@@ -229,6 +235,7 @@ $(document).on('click','.nextQue,.back',function(){
 				{
 					TellusData=$('#TellUs').val();
 					OptArray.push({'TellusData':TellusData});
+					
 					Tellusflag = false;
 				}
 
@@ -263,7 +270,6 @@ $(document).on('click','.nextQue,.back',function(){
 					optionId=$(this).attr('value');	
 					
 					if(!$(this).parent().next().hasClass('customAnswerText')){
-						
 						OptArray.push(parseInt(optionId));
 					}
 				}
@@ -366,8 +372,10 @@ $(document).ready(function() {
 		if($(this).hasClass('customInfoNo')){
 			$('#TellUs').hide();
 			$('#TellUs').val('');
+			Tellusflag=false;
 		}else{
 			$('#TellUs').show();
+			Tellusflag=true;
 		}
 		
 	});
@@ -385,6 +393,11 @@ $(document).ready(function() {
 	$('body').on('keyup','#TellUs', function(){
 		popupValidation();
 	});
+	$('body').on('keyup','#fullName', function(){
+		errorMsg('childbox','name');
+	});
+	
+	
 	
 	
 
@@ -771,7 +784,7 @@ function TellUs() {
 				queArray.push($.trim(backQueId));
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
-			TellusData = '';
+			var TellusData = '';
 		}
 	}
 

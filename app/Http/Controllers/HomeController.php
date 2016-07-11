@@ -179,15 +179,17 @@ class HomeController extends Controller {
 						 
 						if(isset($options)){
 							$customAnswerText = '';
+							foreach($options as $optKey=>$optVal){
+								if(@$optVal['answerId']==$v->id){
+									$customAnswerText = $optVal['customAnswer'];
+								}
+							}
 							if(in_array($v->id,$options))
 							{
-								foreach($options as $optKey=>$optVal){
-									if(@$optVal['answerId']==$v->id){
-										$customAnswerText = $optVal['customAnswer'];
-									}
-								}
-								
 								//$customAnswerVal = answerId
+								$checked='checked = "checked"';
+								$selected='selected';
+							}elseif($customAnswerText!=''){
 								$checked='checked = "checked"';
 								$selected='selected';
 							}else{
@@ -202,7 +204,7 @@ class HomeController extends Controller {
 							
 			
 								if($v->custom_answer == "text") {
-								$popup .= '<li class="other actionPerform" ><span><input type="checkbox" '.$checked.' class="childbox required customAnswer"  name="ck['.$k.']" data-next="'.$v->next_question_id.'" value="'.$v->id.'"></span><input class="'.(@$checked?'required':'').' customAnswerText" name="innerAns['.$k.']"  type="text" placeholder="'.$v->answers.'" value='.$customAnswerText.'>
+								$popup .= '<li class="other" ><span><input type="checkbox" '.$checked.' class="childbox required customAnswer"  name="ck['.$k.']" data-next="'.$v->next_question_id.'" value="'.$v->id.'"></span><input class="'.(@$checked?'required':'').' customAnswerText" name="innerAns['.$k.']"  type="text" placeholder="'.$v->answers.'" value='.$customAnswerText.'>
 											<div class="error-box"><p>Fill Details</p></div>
 											</li>';
 											
@@ -548,8 +550,8 @@ class HomeController extends Controller {
 														<li class="actionPerform">
 															<div class="option-txt">
 															<p class="phead">  </p>
-															<input type="radio" name="comm_medium" class="childbox" id="email" '.@$emailOnly.'> I want quotes by email only</br>
-															<input type="radio" name="comm_medium" class="childbox" id="email_text" '.@$email_text.'> I want quotes by email and text message
+															<input type="radio" name="comm_medium" class="childbox emailCheck" id="email" '.@$emailOnly.'> I want quotes by email only</br>
+															<input type="radio" name="comm_medium" class="childbox emailCheck" id="email_text" '.@$email_text.'> I want quotes by email and text message
 															<p> By selecting this option, you electronically authorize Inspectaro to send you automated text messages to notify you of quotes from Inspectaro pros. Receiving text messages is optional. </p>
 															</div>
 															
@@ -597,7 +599,7 @@ class HomeController extends Controller {
 								<div class="popup-cont">
 									 <ul class="plist">
 									   <li class="option">
-									   <input type="text" name="name" class="txt childbox name" placeholder="First and Last Name" value='.(@$name?$name:'').'> 
+									   <input type="text" id="fullName" name="name" class="txt childbox name" placeholder="First and Last Name" value='.(@$name?$name:'').'> 
 										<div class="error-box marginL0"></div>
 									   </li>
 									   
@@ -694,14 +696,11 @@ class HomeController extends Controller {
 					 
 				}
 		}
-			//print_r($checkEntry);die;
-			
-			
 			
 		if(@$_SESSION['serviceId']!='' && @$_SESSION['userTmpId']!='' &&  @$name!='')
 		{
 			
-			$entry=DB::table('quote_requests')->insertGetId(['full_name' => $name,'service_id'=>$_SESSION['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'email'=>$email,'phone_no'=>$phone,'zipcode'=>$zip]);
+			$entry=DB::table('quote_requests')->insertGetId(['full_name' => $name,'service_id'=>$_SESSION['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'email'=>$email,'phone_no'=>$phone,'zipcode'=>$zip,'service_request_date'=>$selected_date,'anything_else_know'=>$TellusData]);
 			
 			if($entry!='') {
 				
@@ -737,10 +736,10 @@ class HomeController extends Controller {
 					}
 				}
 
-					/*DB::table('localstorage')
+					DB::table('localstorage')
 							->where('service_id',$_SESSION['serviceId'])
 							->where('user_temp_id',$_SESSION['userTmpId'])
-							->delete(); */
+							->delete(); 
 					echo "success";
 			}
 		}
