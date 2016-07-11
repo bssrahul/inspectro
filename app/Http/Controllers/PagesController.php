@@ -35,8 +35,9 @@ class PagesController extends Controller {
 						->where('page_link',$slug)->where('status','1')
 						->first();
 			$ourTestimonialData= DB::table('static_blocks')->where('type','testimonial')->get();
+			$blockDataInfo= DB::table('static_blocks')->where('type','work')->where('status','1')->get();
 			//echo "<pre>"; print_r($pageData);die;
-			return view('page.view',compact('pageData','slug','ourTestimonialData'));
+			return view('page.view',compact('pageData','slug','ourTestimonialData','blockDataInfo'));
 		}
 	
 		/*
