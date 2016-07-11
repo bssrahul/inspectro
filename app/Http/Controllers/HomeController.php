@@ -3,6 +3,8 @@ use Auth;
 use App\User;
 use Session;
 use DB;
+use Mail;
+
 class HomeController extends Controller {
 	
 	/*
@@ -692,8 +694,6 @@ class HomeController extends Controller {
 					if(isset($options[$k]['TellusData'])){ 
 					$TellusData = $options[$k]['TellusData'];}
 					 
-					
-					 
 				}
 		}
 			
@@ -735,7 +735,16 @@ class HomeController extends Controller {
 						}
 					}
 				}
-
+					$userData['name']  =  $name;
+					$userData['email'] =  $email;
+					
+					$adminData['name']  =  'Admin';
+					$adminData['fromName']  =  $name;
+					$adminData['fromEmail']  =  $email;
+					$adminData['email'] =  'tobias@juelke.de';
+					
+					$this->thankyouMail($userData,'user');
+					$this->thankyouMail($adminData,'admin');
 					DB::table('localstorage')
 							->where('service_id',$_SESSION['serviceId'])
 							->where('user_temp_id',$_SESSION['userTmpId'])
@@ -764,4 +773,41 @@ public function cancelProject()
 	}
 	
 }
+
+public function sendTestMail(){
+	$user['email'] = 'sukant@mobilyte.com';
+	$user['name'] = 'Sukant';
+	
+	
+	$data=array('message'=>'sdf');
+		
+	Mail::send('emails.reminder', array('user' => 'Sukant', 'userMessage' =>  'sdf'), function($message) use ($user) {
+		$message->to($user['email'],$user['name'])->subject("dfg");
+	});			
+	
+	echo 'sent';die;
+}
+
+public function thankyouMail($userData, $type){
+	
+	if(!empty($userData)){
+		$data = $userData;
+		if($type=='admin'){
+			$subject = 'Inspectro - New Quote Request';	
+			$data['message'] = 'We have recieved new quote request from '.$userData['fromName'].'('.$userData['fromEmail'].'). Kindly review the detail in admin panel & respond accordindly.';
+		}else{
+			$subject = 'Inspectro - Quote Request Recieved';	
+			$data['message'] = 'Thanks for the request. We are working on the same will get back to you asap.';
+		}
+		
+		
+		Mail::send('emails.thank-you', compact('data'), function($message) use ($userData, $subject) {
+			
+			$message->to($userData['email'],$userData['name'])->subject($subject);
+		});	
+		
+	}
+	return 'success';	
+}
+
 }
