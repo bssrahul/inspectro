@@ -9,8 +9,8 @@
                                 	<div class="foot-box">
                                     	<p class="fhead">Company</p>
                                         	<ul>
-                                            <li>{!! link_to_route('pages', 'About',['slug'=>'about-us'  ]) !!}</li>
-											<li>{!! link_to_route('pages', 'Privacy Policy',['slug'=>'privacy-policy'  ]) !!}</li>
+                                            <li><?php echo link_to_route('pages', 'About',['slug'=>'about-us'  ]); ?></li>
+											<li><?php echo link_to_route('pages', 'Privacy Policy',['slug'=>'privacy-policy'  ]); ?></li>
                                             <li><a href="#" title="">Jobs</a></li>
                                             <li><a href="#" title=""> Team</a></li>
                                             <li><a href="#" title=""> Blog</a></li>
@@ -20,7 +20,7 @@
                                 	<div class="foot-box">
                                     	<p class="fhead">Customers</p>
                                         	<ul>
-											<li>{!! link_to_route('pages', 'How it works',['slug'=>'work'  ]) !!}</li>
+											<li><?php echo link_to_route('pages', 'How it works',['slug'=>'work'  ]); ?></li>
                                             <li><a href="#" title="">Safety</a></li>
                                             <li><a href="#" title="">iPhone app</a></li>
                                             <li><a href="#" title="">Services Near Me</a></li>
@@ -32,7 +32,7 @@
                                 <div class="foot-box">
                                     	<p class="fhead">Pros</p>
                                         	<ul>
-											<li>{!! link_to_route('pages', 'How it works',['slug'=>'work'  ]) !!}</li>
+											<li><?php echo link_to_route('pages', 'How it works',['slug'=>'work'  ]); ?></li>
                                             <li><a href="#" title="">Sign up</a></li>
                                             <li><a href="#" title="">Pro center</a></li>
                                             <li><a href="#" title="">Success stories</a></li>
@@ -46,7 +46,7 @@
                                     	<p class="fhead"> Questions? Need help?</p>
                                         	<ul>
                                             <li><a href="#" title="">Help center</a></li>
-                                            <li>{!! link_to_route('pages', 'Contact Us',['slug'=>'contact-us'  ]) !!}</li>
+                                            <li><?php echo link_to_route('pages', 'Contact Us',['slug'=>'contact-us'  ]); ?></li>
                                             </ul>
                                             
                                             <p class="fhead"> Follow Us On</p>
@@ -117,7 +117,7 @@ $(document).ready(function(){
 		queArray=[];
 		
 		var serviceId=$(this).attr('id');
-		var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
+		var loadingImage="<?php echo e(asset('/public/img/ajaxloader/ajaxloader.gif')); ?>";
 		quoteOptionsArr['serviceId_'+serviceId] = new Array();
 
 		$.ajax({
@@ -295,7 +295,7 @@ $(document).on('click','.nextQue,.back',function(){
 		return;
 	}
 	
-	var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
+	var loadingImage="<?php echo e(asset('/public/img/ajaxloader/ajaxloader.gif')); ?>";
 	if(CheckArrayIndex(queArray,$.trim(Qid)) != -1 &&  CheckArrayIndex(queArray,$.trim(Qid))>0)
 	{
 		backQueIndex=CheckArrayIndex(queArray,$.trim(Qid))-1;

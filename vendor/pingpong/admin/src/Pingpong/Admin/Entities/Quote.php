@@ -18,10 +18,11 @@ class Quote extends Model
      * @param $query
      * @return mixed
      */
-	/* public function question()
+	 public function service()
     {
-        return $this->belongsTo(__NAMESPACE__ . '\\Question','id','id');
+        return $this->belongsTo(__NAMESPACE__ . '\\Service','service_id','id');
     }
+	/*
 	public function nextQuestion()
     {
         return $this->belongsTo(__NAMESPACE__ . '\\Question','next_question_id','id');

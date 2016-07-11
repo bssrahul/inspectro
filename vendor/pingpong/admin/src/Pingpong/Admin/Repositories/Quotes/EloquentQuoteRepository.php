@@ -32,7 +32,7 @@ class EloquentQuoteRepository implements QuoteRepository
     {
 		
 		if(!empty($request_id)){
-				return $this->getModel()->where('id','=',$request_id)->latest()->paginate($this->perPage());
+				return $this->getModel()->where('id','=',$request_id)->latest()->with('service')->paginate($this->perPage());
 		}else{
 				return $this->getModel()->latest()->paginate($this->perPage());
 		}

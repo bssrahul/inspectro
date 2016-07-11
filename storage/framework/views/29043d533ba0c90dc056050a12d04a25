@@ -1,8 +1,6 @@
-@extends($layout)
-
-@section('content-header')
+<?php $__env->startSection('content-header'); ?>
 	<h1>
-		All Quote Request ({!! $quotes->count() !!})
+		All Quote Request (<?php echo $quotes->count(); ?>)
 		&middot;
 		
 		
@@ -11,9 +9,9 @@
 		
 	<!--	<small class="searchBox">	<input  type="text" name="search" id="search" class = 'form-control searchBox'  /></small><label class="searchLabel" > Search </label> -->
 	</h1>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 	<?php if(empty($request_id)){?>
 	<table class="table">
 		<thead>
@@ -27,48 +25,49 @@
 			<th class="text-center">Action</th>
 		</thead>
 		<tbody>
-			@foreach ($quotes as $k=>$quote)
+			<?php foreach($quotes as $k=>$quote): ?>
 			<tr>
-				<td>{!! $no !!}</td>
-				<td>{!! $quote->full_name !!}</td>
-				<td>{!! $quote->email !!}  @if(!empty($quote->phone_no)) /  {!! $quote->phone_no !!} @endif</td>
-				<td>{!! $quote->zipcode !!}</td>
-				<td>{!! date('F d, Y', strtotime($quote->created_at))  !!}</td>
-				<td>{!! date('F d, Y', strtotime($quote->service_request_date))  !!}</td>
+				<td><?php echo $no; ?></td>
+				<td><?php echo $quote->full_name; ?></td>
+				<td><?php echo $quote->email; ?>  <?php if(!empty($quote->phone_no)): ?> /  <?php echo $quote->phone_no; ?> <?php endif; ?></td>
+				<td><?php echo $quote->zipcode; ?></td>
+				<td><?php echo date('F d, Y', strtotime($quote->created_at)); ?></td>
+				<td><?php echo date('F d, Y', strtotime($quote->service_request_date)); ?></td>
 				<td>
-					@if($quote->status == 0)
+					<?php if($quote->status == 0): ?>
 						<span class='label label-new'>New</span>
-					@elseif($quote->status == 1)
+					<?php elseif($quote->status == 1): ?>
 					  <span class='label label-deactive '>Pending</span>
-					@else
+					<?php else: ?>
 					  <span class='label label-active '>Complete</span>
-					@endif
+					<?php endif; ?>
 				
 				</td>
 				</td>
 	
 				<td class="text-center">
 				
-					{!! link_to_route('admin.quotes.index', 'View Request', ['reqid'=>$quote->id]) !!}
+					<?php echo link_to_route('admin.quotes.index', 'View Request', ['reqid'=>$quote->id]); ?>
+
 				<!--	<button type="button"  data-rel="<?php echo $quote->id; ?>" data-toggle="modal" data-target="#myModal">
 						View Request
 					</button> -->
 				
 					&middot;
-					@include('admin::partials.modal', ['data' => $quote, 'name' => 'quotes'])
+					<?php echo $__env->make('admin::partials.modal', ['data' => $quote, 'name' => 'quotes'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
 			</tr>
 			<?php $no++ ;?>
-			@endforeach
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 	<?php }else{ ?>
 		
 		<table class="table_info">
 		<thead >
-				@foreach ($quotes as $k=>$quote)
+				<?php foreach($quotes as $k=>$quote): ?>
 		<div >
-				<a href="{!! route('admin.quotes.create', ['requestId'=>$quote->id]) !!}"><input type="submit" name="reply" value="Send a Request Reply" class="reply_btn"></a>
+				<a href="<?php echo route('admin.quotes.create', ['requestId'=>$quote->id]); ?>"><input type="submit" name="reply" value="Send a Request Reply" class="reply_btn"></a>
 				
 		</div>
 		<tr class="mid">
@@ -76,26 +75,26 @@
 				 	  <td colspan="2"> Personal Information :</td>
 		</tr>
 		<tr>
-			<td><label> Name :</label></td><td>{!! $quote->full_name !!}</td>
+			<td><label> Name :</label></td><td><?php echo $quote->full_name; ?></td>
 		</tr>
 		<tr>
-			<td><label>Zip Code</label></td><td>{!! $quote->zipcode !!}</td>
+			<td><label>Zip Code</label></td><td><?php echo $quote->zipcode; ?></td>
 		</tr>
 		<tr>
-			<td><label> Contact Detail :</label></td><td >{!! $quote->email !!}    @if(!empty($quote->phone_no)) / {!! $quote->phone_no !!} @endif </td>
+			<td><label> Contact Detail :</label></td><td ><?php echo $quote->email; ?>    <?php if(!empty($quote->phone_no)): ?> / <?php echo $quote->phone_no; ?> <?php endif; ?> </td>
 		
 		</tr>
 		<tr>
-			@if(!empty($quote->service['title']))
-			<td><label> Selected Service  :</label></td><td >{!! $quote->service['title'] !!}</td>
-			@endif
+			<?php if(!empty($quote->service['title'])): ?>
+			<td><label> Selected Service  :</label></td><td ><?php echo $quote->service['title']; ?></td>
+			<?php endif; ?>
 		</tr>
 		<tr>
-			<td><label> Apply Date :</label></td><td >{!! date('F d, Y', strtotime($quote->created_at))  !!}</td>
+			<td><label> Apply Date :</label></td><td ><?php echo date('F d, Y', strtotime($quote->created_at)); ?></td>
 		
 		</tr>
 		<tr>
-			<td><label> Service Request Date :</label></td><td >{!! date('F d, Y', strtotime($quote->service_request_date))  !!}</td>
+			<td><label> Service Request Date :</label></td><td ><?php echo date('F d, Y', strtotime($quote->service_request_date)); ?></td>
 		
 		</tr>
 		
@@ -133,21 +132,22 @@
 		</tr>
 				</thead>
 		
-			@endforeach
+			<?php endforeach; ?>
 	</table>
 	
 	
 	
 	<?php } ?>
 	<div class="text-center">
-		{!! pagination_links($quotes) !!}
+		<?php echo pagination_links($quotes); ?>
+
 	</div>
 	
 	
 	
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('style')
+<?php $__env->startSection('style'); ?>
 <style>
 .reply_btn{
 	height:50px;
@@ -265,10 +265,10 @@ td label{
 	font-style: oblique;
 }
 </style>
-@stop
+<?php $__env->stopSection(); ?>
 
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 
 
 	<script type="text/javascript">
@@ -299,4 +299,6 @@ td label{
 	</script>
 	
 	
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -87,6 +87,7 @@ public function store(Create $request)
 		Input::file('image')->move($destinationPath, $filename); // uploading file to given path
 		//echo "<pre>"; print_R($data);die;
 		$data['image']=$filename;
+		//echo "<pre>"; print_R($data);die;
 		block::create($data);
 		//echo "<pre>"; print_R($data);die;
 		return $this->redirect('blocks.index');
@@ -140,7 +141,7 @@ public function update(Update $request, $id)
 	//print_r($id);die;
 	try {
 		$data = $request->all();
-	//echo "<pre>"; print_R($data['bannar_image']);die;
+		/* echo "<pre>"; print_R($data);die; */
 		if(!empty($data['image'])){
 			$destinationPath =  public_path().'/uploads'; // upload path
 			$extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
@@ -162,6 +163,7 @@ public function update(Update $request, $id)
 				//echo "<pre>"; print_R($block);die;
 		}
 		$block->update($data);
+		//echo "<pre>"; print_R($data);die;
 		return $this->redirect('blocks.index');
 	 }
 	 catch (ModelNotFoundException $e) {

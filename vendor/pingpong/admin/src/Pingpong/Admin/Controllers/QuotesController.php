@@ -38,44 +38,87 @@ public function index(Request $request)
 		$request_id=$request->get('reqid');
 		if(!empty($request_id)){
 			$quotes = $this->repository->allOrSearch($request->get('q'),$request_id);
+			$que_id= $quotes[0]['id'];
+			$queReqAnsData= DB :: table ("quote_requests_answers")->where('quote_requests_id',$que_id)->get();
 			//echo "<pre>"; print_R($quotes);die;
-			$SelOptionArr=array();
-			foreach($quotes as $quote){
-				$SelOptionArr=$quote->selected_options;
-			}
-			$selOpArr=json_decode($SelOptionArr);
-		
-			foreach($selOpArr as $k=>$selOp){
-					$qid= $selOp->qid;	
-					$questionData=DB :: table('questions')->where('id',$qid)->get();
-					//echo "<pre>"; print_r($questionData[0]->title);
-					$selOp->quesName=$questionData[0]->title;
-					$obj=(array)$selOp;
-					$ttl= count($obj); 
-					for($i=1;$i< $ttl-1 ; $i++){ 
-						$optionid=$obj['op'.$i];
-						if (is_numeric($optionid)) {
-							$answersData=DB :: table('answers')->where('id',$optionid)->get();
-							$obj['op'.$i]=@$answersData[0]->answers;
-						}else{
-							$obj['op'.$i]=@$optionid;
-						}
-						$selOpArr[$k]=$obj;	
-					}	
+			if(!empty($queReqAnsData)){
+				$tempQue=array();
+				$temp=array();
 					
+				foreach($queReqAnsData as $k=>$v){
+					$temp[]=$v->question_id;
+				}
+				$uniTemp=array_unique($temp);
 			}
-			//echo "<pre>"; print_r($selOpArr);
-			//echo "<pre>"; print_r($SelOpArr);
-			//die;
+			$newUniArr=array();
+			foreach($uniTemp as $k => $v){
+				$newUniArr[]=$v;
+			}
+			if(!empty($queReqAnsData)){
+				$tempQue=array();
+				$newTemp=array();
+				for($i=0;$i	< count($newUniArr); $i++){
+					
+					foreach($queReqAnsData as $k=>$v){
+					
+						if(($v->question_id) == $newUniArr[$i]){
+							//echo "id =".$v->question_id . "<br>";
+							if(!in_array($v->question_id, $newTemp)){
+								
+								$tempQue[$i]['quote_requests_id']=$v->quote_requests_id;
+								$newTemp[$i]=$v->question_id;
+								$QueID=$v->question_id;
+								$questionData=DB :: table('questions')->where('id',$QueID)->get();
+								//echo "<pre>"; print_r($questionData[0]->title);
+															
+								$AnsID=$v->answer_id;
+								$answerData=DB :: table('answers')->where('id',$AnsID)->get();
+								//echo "<pre>"; print_r($answerData[0]->answers);
+								$tempQue[$i]['question_id']=$questionData[0]->title;
+								$tempQue[$i]['answer_id'][$k]=$answerData[0]->answers;
+								if(!empty($v->custom_answer)){
+									$tempQue[$i]['custom_answer'][$k]=$v->custom_answer;
+								}
+							}else{
+								$AnsID=$v->answer_id;
+								$answerData=DB :: table('answers')->where('id',$AnsID)->get();
+								//echo "<pre>"; print_r($answerData[0]->answers);
+								$tempQue[$i]['question_id']=$questionData[0]->title;
+								$tempQue[$i]['answer_id'][$k]=$answerData[0]->answers;
+								//$tempQue[$i]['answer_id'][$k]=$v->answer_id;
+								$QueID=$v->question_id;
+								$questionData=DB :: table('questions')->where('id',$QueID)->get();
+								//echo "<pre>"; print_r($questionData[0]->title);
+								if(!empty($v->custom_answer)){
+									$tempQue[$i]['custom_answer'][$k]=$v->custom_answer;
+								}
+								
+							}
+							
+						}
+					
+					
 			
+					
+						}	
+					}
+					//$no = $tempQue->firstItem();
+				}
+			
+				
+			//echo "<pre>"; print_R($tempQue);  die;
+			
+			
+	
 		}
 		else{
 			$quotes = $this->repository->allOrSearch($request->get('q'));
-			
+				$no = $quotes->firstItem();
 		}
-		//echo "<pre>"; print_r($answers);die;
-		$no = $quotes->firstItem();
-		return $this->view('quotes.index', compact('quotes','no','request_id','selOpArr'));
+		//echo "<pre>"; print_r($quotes);
+		//echo "<pre>"; print_r($tempQue);die;
+		
+		return $this->view('quotes.index', compact('quotes','no','request_id','tempQue'));
 	
 	
 }
