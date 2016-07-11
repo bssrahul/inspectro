@@ -26,7 +26,7 @@
 .inner-popup .popup-cont ul.plist li input[type="checkbox"], .inner-popup .popup-cont ul.plist li input[type="radio"]{ margin:2px 10px 0 0;}
 .inner-popup .popup-cont ul.plist li.other{ padding:20px;}
 .inner-popup .popup-cont ul.plist li.other input[type="text"]{ width:95%; float:left; border:#cacaca 1px solid; border-radius:2px; padding:0 0 0 15px; line-height:50px;}
-.inner-popup .popup-cont ul.plist li.other [type="checkbox"] {margin:20px 10px 0 0;}
+.inner-popup .popup-cont ul.plist li.other [type="checkbox"], .inner-popup .popup-cont ul.plist li.other [type="radio"] {margin:20px 10px 0 0;}
 .inner-popup .popup-cont ul.plist li .txtarea{ width:100%; float:left; border:#cacaca 1px solid; border-radius:2px; padding:0px 15px; min-height:130px;}
 .inner-popup .popup-cont ul.plist li.other span{ width:30px; max-width:5%; float:left;}
 
@@ -69,8 +69,7 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .inner-popup .popup-cont ul.plist-2 .option-txt p.phead{ display:block; font-size:16px; padding:0 0 10px 0;}
 .inner-popup .popup-cont ul.plist-2 .option-txt p{ display:block; font-size:13px; line-height:20px; padding:10px 0 10px 0; }
 
-.error-box{ width:100%; float:left; text-align:center; padding:10px 0 0px 0 ; display:none; }
-.error-box p{ text-align:center; color:#ff0000;}
+
 
 
 /*Work Css start here*/

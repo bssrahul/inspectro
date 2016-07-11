@@ -57,3 +57,17 @@ a:focus, a:hover{ outline:none;}
     text-decoration: none;
 }
 
+.error-box {
+    display: none;
+    float: left;
+    font-size: 12px;
+    margin: 0 5%;
+    padding: 10px 0 0;
+    text-align: left;
+    width: 90%;
+}
+.error-box p{color:#ff0000;}
+.marginL0{
+	margin:0px;
+}
+
