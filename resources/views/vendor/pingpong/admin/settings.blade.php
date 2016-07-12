@@ -15,8 +15,8 @@
 	<li><a href="#social" data-toggle="tab">Social Media</a></li>
 	<li><a href="#seo" data-toggle="tab">SEO</a></li>
 	<li><a href="#analytics" data-toggle="tab">Analytics</a></li>
-	<!--<li><a href="#backup" data-toggle="tab">Cache And Reset</a></li>
-	<li><a href="#developers" data-toggle="tab">Developers</a></li>-->
+	<li><a href="#backup" data-toggle="tab">Cache And Reset</a></li>
+	<li><a href="#developers" data-toggle="tab">Developers</a></li>
 </ul>
 
 <!-- Tab panes -->

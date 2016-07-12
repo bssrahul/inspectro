@@ -52,11 +52,11 @@
                                             
                                             <p class="fhead"> Follow Us On</p>
                                         	<ul class="s-list">
-                                            <li><a href="#" title="" class="fb"></a></li>
-                                            <li><a href="#" title="" class="tw"></a></li>
-                                            <li><a href="#" title="" class="gl"></a></li>
+                                            <li><a href="http://www.facebook.com" title="" class="fb"></a></li>
+                                            <li><a href="http://www.twitter.com" title="" class="tw"></a></li>
+                                            <li><a href="http://www.google.com" title="" class="gl"></a></li>
                                             <li><a href="#" title="" class="pn"></a></li>
-                                            <li><a href="#" title="" class="is"></a></li>
+                                            <li><a href="http://www.instagram.com" title="" class="is"></a></li>
                                             </ul>
                                             
                                             

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10.15
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jul 11, 2016 at 09:24 AM
--- Server version: 5.1.73-log
--- PHP Version: 5.4.4
+-- Host: 127.0.0.1
+-- Generation Time: Jul 12, 2016 at 02:57 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.5.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `quotix_new`
@@ -26,8 +26,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `answers`
 --
 
-CREATE TABLE IF NOT EXISTS `answers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL COMMENT 'the question_id for which this is an answer',
   `answers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'text of the answer',
   `custom_answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -35,9 +35,8 @@ CREATE TABLE IF NOT EXISTS `answers` (
   `next_question_id` int(11) NOT NULL COMMENT 'question_id of the next question if this answer is selected',
   `option_description` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=99 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `answers`
@@ -122,8 +121,8 @@ INSERT INTO `answers` (`id`, `question_id`, `answers`, `custom_answer`, `sort`, 
 -- Table structure for table `articles`
 --
 
-CREATE TABLE IF NOT EXISTS `articles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `articles` (
+  `id` int(10) UNSIGNED NOT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'post',
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL DEFAULT '0',
@@ -133,9 +132,8 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `published_at` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `articles`
@@ -152,8 +150,8 @@ INSERT INTO `articles` (`id`, `type`, `user_id`, `category_id`, `title`, `slug`,
 -- Table structure for table `categories`
 --
 
-CREATE TABLE IF NOT EXISTS `categories` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `categories` (
+  `id` int(10) UNSIGNED NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `status` int(11) NOT NULL DEFAULT '1',
@@ -161,10 +159,8 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `sorting_key` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
+  `sorting_key` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `categories`
@@ -193,11 +189,10 @@ INSERT INTO `categories` (`id`, `title`, `description`, `status`, `created_at`, 
 -- Table structure for table `form_types`
 --
 
-CREATE TABLE IF NOT EXISTS `form_types` (
-  `form_type_id` int(11) NOT NULL AUTO_INCREMENT,
-  `op_type` varchar(255) NOT NULL,
-  PRIMARY KEY (`form_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+CREATE TABLE `form_types` (
+  `form_type_id` int(11) NOT NULL,
+  `op_type` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `form_types`
@@ -215,16 +210,34 @@ INSERT INTO `form_types` (`form_type_id`, `op_type`) VALUES
 -- Table structure for table `localstorage`
 --
 
-CREATE TABLE IF NOT EXISTS `localstorage` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `localstorage` (
+  `id` int(11) NOT NULL,
   `user_temp_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
   `question_id` varchar(255) NOT NULL,
   `options` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `localstorage`
+--
+
+INSERT INTO `localstorage` (`id`, `user_temp_id`, `service_id`, `question_id`, `options`, `created_at`, `updated_at`) VALUES
+(25, 2525, 14, '37', '[90]', '2016-07-11 09:02:05', '0000-00-00 00:00:00'),
+(26, 2525, 14, '0', '[{"serviceDate":"flexible_time"}]', '2016-07-11 09:02:10', '0000-00-00 00:00:00'),
+(27, 2525, 14, 'p2', '[null]', '2016-07-11 09:02:12', '0000-00-00 00:00:00'),
+(28, 2525, 14, 'p3', '[{"zip":"46496"}]', '2016-07-11 09:02:26', '0000-00-00 00:00:00'),
+(29, 2525, 14, 'p4', '[null,{"email":"gg@gmail.com"}]', '2016-07-11 09:02:54', '0000-00-00 00:00:00'),
+(30, 11362, 1, '30', '[77,78]', '2016-07-11 13:18:08', '0000-00-00 00:00:00'),
+(31, 11362, 1, '31', '[79]', '2016-07-11 13:18:11', '0000-00-00 00:00:00'),
+(32, 11362, 1, '33', '[83]', '2016-07-11 13:18:12', '0000-00-00 00:00:00'),
+(33, 11362, 1, '0', '[{"selected_date":"07\\/12\\/2016"}]', '2016-07-11 13:18:17', '0000-00-00 00:00:00'),
+(34, 11362, 1, 'p2', '[null]', '2016-07-11 13:18:20', '0000-00-00 00:00:00'),
+(35, 11362, 1, 'p3', '[{"zip":"17383"}]', '2016-07-11 13:18:24', '0000-00-00 00:00:00'),
+(36, 11362, 1, 'p4', '[null,{"email":"rahul.jain@mobilyte.com"}]', '2016-07-11 13:18:45', '0000-00-00 00:00:00'),
+(37, 11362, 1, 'p5', '[{"name":"Rahul Jain"}]', '2016-07-11 13:18:51', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -232,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `localstorage` (
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE IF NOT EXISTS `migrations` (
+CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -263,15 +276,13 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 -- Table structure for table `options`
 --
 
-CREATE TABLE IF NOT EXISTS `options` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `options` (
+  `id` int(10) UNSIGNED NOT NULL,
   `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `value` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `options_key_unique` (`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `options`
@@ -286,8 +297,8 @@ INSERT INTO `options` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 (6, 'facebook.link', '', '2015-12-11 04:27:18', '2016-06-15 08:45:50'),
 (7, 'twitter.link', '', '2015-12-11 04:27:18', '2016-06-15 08:45:50'),
 (8, 'post.permalink', '{slug}', '2015-12-11 04:27:18', '2016-06-15 08:45:57'),
-(9, 'ckfinder.prefix', 'public/packages/pingpong/admin', '2015-12-11 04:27:18', '2015-12-27 16:18:29'),
-(10, 'admin.theme', 'default', '2015-12-11 04:27:18', '2015-12-27 16:18:29'),
+(9, 'ckfinder.prefix', 'inspectro/public/packages/pingpong/admin', '2015-12-11 04:27:18', '2016-07-12 13:51:57'),
+(10, 'admin.theme', 'default', '2015-12-11 04:27:18', '2016-07-12 13:51:57'),
 (11, 'pagination.perpage', '10', '2015-12-11 04:27:18', '2015-12-23 19:44:13'),
 (12, 'site.mission', '', '0000-00-00 00:00:00', '2016-06-15 08:45:41');
 
@@ -297,11 +308,10 @@ INSERT INTO `options` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 -- Table structure for table `option_type`
 --
 
-CREATE TABLE IF NOT EXISTS `option_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `op_type` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+CREATE TABLE `option_type` (
+  `id` int(11) NOT NULL,
+  `op_type` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `option_type`
@@ -318,16 +328,13 @@ INSERT INTO `option_type` (`id`, `op_type`) VALUES
 -- Table structure for table `password_resets`
 --
 
-CREATE TABLE IF NOT EXISTS `password_resets` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `password_resets` (
+  `id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `password_resets_email_index` (`email`),
-  KEY `password_resets_token_index` (`token`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=78 ;
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `password_resets`
@@ -353,16 +360,14 @@ INSERT INTO `password_resets` (`id`, `created_at`, `updated_at`, `email`, `token
 -- Table structure for table `permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `permissions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `permissions` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `permissions_slug_unique` (`slug`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `permissions`
@@ -383,16 +388,13 @@ INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `created_at`, `u
 -- Table structure for table `permission_role`
 --
 
-CREATE TABLE IF NOT EXISTS `permission_role` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `permission_id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL,
+CREATE TABLE `permission_role` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `permission_id` int(10) UNSIGNED NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `permission_role_permission_id_index` (`permission_id`),
-  KEY `permission_role_role_id_index` (`role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `permission_role`
@@ -415,8 +417,8 @@ INSERT INTO `permission_role` (`id`, `permission_id`, `role_id`, `created_at`, `
 -- Table structure for table `questions`
 --
 
-CREATE TABLE IF NOT EXISTS `questions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question',
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL COMMENT 'id of the question',
   `service_id` int(11) NOT NULL COMMENT 'id of the service, related to the services-table',
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'question title',
   `description_1` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the top',
@@ -425,9 +427,8 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `form_type_id` int(11) NOT NULL COMMENT 'this is the id of form type -> table form_types',
   `other_custom_field` int(11) NOT NULL DEFAULT '0' COMMENT 'if this is 1 the user will be allowed to enter an individual answer text with other options -> the answer text will be stored in quote_requests_answers',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=41 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `questions`
@@ -458,7 +459,10 @@ INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `descript
 (37, 14, 'test1', 'test1', 'test1', 1, 2, 0, '2016-07-08 21:25:08', '2016-07-08 21:25:08'),
 (38, 14, 'test2', 'test2', 'test2', 0, 1, 0, '2016-07-08 21:25:22', '2016-07-08 21:25:22'),
 (39, 15, 'Wofür benötigen Sie den Bodengutachter?', '-', '-', 1, 1, 0, '2016-07-09 14:45:27', '2016-07-09 14:45:27'),
-(40, 15, 'Welche Bereiche soll der Bodengutachter prüfen? ', '-', '-', 0, 2, 0, '2016-07-09 14:47:49', '2016-07-09 14:47:49');
+(44, 14, 'dfgdfg', '', '', 3, 1, 0, '2016-07-11 15:24:02', '2016-07-11 15:24:02'),
+(41, 15, 'gdfgdf', 'dfgdfgfg', 'fdgfgfg', 0, 1, 0, '2016-07-11 11:48:12', '2016-07-11 11:48:12'),
+(42, 15, 'gdfgdf', 'dfgdfgfg', 'fdgfgfg', 4, 1, 0, '2016-07-11 11:49:59', '2016-07-11 11:49:59'),
+(43, 15, 'fdgdf', 'fdgdfg', 'dfgdf', 5, 3, 0, '2016-07-11 11:52:56', '2016-07-11 11:52:56');
 
 -- --------------------------------------------------------
 
@@ -466,8 +470,8 @@ INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `descript
 -- Table structure for table `quote_requests`
 --
 
-CREATE TABLE IF NOT EXISTS `quote_requests` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `quote_requests` (
+  `id` int(11) NOT NULL,
   `user_temp_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
   `full_name` varchar(255) NOT NULL,
@@ -475,20 +479,19 @@ CREATE TABLE IF NOT EXISTS `quote_requests` (
   `phone_no` varchar(255) NOT NULL,
   `zipcode` varchar(20) NOT NULL,
   `selected_options` text NOT NULL,
-  `service_request_date` datetime NOT NULL COMMENT '''Date specified for Hardcoded question->When do you need service''',
+  `service_request_date` varchar(255) DEFAULT NULL COMMENT '''Date specified for Hardcoded question->When do you need service''',
   `anything_else_know` text COMMENT '''If anything else should know harcoded value is yes then we have added value to it''',
   `status` int(2) NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `quote_requests`
 --
 
 INSERT INTO `quote_requests` (`id`, `user_temp_id`, `service_id`, `full_name`, `email`, `phone_no`, `zipcode`, `selected_options`, `service_request_date`, `anything_else_know`, `status`, `created_at`, `updated_at`) VALUES
-(1, 88627, 1, 'Sukant Sharma', 'sukant@mobilyte.com', '9872749463', '12345', '', '0000-00-00 00:00:00', 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, 2525, 1, 'gfhgh', 'sukant@mobilyte.com', '', '12345', '', NULL, NULL, 0, '0000-00-00 00:00:00', '2016-07-12 19:10:03');
 
 -- --------------------------------------------------------
 
@@ -496,24 +499,22 @@ INSERT INTO `quote_requests` (`id`, `user_temp_id`, `service_id`, `full_name`, `
 -- Table structure for table `quote_requests_answers`
 --
 
-CREATE TABLE IF NOT EXISTS `quote_requests_answers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `quote_requests_answers` (
+  `id` int(11) NOT NULL,
   `quote_requests_id` int(11) NOT NULL,
   `answer_id` int(11) NOT NULL,
   `custom_answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `question_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+  `question_id` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `quote_requests_answers`
 --
 
 INSERT INTO `quote_requests_answers` (`id`, `quote_requests_id`, `answer_id`, `custom_answer`, `question_id`) VALUES
-(1, 1, 77, '', 30),
-(2, 1, 78, '', 30),
-(3, 1, 79, '', 31),
+(1, 1, 77, 'abc', 30),
+(2, 1, 78, 'dfg', 30),
+(3, 1, 79, 'dfgdf', 31),
 (4, 1, 83, '', 33);
 
 -- --------------------------------------------------------
@@ -522,16 +523,14 @@ INSERT INTO `quote_requests_answers` (`id`, `quote_requests_id`, `answer_id`, `c
 -- Table structure for table `roles`
 --
 
-CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `roles` (
+  `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `roles_slug_unique` (`slug`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `roles`
@@ -548,16 +547,13 @@ INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated
 -- Table structure for table `role_user`
 --
 
-CREATE TABLE IF NOT EXISTS `role_user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `role_id` int(10) unsigned NOT NULL,
-  `user_id` int(10) unsigned NOT NULL,
+CREATE TABLE `role_user` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `role_user_role_id_index` (`role_id`),
-  KEY `role_user_user_id_index` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `role_user`
@@ -575,18 +571,16 @@ INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`)
 -- Table structure for table `services`
 --
 
-CREATE TABLE IF NOT EXISTS `services` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service',
+CREATE TABLE `services` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT 'id of the service. this is the key identification for the service',
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `status` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   `parent_id` int(11) DEFAULT '0',
-  `sort` int(11) DEFAULT '0' COMMENT 'specifies how the services are ordered when displayed in a list (select etc.)',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=16 ;
+  `sort` int(11) DEFAULT '0' COMMENT 'specifies how the services are ordered when displayed in a list (select etc.)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `services`
@@ -604,17 +598,16 @@ INSERT INTO `services` (`id`, `title`, `description`, `status`, `created_at`, `u
 -- Table structure for table `sqoptions`
 --
 
-CREATE TABLE IF NOT EXISTS `sqoptions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sqoptions` (
+  `id` int(11) NOT NULL,
   `service_question_id` int(11) NOT NULL,
   `option_type` varchar(255) NOT NULL,
   `inputbox` int(11) NOT NULL DEFAULT '0',
   `options` varchar(255) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sqoptions`
@@ -631,7 +624,7 @@ INSERT INTO `sqoptions` (`id`, `service_question_id`, `option_type`, `inputbox`,
 -- Table structure for table `static_blocks`
 --
 
-CREATE TABLE IF NOT EXISTS `static_blocks` (
+CREATE TABLE `static_blocks` (
   `id` int(11) NOT NULL,
   `type` enum('process','services','features','testimonial','work') NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -662,8 +655,8 @@ INSERT INTO `static_blocks` (`id`, `type`, `title`, `description`, `long_descrip
 (10, 'features', 'Our Features 4', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '440.feature-4.png', '', '', 1, '2016-07-07 10:57:58', '2016-07-08 14:14:30'),
 (11, 'features', 'Our Features 5', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '306.feature-5.png', '', '', 1, '2016-07-07 10:58:51', '2016-07-08 14:14:22'),
 (12, 'features', 'Our Features 6', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '285.feature-6.png', '', '', 1, '2016-07-07 10:59:57', '2016-07-08 14:13:40'),
-(13, 'features', 'Our Features 7', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '178.feature-7.png', '', '', 1, '2016-07-07 11:02:05', '2016-07-08 14:13:38'),
-(14, 'features', 'Our Features 8', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '633.feature-8.png', '', '', 1, '2016-07-07 11:02:32', '2016-07-07 18:32:32'),
+(13, 'features', 'Our Features 7', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '178.feature-7.png', '', '', 1, '2016-07-07 11:02:05', '2016-07-11 17:06:49'),
+(14, 'features', 'Our Features 8', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '633.feature-8.png', '', '', 1, '2016-07-07 11:02:32', '2016-07-11 17:06:45'),
 (15, 'testimonial', 'Testimonial', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '593.despicable-me.jpg', 'Christine Joe', 'Dallas .USA', 1, '2016-07-07 11:30:31', '2016-07-07 19:00:31'),
 (16, 'testimonial', 'Testimonial', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '151.acasfdsfds.jpg', 'Christine Robbat', 'Dallas .UK', 1, '2016-07-07 11:31:27', '2016-07-07 19:01:27'),
 (17, 'testimonial', 'Testimonial 3', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '404.imagesasdas.jpg', 'Shen Watson ', 'Sydney, AUS', 1, '2016-07-07 11:32:44', '2016-07-07 19:02:44'),
@@ -677,7 +670,7 @@ INSERT INTO `static_blocks` (`id`, `type`, `title`, `description`, `long_descrip
 -- Table structure for table `static_pages`
 --
 
-CREATE TABLE IF NOT EXISTS `static_pages` (
+CREATE TABLE `static_pages` (
   `id` int(11) NOT NULL,
   `page_title` varchar(255) NOT NULL,
   `page_heading` text NOT NULL,
@@ -694,10 +687,10 @@ CREATE TABLE IF NOT EXISTS `static_pages` (
 --
 
 INSERT INTO `static_pages` (`id`, `page_title`, `page_heading`, `page_content`, `page_link`, `bannar_image`, `status`, `created_at`, `updated_at`) VALUES
-(16, 'Who we are?', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever but also the leap into electronic typesetting, remaining ', '<div class="ib-txt">\r\n<h2>We are a team of professional we like renovation house!</h2>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged t has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>\r\n</div>\r\n\r\n<div class="ib-txt">\r\n<h3>The standard Lorem Ipsum passage, used since the 1500s</h3>\r\n\r\n<p>&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot; Section 1.10.32 of &quot;de Finibus Bonorum et Malorum&quot;, written by Cicero in 45 BC</p>\r\n\r\n<p>&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?&quot;</p>\r\n1914 translation by H. Rackham\r\n\r\n<h3>Section 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot;, written by Cicero in 45 BC</h3>\r\n\r\n<p>&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?&quot;</p>\r\n1914 translation by H. Rackham\r\n\r\n<p>&quot;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&quot;</p>\r\n</div>\r\n', 'about-us', '4917.about-us-bgr.png', 1, '2016-07-07 05:35:41', '2016-07-08 19:08:56'),
+(16, 'Who we are?', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever but also the leap into electronic typesetting, remaining ', '  <div class="howitwork">\r\n                    	<div class="container">\r\n                        	<div class="row">\r\n                        					<div class="inhead-area">\r\n                            	                    	<h2>How does Inspectaro work?</h2>\r\n                        	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>                        \r\n\r\n                            </div>\r\n                            				<!--Privacy Content-->\r\n                                            <div class="privacy-content">\r\n                                            	<p class="pc-head">INFORMATION WE COLLECT</p>    \r\n                                                	<p>How we collect and store information depends on how you access and use the Platform. We collect information in multiple ways including when you provide information directly to us, when you permit third parties to provide information to us, and when we passively collect information from you, such as information collected from your browser or device.</p>                                        	\r\n                                                    <p class="pc-head2">Information You Provide Directly to Us</p>\r\n                                                    <p>We may collect information from you during your use or access of the Platform, such as:</p>\r\n                                                    \r\n\r\n                                                    	    When you register for an Account;\r\n                                                    <ul>\r\n                                                      <li>          When you participate in polls or surveys;</li>\r\n                                                          <li>      When you enroll for electronic newsletters;</li>\r\n                                                           <li>     When you request a quote or other information;</li>\r\n                                                            <li>    When you submit a quote;</li>\r\n                                                             <li>   When you make a purchase;</li>\r\n                                                              <li>  When you fill out any forms;</li>\r\n                                                               <li> When you enter a sweepstakes or contest, or register for a promotion;</li>\r\n                                                               <li> When you transmit User Content;</li>\r\n                                                                <li>When you download or use one of our mobile applications; or</li>\r\n                                                                <li>When you otherwise communicate with us or other users through the Platform.</li>\r\n                                                    </ul>\r\n                                                    \r\n                                                    <p>The information you provide directly to us may concern you or others and may include, but is not limited to: (a) name; (b) zip code; (c) email address; (d) home or business telephone number; (e) home, business or mailing address; (f) demographic information (e.g., gender, age, political preference, education, race or ethnic origin, and other information relevant to user surveys and/or offers); (g) date of birth; (h) insurance information; (i) photographs; (j) information about your project, request or need; (k) video or audio files; and/or (l) in certain circumstances, payment and/or identity verification information. It may also include information specific to services you are requesting or offering through the Platform, such as a business name, service description, qualifications and credentials. You are not required to provide us with such information, but certain features of the Platform may not be accessible or available, absent the provision of the requested information.</p>\r\n                                                    <p class="pc-head2">Information from Affiliates, Social Networking Sites, and other Non-affiliated Third Parties</p>\r\n                                                    <p>We may collect information about you or others through Thumbtack affiliates or through non-affiliated third parties. For example, you may be able to access the Platform through a social networking account, such as Facebook. If you access the Platform through your Facebook account, you may allow us to have access to certain information in your Facebook profile. This may include your name, profile picture, gender, networks, user IDs, list of friends, location, date of birth, email address, photos, videos, people you follow and/or who follow you, and/or your posts or "likes."<br><br>\r\n\r\n\r\n\r\nSocial networking sites, such as Facebook, have their own policies for handling your information. For a description of how these sites may use and disclose your information including any information you make public, please consult the sites'' privacy policies. We have no control over how any third-party site uses or discloses the personal information it collects about you.<br>\r\n<br>\r\n\r\n\r\nWe may also collect information about you or others through non-affiliated third parties. For example, to the extent permitted by law, we may, in our sole discretion, ask for and collect supplemental information from third parties, such as information about your credit from a credit bureau, or information to verify your identity or trustworthiness, or for other fraud or safety protection purposes. We may combine information that we collect from you through the Platform with information that we obtain from such third parties and information derived from any other products or services we provide.</p>\r\n\r\n<p class="pc-head">HOW THUMBTACK USES THE INFORMATION WE COLLECT</p>\r\n	<p>How we collect and store information depends on how you access and use the Platform. We collect information in multiple ways including when you provide information directly to us, when you permit third parties to provide information to us, and when we passively collect information from you, such as information collected from your browser or device.</p>                                        	\r\n                                                    <p class="pc-head2">Information You Provide Directly to Us</p>\r\n                                                    <p>We may collect information from you during your use or access of the Platform, such as:</p>\r\n                                                    \r\n\r\n                                                    	    When you register for an Account;\r\n                                                    <ul>\r\n                                                      <li>          When you participate in polls or surveys;</li>\r\n                                                          <li>      When you enroll for electronic newsletters;</li>\r\n                                                           <li>     When you request a quote or other information;</li>\r\n                                                            <li>    When you submit a quote;</li>\r\n                                                             <li>   When you make a purchase;</li>\r\n                                                              <li>  When you fill out any forms;</li>\r\n                                                               <li> When you enter a sweepstakes or contest, or register for a promotion;</li>\r\n                                                               <li> When you transmit User Content;</li>\r\n                                                                <li>When you download or use one of our mobile applications; or</li>\r\n                                                                <li>When you otherwise communicate with us or other users through the Platform.</li>\r\n                                                    </ul>\r\n                                                    \r\n                                                    <p>The information you provide directly to us may concern you or others and may include, but is not limited to: (a) name; (b) zip code; (c) email address; (d) home or business telephone number; (e) home, business or mailing address; (f) demographic information (e.g., gender, age, political preference, education, race or ethnic origin, and other information relevant to user surveys and/or offers); (g) date of birth; (h) insurance information; (i) photographs; (j) information about your project, request or need; (k) video or audio files; and/or (l) in certain circumstances, payment and/or identity verification information. It may also include information specific to services you are requesting or offering through the Platform, such as a business name, service description, qualifications and credentials. You are not required to provide us with such information, but certain features of the Platform may not be accessible or available, absent the provision of the requested information.</p>\r\n                                                    <p class="pc-head2">Information from Affiliates, Social Networking Sites, and other Non-affiliated Third Parties</p>\r\n                                                    <p>We may collect information about you or others through Thumbtack affiliates or through non-affiliated third parties. For example, you may be able to access the Platform through a social networking account, such as Facebook. If you access the Platform through your Facebook account, you may allow us to have access to certain information in your Facebook profile. This may include your name, profile picture, gender, networks, user IDs, list of friends, location, date of birth, email address, photos, videos, people you follow and/or who follow you, and/or your posts or "likes."<br><br>\r\n\r\n\r\n\r\nSocial networking sites, such as Facebook, have their own policies for handling your information. For a description of how these sites may use and disclose your information including any information you make public, please consult the sites'' privacy policies. We have no control over how any third-party site uses or discloses the personal information it collects about you.<br>\r\n<br>\r\n\r\n\r\nWe may also collect information about you or others through non-affiliated third parties. For example, to the extent permitted by law, we may, in our sole discretion, ask for and collect supplemental information from third parties, such as information about your credit from a credit bureau, or information to verify your identity or trustworthiness, or for other fraud or safety protection purposes. We may combine information that we collect from you through the Platform with information that we obtain from such third parties and information derived from any other products or services we provide.</p>\r\n\r\n\r\n\r\n                                                    \r\n                                            </div>\r\n                                            <!--/Privacy Content-->\r\n                            </div>\r\n                        </div>\r\n                    </div>', 'about-us', '4917.about-us-bgr.png', 1, '2016-07-07 05:35:41', '2016-07-12 17:00:08'),
 (17, 'Who we are?', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever but also the leap into electronic typesetting, remaining ', '<p>&lt;!--Our Work--&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;section class=&quot;ow-wrap&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;container&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;row&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;ow-area&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;h6&gt;Our Work&lt;/h6&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged t has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-1.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-2.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-3.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-4.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-5.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-6.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-7.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-8.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-9.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-1.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-2.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;div class=&quot;col-lg-3 col-md-3 col-sm-6 col-xs-12&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;div class=&quot;img-box&quot;&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;img src=&quot;img/work-3.png&quot;&nbsp; alt=&quot;&quot;/&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/section&gt;<br />\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;!--/Our Work--&gt;</p>\r\n', 'about-us', '343.about-us-bgr.png', 1, '2016-07-07 12:54:11', '2016-07-08 18:20:04'),
-(18, 'Contact Us', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever but also the leap into electronic typesetting, remaining ', '<div class="howitwork">\r\n<div class="container">\r\n<div class="row">\r\n<div class="inhead-area">\r\n<h2>How does Inspectaro work?</h2>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>\r\n</div>\r\n\r\n<div class="step-area">\r\n<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\r\n<div class="row">\r\n<div class="step-in">\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">&nbsp;</div>\r\n\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mob">\r\n<div class="step-rgt">\r\n<div class="img-box"><img alt="" src="img/step-1.png" /></div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">\r\n<div class="step-lft">\r\n<p><strong>1</strong>Serach your requirement</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n</div>\r\n</div>\r\n\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n<div class="step-rgt">\r\n<div class="img-box"><img alt="" src="img/step-1.png" /></div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">&nbsp;</div>\r\n</div>\r\n</div>\r\n\r\n<div class="row">\r\n<div class="step-in">\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">&nbsp;</div>\r\n\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">\r\n<div class="step-rgt">\r\n<div class="img-box"><img alt="" src="img/step-2.png" /></div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">\r\n<div class="step-lft">\r\n<p><strong>2</strong>Serach your requirement</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n</div>\r\n</div>\r\n\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">&nbsp;</div>\r\n</div>\r\n</div>\r\n\r\n<div class="row">\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">&nbsp;</div>\r\n\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mob">\r\n<div class="step-rgt">\r\n<div class="img-box"><img alt="" src="img/step-1.png" /></div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">\r\n<div class="step-lft">\r\n<p><strong>3</strong>Serach your requirement</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n</div>\r\n</div>\r\n\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n<div class="step-rgt">\r\n<div class="img-box"><img alt="" src="img/step-1.png" /></div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">&nbsp;</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n', 'contact-us', '827.contact-us-bgr.png', 1, '2016-07-07 12:56:13', '2016-07-08 18:19:01'),
-(19, 'Privacy Policy', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever but also the leap into electronic typesetting, remaining ', '<div class="howitwork">\r\n                        <div class="container">\r\n                            <div class="row">\r\n                                            <div class="inhead-area">\r\n                                                        <h2>How does Inspectaro work?</h2>\r\n                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>                        \r\n\r\n                            </div>\r\n                                            <div class="step-area">\r\n                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\r\n                                                <div class="row">\r\n                                                    <div class="step-in">    \r\n                                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n                                                    </div>\r\n                                                     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mob">\r\n                                                         <div class="step-rgt">\r\n                                                            <div class="img-box">\r\n                                                                     <img src="img/step-1.png" alt=""/>\r\n                                                           </div>\r\n                                                      </div>\r\n                                                    </div>\r\n                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">\r\n                                                        <div class="step-lft">\r\n                                                            <p class="shead"><b>1</b>Serach your requirement</p>\r\n                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n                                                        </div>\r\n                                                    </div>\r\n                                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n                                                         <div class="step-rgt">\r\n                                                            <div class="img-box">\r\n                                                                     <img src="img/step-1.png" alt=""/>\r\n                                                           </div>\r\n                                                      </div>\r\n                                                    </div>\r\n                                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n                                                    </div>\r\n                                                    </div>\r\n                                </div>\r\n                                \r\n                                \r\n                                \r\n                                \r\n                                                <div class="row">\r\n                                                    <div class="step-in">        \r\n                                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n                                                    </div>\r\n                                                     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">\r\n                                                         <div class="step-rgt">\r\n                                                            <div class="img-box">\r\n                                                                     <img src="img/step-2.png" alt=""/>\r\n                                                           </div>\r\n                                                      </div>\r\n                                                    </div>\r\n                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">\r\n                                                        <div class="step-lft">\r\n                                                            <p class="shead"><b>2</b>Serach your requirement</p>\r\n                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n                                                        </div>\r\n                                                    </div>\r\n                                                   \r\n                                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n                                                    </div>\r\n                                                    </div>\r\n                                </div>\r\n                                                <div class="row">    \r\n                                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n                                                    </div>\r\n                                                     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mob">\r\n                                                         <div class="step-rgt">\r\n                                                            <div class="img-box">\r\n                                                                     <img src="img/step-1.png" alt=""/>\r\n                                                           </div>\r\n                                                      </div>\r\n                                                    </div>\r\n                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">\r\n                                                        <div class="step-lft">\r\n                                                            <p class="shead"><b>3</b>Serach your requirement</p>\r\n                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n                                                        </div>\r\n                                                    </div>\r\n                                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n                                                         <div class="step-rgt">\r\n                                                            <div class="img-box">\r\n                                                                     <img src="img/step-1.png" alt=""/>\r\n                                                           </div>\r\n                                                      </div>\r\n                                                    </div>\r\n                                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 desk">\r\n                                                    </div>\r\n                                </div>\r\n                                         </div>                                                                                               \r\n                            </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>', 'privacy-policy', '395.ppolicy-bgr.png', 1, '2016-07-07 12:59:42', '2016-07-08 18:20:39'),
+(18, 'Contact Us', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever but also the leap into electronic typesetting, remaining ', '<section class="contact-us">                        	\r\n                        	<div class="container"> \r\n                            <div class="row">\r\n                            	<div class="cont-head">\r\n                                	<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">\r\n                                </div>\r\n                            	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">\r\n                                	<h2>Contact Us</h2>                                	\r\n                                    	<p>Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw, toen een onbekende drukker een zethaak met letters nam en ze door elkaar husselde om een font-catalogus te maken. </p>\r\n                                </div>                                	\r\n                            	<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">\r\n                                </div>  \r\n                                	\r\n                                </div>\r\n                            </div> \r\n                            <div class="row">   \r\n                                <div class="cont-form-area">\r\n                                	<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">                                    	\r\n                                    </div>\r\n                                	<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12"> \r\n                                    	<div class="cfa-lft">\r\n                                        <h4>Contact us for more details</h4>\r\n                                        	<p>Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw, </p>\r\n                                            \r\n                                            <ul>\r\n                                            	<li><i class="fa fa-map-marker" aria-hidden="true"></i>\r\nStreet name , City name , provenance , \r\n<span>Germany. Pin code 253698</span></li>\r\n                                                <li><i class="fa fa-envelope" aria-hidden="true"></i>\r\n                                                supoort@inspectaro.com\r\n										<span>		info@inspectaro.com</span>\r\n</li>\r\n                                                <li><i class="fa fa-phone" aria-hidden="true"></i> +1 98756 32659, + 68956 23659</li>\r\n                                            </ul>\r\n                                        </div>\r\n                                    </div>', 'contact-us', '827.contact-us-bgr.png', 1, '2016-07-07 12:56:13', '2016-07-12 20:17:24'),
+(19, 'Privacy Policy', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever but also the leap into electronic typesetting, remaining ', '<div class="howitwork">\r\n<div class="container">\r\n<div class="row">\r\n<div class="inhead-area">\r\n<h2>How does Inspectaro work?</h2>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>\r\n</div>\r\n<!--Privacy Content-->\r\n\r\n<div class="privacy-content">\r\n<p><strong>INFORMATION WE COLLECT</strong></p>\r\n\r\n<p>How we collect and store information depends on how you access and use the Platform. We collect information in multiple ways including when you provide information directly to us, when you permit third parties to provide information to us, and when we passively collect information from you, such as information collected from your browser or device.</p>\r\n\r\n<p><strong><em>Information You Provide Directly to Us</em></strong></p>\r\n\r\n<p>We may collect information from you during your use or access of the Platform, such as:</p>\r\nWhen you register for an Account;\r\n\r\n<ul>\r\n	<li>When you participate in polls or surveys;</li>\r\n	<li>When you enroll for electronic newsletters;</li>\r\n	<li>When you request a quote or other information;</li>\r\n	<li>When you submit a quote;</li>\r\n	<li>When you make a purchase;</li>\r\n	<li>When you fill out any forms;</li>\r\n	<li>When you enter a sweepstakes or contest, or register for a promotion;</li>\r\n	<li>When you transmit User Content;</li>\r\n	<li>When you download or use one of our mobile applications; or</li>\r\n	<li>When you otherwise communicate with us or other users through the Platform.</li>\r\n</ul>\r\n\r\n<p>The information you provide directly to us may concern you or others and may include, but is not limited to: (a) name; (b) zip code; (c) email address; (d) home or business telephone number; (e) home, business or mailing address; (f) demographic information (e.g., gender, age, political preference, education, race or ethnic origin, and other information relevant to user surveys and/or offers); (g) date of birth; (h) insurance information; (i) photographs; (j) information about your project, request or need; (k) video or audio files; and/or (l) in certain circumstances, payment and/or identity verification information. It may also include information specific to services you are requesting or offering through the Platform, such as a business name, service description, qualifications and credentials. You are not required to provide us with such information, but certain features of the Platform may not be accessible or available, absent the provision of the requested information.</p>\r\n\r\n<p><strong>Information from Affiliates, Social Networking Sites, and other Non-affiliated Third Parties</strong></p>\r\n\r\n<p>We may collect information about you or others through Thumbtack affiliates or through non-affiliated third parties. For example, you may be able to access the Platform through a social networking account, such as Facebook. If you access the Platform through your Facebook account, you may allow us to have access to certain information in your Facebook profile. This may include your name, profile picture, gender, networks, user IDs, list of friends, location, date of birth, email address, photos, videos, people you follow and/or who follow you, and/or your posts or &quot;likes.&quot;<br />\r\n<br />\r\nSocial networking sites, such as Facebook, have their own policies for handling your information. For a description of how these sites may use and disclose your information including any information you make public, please consult the sites&#39; privacy policies. We have no control over how any third-party site uses or discloses the personal information it collects about you.<br />\r\n<br />\r\nWe may also collect information about you or others through non-affiliated third parties. For example, to the extent permitted by law, we may, in our sole discretion, ask for and collect supplemental information from third parties, such as information about your credit from a credit bureau, or information to verify your identity or trustworthiness, or for other fraud or safety protection purposes. We may combine information that we collect from you through the Platform with information that we obtain from such third parties and information derived from any other products or services we provide.</p>\r\n\r\n<p><strong>HOW THUMBTACK USES THE INFORMATION WE COLLECT</strong></p>\r\n\r\n<p>How we collect and store information depends on how you access and use the Platform. We collect information in multiple ways including when you provide information directly to us, when you permit third parties to provide information to us, and when we passively collect information from you, such as information collected from your browser or device.</p>\r\n\r\n<p><strong><em>Information You Provide Directly to Us</em></strong></p>\r\n\r\n<p>We may collect information from you during your use or access of the Platform, such as:</p>\r\nWhen you register for an Account;\r\n\r\n<ul>\r\n	<li>When you participate in polls or surveys;</li>\r\n	<li>When you enroll for electronic newsletters;</li>\r\n	<li>When you request a quote or other information;</li>\r\n	<li>When you submit a quote;</li>\r\n	<li>When you make a purchase;</li>\r\n	<li>When you fill out any forms;</li>\r\n	<li>When you enter a sweepstakes or contest, or register for a promotion;</li>\r\n	<li>When you transmit User Content;</li>\r\n	<li>When you download or use one of our mobile applications; or</li>\r\n	<li>When you otherwise communicate with us or other users through the Platform.</li>\r\n</ul>\r\n\r\n<p>The information you provide directly to us may concern you or others and may include, but is not limited to: (a) name; (b) zip code; (c) email address; (d) home or business telephone number; (e) home, business or mailing address; (f) demographic information (e.g., gender, age, political preference, education, race or ethnic origin, and other information relevant to user surveys and/or offers); (g) date of birth; (h) insurance information; (i) photographs; (j) information about your project, request or need; (k) video or audio files; and/or (l) in certain circumstances, payment and/or identity verification information. It may also include information specific to services you are requesting or offering through the Platform, such as a business name, service description, qualifications and credentials. You are not required to provide us with such information, but certain features of the Platform may not be accessible or available, absent the provision of the requested information.</p>\r\n\r\n<p><strong><em>Information from Affiliates, Social Networking Sites, and other Non-affiliated Third Parties</em></strong></p>\r\n\r\n<p>We may collect information about you or others through Thumbtack affiliates or through non-affiliated third parties. For example, you may be able to access the Platform through a social networking account, such as Facebook. If you access the Platform through your Facebook account, you may allow us to have access to certain information in your Facebook profile. This may include your name, profile picture, gender, networks, user IDs, list of friends, location, date of birth, email address, photos, videos, people you follow and/or who follow you, and/or your posts or &quot;likes.&quot;<br />\r\n<br />\r\nSocial networking sites, such as Facebook, have their own policies for handling your information. For a description of how these sites may use and disclose your information including any information you make public, please consult the sites&#39; privacy policies. We have no control over how any third-party site uses or discloses the personal information it collects about you.<br />\r\n<br />\r\nWe may also collect information about you or others through non-affiliated third parties. For example, to the extent permitted by law, we may, in our sole discretion, ask for and collect supplemental information from third parties, such as information about your credit from a credit bureau, or information to verify your identity or trustworthiness, or for other fraud or safety protection purposes. We may combine information that we collect from you through the Platform with information that we obtain from such third parties and information derived from any other products or services we provide.</p>\r\n</div>\r\n<!--/Privacy Content--></div>\r\n</div>\r\n</div>\r\n', 'privacy-policy', '395.ppolicy-bgr.png', 1, '2016-07-07 12:59:42', '2016-07-12 19:59:29'),
 (20, 'Accomplish (almost) anything', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.<span> Lorem Ipsum has been the industry''s standard dummy text ever   but </span>also the leap into electronic typesetting, remaining ', '<div class="inhead-area">\r\n<h2>How does Inspectaro work?</h2>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>\r\n</div>\r\n', 'work', '383.inner-banner-1.png', 1, '2016-07-07 13:02:02', '2016-07-09 15:55:57');
 
 -- --------------------------------------------------------
@@ -706,14 +699,12 @@ INSERT INTO `static_pages` (`id`, `page_title`, `page_heading`, `page_content`, 
 -- Table structure for table `subscribers`
 --
 
-CREATE TABLE IF NOT EXISTS `subscribers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `subscribers` (
+  `id` int(11) NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `subscribers_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -721,8 +712,8 @@ CREATE TABLE IF NOT EXISTS `subscribers` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
   `fname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `lname` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -730,10 +721,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_logged_in` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+  `last_logged_in` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -745,6 +734,237 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `remember_toke
 (3, 'fghj', 'fghj', '26may@mailinator.com', '$2y$10$7g9fbLacyhQvNXKTVkdCtOYIrDZXSY94aJMr6D/hlzqjoyr0OW2D6', NULL, '2016-06-16 08:28:52', '2016-06-16 08:28:52', '0000-00-00 00:00:00'),
 (4, 'hjsdfgjfd', 'fdsff', 'rohitkumar.rd26@gmail.com', '$2y$10$1LLiaS1i4HuMva178gBtGOnIvxEovpIX9HN9o5/Smv/tkg6dLE4Ee', NULL, '2016-06-16 09:48:31', '2016-06-16 09:48:31', '0000-00-00 00:00:00');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `articles`
+--
+ALTER TABLE `articles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent_id` (`parent_id`);
+
+--
+-- Indexes for table `form_types`
+--
+ALTER TABLE `form_types`
+  ADD PRIMARY KEY (`form_type_id`);
+
+--
+-- Indexes for table `localstorage`
+--
+ALTER TABLE `localstorage`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `options`
+--
+ALTER TABLE `options`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `options_key_unique` (`key`);
+
+--
+-- Indexes for table `option_type`
+--
+ALTER TABLE `option_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `password_resets_email_index` (`email`),
+  ADD KEY `password_resets_token_index` (`token`);
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_slug_unique` (`slug`);
+
+--
+-- Indexes for table `permission_role`
+--
+ALTER TABLE `permission_role`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `permission_role_permission_id_index` (`permission_id`),
+  ADD KEY `permission_role_role_id_index` (`role_id`);
+
+--
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quote_requests`
+--
+ALTER TABLE `quote_requests`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quote_requests_answers`
+--
+ALTER TABLE `quote_requests_answers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_slug_unique` (`slug`);
+
+--
+-- Indexes for table `role_user`
+--
+ALTER TABLE `role_user`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `role_user_role_id_index` (`role_id`),
+  ADD KEY `role_user_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent_id` (`parent_id`);
+
+--
+-- Indexes for table `sqoptions`
+--
+ALTER TABLE `sqoptions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `subscribers`
+--
+ALTER TABLE `subscribers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `subscribers_email_unique` (`email`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+--
+-- AUTO_INCREMENT for table `articles`
+--
+ALTER TABLE `articles`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `form_types`
+--
+ALTER TABLE `form_types`
+  MODIFY `form_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `localstorage`
+--
+ALTER TABLE `localstorage`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+--
+-- AUTO_INCREMENT for table `options`
+--
+ALTER TABLE `options`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `option_type`
+--
+ALTER TABLE `option_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `permission_role`
+--
+ALTER TABLE `permission_role`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question', AUTO_INCREMENT=45;
+--
+-- AUTO_INCREMENT for table `quote_requests`
+--
+ALTER TABLE `quote_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `quote_requests_answers`
+--
+ALTER TABLE `quote_requests_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `role_user`
+--
+ALTER TABLE `role_user`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `services`
+--
+ALTER TABLE `services`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `sqoptions`
+--
+ALTER TABLE `sqoptions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `subscribers`
+--
+ALTER TABLE `subscribers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --
