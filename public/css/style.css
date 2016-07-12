@@ -70,4 +70,7 @@ a:focus, a:hover{ outline:none;}
 .marginL0{
 	margin:0px;
 }
-
+.error  {
+	color:red !important ;
+	
+}

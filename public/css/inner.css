@@ -26,7 +26,7 @@
 .inner-popup .popup-cont ul.plist li input[type="checkbox"], .inner-popup .popup-cont ul.plist li input[type="radio"]{ margin:2px 10px 0 0;}
 .inner-popup .popup-cont ul.plist li.other{ padding:20px;}
 .inner-popup .popup-cont ul.plist li.other input[type="text"]{ width:95%; float:left; border:#cacaca 1px solid; border-radius:2px; padding:0 0 0 15px; line-height:50px;}
-.inner-popup .popup-cont ul.plist li.other [type="checkbox"], .inner-popup .popup-cont ul.plist li.other [type="radio"] {margin:20px 10px 0 0;}
+.inner-popup .popup-cont ul.plist li.other [type="checkbox"] {margin:20px 10px 0 0;}
 .inner-popup .popup-cont ul.plist li .txtarea{ width:100%; float:left; border:#cacaca 1px solid; border-radius:2px; padding:0px 15px; min-height:130px;}
 .inner-popup .popup-cont ul.plist li.other span{ width:30px; max-width:5%; float:left;}
 
@@ -69,7 +69,8 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .inner-popup .popup-cont ul.plist-2 .option-txt p.phead{ display:block; font-size:16px; padding:0 0 10px 0;}
 .inner-popup .popup-cont ul.plist-2 .option-txt p{ display:block; font-size:13px; line-height:20px; padding:10px 0 10px 0; }
 
-
+.error-box{ width:100%; float:left; text-align:center; padding:10px 0 0px 0 ; display:none; }
+.error-box p{ text-align:center; color:#ff0000;}
 
 
 /*Work Css start here*/
@@ -122,6 +123,38 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 
 /*About Us Css End   here*/
 
+/*Contact Us Css Start here*/
+.contact-us{ width:100%; float:left; padding:50px 0 0 0;}	
+.contact-us .cont-head{ width:100%; float:left;}	
+.contact-us .cont-head h2{ font-size:20px; color:#404040; padding:0 0 20px 0; margin:0px;}
+.contact-us .cont-head p{ font-size:14px; margin:0px; }
+.contact-us .cont-form-area{ width:100%; float:left; margin:50px 0 60px 0;}
+.contact-us .cont-form-area .cfa-lft{ width:100%; float:left; }
+.contact-us .cont-form-area .cfa-rgt{ width:100%; float:left; }
+
+.contact-us .cont-form-area .cfa-lft h4{ font-size:16px; padding:0 0 20px 0; font-weight:bold;}
+.contact-us .cont-form-area .cfa-lft p{ font-size:14px; }
+.contact-us .cont-form-area .cfa-lft ul{ margin:30px 0 0 0px; padding:0px; list-style-type:none; width:100%; }
+.contact-us .cont-form-area .cfa-lft ul li{ width:100%; padding:0 0 20px 0; line-height:20px; font-size:14px;}
+.contact-us .cont-form-area .cfa-lft ul li span{ display:block;}
+.contact-us .cont-form-area .cfa-lft ul li .fa{ float:left; margin:3px 10px 15px 0; width:20px; color:#c9c7c7; font-size:18px; text-align:center; }
+
+.contact-us .cont-form-area .cfa-rgt .cont-form{ width:100%; float:left;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .form-control{ border-radius:0px; border:#c1c1c1 1px solid; margin:0 0 20px 0; height:44px; font-size:14px;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group  .txt{ height:120px;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .send-btn{ background:#d73135; height:44px; width:180px; border:0px; border-radius:0px; font-size:18px; text-transform:uppercase; float:right;}
+.contact-us .map-wrap{ width:100%; float:left; height:430px;}
+/*Contact Us Css End   here*/
+
+/* Privacy Content Start */
+.privacy-content{ width:100%; float:left; padding:20px 0;}
+.privacy-content p.pc-head{ text-transform:uppercase; font-size:18px; padding:0 0 0px 15px; border-left:#d73135 3px solid; height:16px; line-height:16px; margin:0 0 15px 0;}
+.privacy-content p.pc-head2{ font-size:18px; padding:0 0 0px 0px; font-size:16px; font-style:italic; font-weight:bold; padding:15px 0;}
+.privacy-content p{ line-height:22px; padding:0 0 15px 0;}
+.privacy-content ul{ margin:15px 0px; padding:0px; list-style-type:none; width:100%; float:left;}
+.privacy-content ul li{ padding:3px 0;}
+
+/* Privacy Content End */
 
 .modal{ overflow-y:auto;}
 
@@ -144,9 +177,19 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .popup-1{ margin:20px auto 0px;}
 
 .inner-banner .ib-txt{ height:auto; padding:30px 0;}
+.inner-banner .ib-txt p span{ display:inline;}
 
 .howitwork .step-area .step-rgt .img-box{ width:130px; height:130px;}
 .howitwork .step-area .step-rgt .img-box img{ width:80%;}
+
+/*Contact us*/
+.contact-us{ padding:15px 0 0 0;}
+.contact-us .cont-head h2{ padding:0 0 15px 0;}
+.contact-us .cont-form-area{ margin:15px 0;}
+.contact-us .cont-form-area .cfa-lft h4{ padding:0 0 15px 0;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .send-btn{ width:100%; text-align:center;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .form-control{ margin:0 0 10px 0;}
+
 }
 
 
@@ -171,12 +214,21 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .quote-wrap .q-box .form-group .s-btn{ width:100%;}
 .quote-wrap .q-box .desk{ display:none;}
 
+/*Contact us*/
+.contact-us{ padding:15px 0 0 0;}
+.contact-us .cont-head h2{ padding:0 0 15px 0;}
+.contact-us .cont-form-area{ margin:15px 0;}
+.contact-us .cont-form-area .cfa-lft h4{ padding:0 0 15px 0;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .send-btn{ width:100%; text-align:center;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .form-control{ margin:0 0 10px 0;}
+
 }
 
 @media (min-width:641px) and (max-width:767px){	
 .popup-1{ margin:20px auto 0px;}
 
 .inner-banner .ib-txt{ height:auto; padding:30px 0;}
+.inner-banner .ib-txt p span{ display:inline;}
 
 .howitwork .inhead-area{ padding:20px 0 0 0;}
 .howitwork .step-area .step-in{ margin:0 0 25px 0;}
@@ -196,6 +248,18 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .quote-wrap .q-box .form-group .s-btn{ width:100%;}
 .quote-wrap .q-box .desk{ display:none;}
 
+.ow-wrap{padding:25px 0;  }
+.ow-wrap p{ font-size:14px; padding:15px 0;}
+.ow-wrap .img-box{margin:0 0 15px 0; }
+
+
+/*Contact us*/
+.contact-us{ padding:15px 0 0 0;}
+.contact-us .cont-head h2{ padding:0 0 15px 0;}
+.contact-us .cont-form-area{ margin:15px 0;}
+.contact-us .cont-form-area .cfa-lft h4{ padding:0 0 15px 0;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .send-btn{ width:100%; text-align:center;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .form-control{ margin:0 0 10px 0;}
 
 }
 
@@ -203,6 +267,7 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .popup-1{ margin:20px auto 0px;}
 
 .inner-banner .ib-txt{ height:auto; padding:30px 0;}
+.inner-banner .ib-txt p span{ display:inline;}
 
 .howitwork .inhead-area{ padding:20px 0 0 0;}
 .howitwork .step-area .step-in{ margin:0 0 25px 0;}
@@ -222,6 +287,19 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .quote-wrap .q-box .form-group .s-btn{ width:100%;}
 .quote-wrap .q-box .desk{ display:none;}
 
+.ow-wrap{padding:25px 0;  }
+.ow-wrap p{ font-size:14px; padding:15px 0;}
+.ow-wrap .img-box{margin:0 0 15px 0; }
+
+
+/*Contact us*/
+.contact-us{ padding:15px 0 0 0;}
+.contact-us .cont-head h2{ padding:0 0 15px 0;}
+.contact-us .cont-form-area{ margin:15px 0;}
+.contact-us .cont-form-area .cfa-lft h4{ padding:0 0 15px 0;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .send-btn{ width:100%; text-align:center;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .form-control{ margin:0 0 10px 0;}
+
 }
 
 @media (min-width:320px) and (max-width:480px){	
@@ -234,6 +312,8 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .inner-popup .popup-cont .welcome p span{ display:inline;}
 
 .inner-banner .ib-txt{ height:auto; padding:30px 0;}
+.inner-banner .ib-txt p span{ display:inline;}
+
 
 .howitwork .inhead-area{ padding:20px 0 0 0;}
 .howitwork .step-area .step-in{ margin:0 0 25px 0;}
@@ -260,5 +340,13 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .ow-wrap .img-box{margin:0 0 15px 0; }
 
 
-
+/*Contact us*/
+.contact-us{ padding:15px 0 0 0;}
+.contact-us .cont-head h2{ padding:0 0 15px 0;}
+.contact-us .cont-form-area{ margin:15px 0;}
+.contact-us .cont-form-area .cfa-lft h4{ padding:0 0 15px 0;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .send-btn{ width:100%; text-align:center;}
+.contact-us .cont-form-area .cfa-rgt .cont-form .form-group .form-control{ margin:0 0 10px 0;}
 }
+
+

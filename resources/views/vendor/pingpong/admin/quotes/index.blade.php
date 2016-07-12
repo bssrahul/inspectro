@@ -67,10 +67,18 @@
 		<table class="table_info">
 		<thead >
 				@foreach ($quotes as $k=>$quote)
-		<!-- <div >
-				<a href="{!! route('admin.quotes.create', ['requestId'=>$quote->id]) !!}"><input type="submit" name="reply" value="Send a Request Reply" class="reply_btn"></a>
+		<?php if($status == 0){?>
+		<div >
+				<a href="{!! route('admin.quotes.create', ['requestId'=>$quote->id]) !!}"><input type="submit" name="reply" value="Send a Request Reply" class="reply_btn" id="send"></a>
 				
-		</div> -->
+		</div> 
+		<?php } ?>
+		<?php if($status == 1){?>
+		<div >
+				<a href="{!! route('admin.quotes.index', ['com_req_Id'=>$quote->id]) !!}"><input type="submit" name="complete" value="Service Complete" class="reply_btn" id="complete"></a>
+				
+		</div> 
+		<?php } ?>
 		<tr class="mid">
 							
 				 	  <td colspan="2"> Personal Information :</td>

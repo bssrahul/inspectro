@@ -1,0 +1,142 @@
+<?php $__env->startSection('content-header'); ?>
+	<h1>
+		All blocks (<?php echo $blocks->count(); ?>)
+		&middot;
+		<small><?php echo link_to_route('admin.blocks.create', 'Add New',[  ]); ?></small>
+		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
+		
+		
+	</h1>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+	<table class="table">
+		<thead>
+			<th>No</th>
+			<th>Image</th>
+			<th>Type</th>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Status</th>
+			<th>Created At</th>
+			<th class="text-center">Action</th>
+		</thead>
+		<tbody>
+			<?php foreach($blocks as $block): ?>
+			<tr>
+				<td><?php echo $no; ?></td>
+				<?php $destinationPath =  url().'/public/uploads/'; ?>
+				<td ><img src="<?php echo $destinationPath."/".$block->image ; ?> " class="round_img" alt="Bannar Image"></td>
+				<td><?php if( $block->type == 'process' ): ?>
+						<?php echo 'How does it Work'; ?>
+
+					<?php elseif( $block->type == 'services' ): ?>
+						<?php echo 'We are here to Serve You'; ?>
+
+					<?php elseif( $block->type == 'features' ): ?>
+						<?php echo 'Our Features'; ?>
+
+					<?php elseif( $block->type == 'testimonial' ): ?>
+						<?php echo 'Testimonial'; ?>
+
+					<?php elseif( $block->type == 'work' ): ?>
+						<?php echo 'Work'; ?>
+
+					<?php endif; ?>
+				</td>
+				<td><?php echo $block->title; ?></td>
+				<td>
+					<?php 
+						$string = strip_tags($block->description);
+						if (strlen($string) > 80) {
+								$stringCut = substr($string, 0, 80);
+								$string = substr($stringCut, 0, strrpos($stringCut, ' ')).'... '; 
+						}
+						echo $string;
+					?>
+				</td>
+			
+				<td><?php if($block->status == '1'): ?>
+							<span class='label label-active'>Active</span>
+					<?php else: ?>
+					  <span class='label label-deactive '>Deactive</span>
+					<?php endif; ?>
+				
+				</td>
+				<td><?php echo date('F d, Y', strtotime($block->created_at)); ?></td>
+				<td class="text-center">
+					
+					<?php $target = ['0'=>'1','1'=>'0'];?>
+					<a title= "<?php echo($block->status == 0?'Activate status':'Deactivate Status') ?>" href="<?php echo e(URL::route('admin.blocks.index', ['block_id'=>$block->id,'updateStatus'=>$target[$block->status]])); ?>">
+					 		<span class="fa fa-fw fa-check-square<?php echo($block->status ==0?'-o':'') ?>">  </span>
+					</a>
+				
+					
+					&middot;
+					<a href="<?php echo route('admin.blocks.edit', [$block->id,'ser_id' => $block->service_id]); ?>">Edit</a>
+					&middot;
+					<?php echo $__env->make('admin::partials.modal', ['data' => $block, 'name' => 'blocks'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</td>
+			</tr>
+			<?php $no++ ;?>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+	<div class="text-center">
+		<?php echo pagination_links($blocks); ?>
+
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('style'); ?>
+<style>
+.round_img {
+	height:100px;
+	width:150px;
+	border-radius: 10px;
+	border: 3px solid #e1e1e1;
+	background-color:#e1e1e1;
+}
+
+.active{
+	color:green;
+}
+.deactive{
+	color:red;
+}
+.label-deactive {
+    background-color: #f56954 !important;
+}
+.label-active {
+    background-color: #5cb85c;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+	
+}
+.searchBox{
+	float:right;
+	margin-right:5%;
+	
+}
+.searchLabel{
+	float:right;
+	margin-right:3%;
+	font:10px !important;
+	color: lightblue !important;
+	font-style: oblique;
+}
+</style>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

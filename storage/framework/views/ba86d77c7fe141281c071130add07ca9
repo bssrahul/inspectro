@@ -1,0 +1,130 @@
+<?php $__env->startSection('content-header'); ?>
+	<h1>
+		All Services (<?php echo $services->count(); ?>)
+		&middot;
+		<small><?php echo link_to_route('admin.services.create', 'Add New'); ?></small>
+		<small class="searchBox">	
+			<?php echo link_to_route('admin.login.index', 'Home'); ?>
+
+		</small>
+	</h1>
+	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+	
+	<table class="table">
+		<thead>
+			<th>No</th>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Created At</th>
+			<th>Status</th>
+			<th class="text-center">Action</th>
+		</thead>
+		<tbody>
+			<?php foreach($services as $category): ?>
+			<tr>
+				<td><?php echo $no; ?></td>
+				<td><?php echo $category->title; ?></td>
+				<td><?php echo $category->description; ?></td>
+				<td><?php echo date('F d, Y', strtotime($category->created_at)); ?></td>
+				<td><?php if($category->status == '1'): ?>
+							<span class='label label-active'>Active</span>
+					<?php else: ?>
+					  <span class='label label-deactive '>Deactive</span>
+					<?php endif; ?>
+				
+				</td>
+				<?php $target = ['0'=>'1','1'=>'0'];?>
+				<td class="text-center">
+				
+					
+				
+							
+					<?php if($category->avail == 1 ): ?>
+							<?php echo link_to_route('admin.questions.index', 'View Questions', [ 'ser_id' =>$category->id,'opt'=>$category->id ]); ?>
+
+					<?php else: ?>
+							<?php echo link_to_route('admin.questions.create', 'Add Questions', [ 'serv_id' =>$category->id,'opt'=>$category->id ]); ?>
+
+					<?php endif; ?>
+					&middot;
+					
+					<a href="<?php echo route('admin.services.edit', $category->id); ?>">Edit</a>
+					&middot;
+					<a title= "<?php echo($category->status == 0?'Activate status':'Deactivate Status') ?>" href="<?php echo e(URL::route('admin.services.index', ['service_id'=>$category->id,'updateStatus'=>$target[$category->status]])); ?>">
+					 
+					<span class="fa fa-fw fa-check-square<?php echo($category->status ==0?'-o':'') ?>">  </span>
+				</a>
+				&middot;
+					<?php echo $__env->make('admin::partials.modal', ['data' => $category, 'name' => 'services'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</td>
+			</tr>
+			<?php $no++ ;?>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+	<div class="text-center">
+		<?php echo pagination_links($services); ?>
+
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('style'); ?>
+<style>
+.active{
+	color:green;
+}
+.deactive{
+	color:red;
+}
+.label-deactive {
+    background-color: #f56954 !important;
+}
+.label-active {
+    background-color: #5cb85c;
+}
+.label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+	
+}
+.searchBox{
+	float:right;
+	margin-right:5%;
+	
+}
+.searchLabel{
+	float:right;
+	margin-right:3%;
+	font-size: 20px;
+	color: lightblue !important;
+	font-style: oblique;
+}
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('script'); ?>
+	
+	<script type="text/javascript">
+			$(document).ready(function() {
+					
+					$("#search").keyup(function(){
+							$searchData=$('#search').val();
+							alert($searchData);
+					});
+					
+			});
+	</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
