@@ -1,4 +1,5 @@
 <!--[Footer]-->
+
             	<footer class="foot-wrap">
                 	<div class="container">
                     	<div class="row">
@@ -84,10 +85,12 @@
  <script>
 var queArray = []; 
 var quoteOptionsArr = new Array();
+var flag=false;
 var CSRF_TOKEN = "<?php echo csrf_token(); ?>";		
 
 		
 $(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();   
     $("#myBtn").click(function(){
 		if($('.serviceList').hasClass('active')){
 			$("#myModal").modal();
@@ -105,6 +108,12 @@ $(document).ready(function(){
 });
 });	
 
+var totalQCount;
+var incrementOfPercent;
+var qListsArr = new Array();
+var initProgressText = '0% Completed';
+var initProgressPercent = '0';
+
 $(document).ready(function(){
 	
 	
@@ -112,7 +121,9 @@ $(document).ready(function(){
 	popupValidation();
 	$(".serviceList").click(function(){
 		$('.serviceList').removeClass('active');
+		$('.serviceList').parent().removeClass('activeLi');
 		$(this).addClass('active');
+		$(this).parent().addClass('activeLi');
 		queArray=[];
 		
 		var serviceId=$(this).attr('id');
@@ -127,8 +138,19 @@ $(document).ready(function(){
 				//$('body').append('<div id="loadering"><img src="'+loadingImage+'"></div>');
 				//return false;
 			},
-		success: function (data) {
-				$('#myModal').html(data);
+		success: function (data){
+				
+				if(data!=0){
+					$('#myModal').html(data);
+					var qLists = $('#myModal').find('#serviceTotalQ').val();
+					qListsArr = JSON.parse(qLists);
+					qListsArr.push('0','p2','p3','p4','p5');
+					
+					totalQCount = qListsArr.length;
+					incrementOfPercent = Math.round(100/totalQCount);
+				
+				}else{alert('No Questions for this service yet');}
+				
 		}
 			});
 		});
@@ -214,7 +236,7 @@ $(document).on('click','.nextQue,.back',function(){
 		var Qid=$(this).attr('data-qid');
 		if (typeof(Storage) !== "undefined") {
 			if($(this).hasClass('nextQue')) {
-			
+			flag=true;
 			var inputType = $('.childbox').attr('type');
 			var inputName = $('.childbox').attr('name');
 			
@@ -245,7 +267,12 @@ $(document).on('click','.nextQue,.back',function(){
 					if(opId=='selected_date')
 					{
 						dateOfServ = $('.for_date').val();
-						OptArray.push({'selected_date':dateOfServ});
+						timeOfServe=$('#timepicker').val();
+						if(timeOfServe!='')
+						{
+							OptArray.push({'selected_date':dateOfServ,'selected_time':timeOfServe});
+						}
+						else OptArray.push({'selected_date':dateOfServ});
 						selectDateOption=false;
 					}
 					else{
@@ -315,10 +342,13 @@ $(document).on('click','.nextQue,.back',function(){
 						url: '<?php echo url('/')."/localstorage"; ?>',
 						type: 'get',
 						data: 'data='+JSON.stringify(data)+'&_token='+CSRF_TOKEN,
-						success: function (RetData){   		
+						success: function (RetData){
+								
 						}
 					}); 
 			}
+			}else{
+				flag=false;
 			}
 		} else {
 				// Sorry! No Web Storage support..
@@ -330,7 +360,7 @@ $(document).on('click','.nextQue,.back',function(){
 				stQfrontStorage(Qid);	
 				return;
 			}
-		
+		//console.log('dynamic part');
 			var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
 			if(CheckArrayIndex(queArray,$.trim(Qid)) != -1 &&  CheckArrayIndex(queArray,$.trim(Qid))>0)
 			{
@@ -341,6 +371,7 @@ $(document).on('click','.nextQue,.back',function(){
 				backQueId='undefined';
 			}
 			popupValidation();
+			//alert(flag);
 			$.ajax({
 					url: '<?php echo url('/')."/nextquestion"; ?>',
 					type: 'get',
@@ -348,6 +379,40 @@ $(document).on('click','.nextQue,.back',function(){
 					success: function (data) {
 						$('#myModal').html(data);
 						popupValidation();
+						if(flag==true){
+							
+								console.log('next');
+							//console.log('incrementOfPercent= '+incrementOfPercent);
+							console.log('initProgressPercent= '+initProgressPercent);
+						if($.inArray(Qid,qListsArr)){
+									if(initProgressPercent==0)
+									{if($('#myModal').find($('div').hasClass('.progress-bar.progress-bar-danger')))
+										{
+											$('#myModal').find('.progress-bar.progress-bar-danger').width('0%'); 	
+											$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
+											initProgressPercent = parseInt(initProgressPercent)+parseInt(incrementOfPercent);	
+										}
+										return false;
+									}
+									
+									initProgressText = initProgressPercent+'% Completed';
+									initProgressPercent = parseInt(initProgressPercent)+parseInt(incrementOfPercent);	
+						}}else
+						if(flag==false)
+						{
+							console.log('back');
+							console.log('incrementOfPercent= '+incrementOfPercent);
+							console.log('initProgressPercent= '+initProgressPercent);
+							initProgressPercent = parseInt(initProgressPercent) - parseInt(incrementOfPercent);
+							initProgressText = initProgressPercent+'% Completed';	
+						}
+						if($('#myModal').find($('div').hasClass('.progress-bar.progress-bar-danger')))
+						{
+						$('#myModal').find('.progress-bar.progress-bar-danger').width(initProgressPercent+'%'); 	
+						$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
+						}
+						
+						
 					}
 				}); 
 	}
@@ -394,7 +459,7 @@ $(document).ready(function() {
 	$('body').on('keyup','#TellUs', function(){
 		popupValidation();
 	});
-	$('body').on('keyup','#fullName', function(){
+	$('body').on('keydown','#fullName', function(){
 		errorMsg('childbox','name');
 	});
 	
@@ -565,7 +630,12 @@ function errorMsg(inputClass,fieldName)
 			if($( "."+inputClass ).hasClass('name')){
 				
 				var fld = $( "."+inputClass );
-				validateUsername(inputClass,fld)
+				if(validateUsername(inputClass,fld)==true){
+					$("."+inputClass).next('.error-box').html('<p></p>');
+					$("."+inputClass).next('.error-box').hide();
+					$('.nextQue').prop('disabled', false);
+				}
+				
 			}
 			
 			
@@ -627,26 +697,33 @@ function validatePhone(field,inputClass){
 }  
 function validateUsername(inputClass,fld) {
     var error = "";
-    var illegalChars = /\W/; // allow letters, numbers, and underscores
-	console.log(illegalChars.test(fld.val()));
+    var illegalChars = /^[a-zA-Z ]+$/; // allow letters, numbers, and underscores
+	$('.error-box').hide();
+	$('.error-box').html('<p></p>');
+	
     if (fld.val() == "") {
         error = "This field is required.";
 		$("."+inputClass).next('.error-box').children().html(error);
 		$("."+inputClass).next('.error-box').show();
+		$('.nextQue').prop('disabled', true);
         return false;
  
     } else if (fld.val().length < 3) {
         error = "Name should be greater then 3 characters.";
 		$("."+inputClass).next('.error-box').children().html(error);
 		$("."+inputClass).next('.error-box').show();
+		$('.nextQue').prop('disabled', true);
 		return false;
  
-    } else if (illegalChars.test(fld.val())===true || isNaN(fld.val())===false) {
+    } else if (!(fld.val()).match(illegalChars)) {
         error = "The username contains illegal characters.";
 		$("."+inputClass).next('.error-box').children().html(error);
 		$("."+inputClass).next('.error-box').show();
+		
+		$('.nextQue').prop('disabled', true);
 		return false;
     } 
+	$('.nextQue').prop('disabled', false);
     return true;
 }
 /**
@@ -662,8 +739,36 @@ function stQfrontStorage(staticModal)
 		type: 'get',
 		data: '_token='+CSRF_TOKEN+'&staticModal='+staticModal,
 		success: function (data){
+			
 			$('#myModal').html(data);
-			$( "#datepicker" ).datepicker({onSelect: popupValidation});
+			if(flag==true){
+				//console.log('text');
+				//console.log('initProgressPercent= '+initProgressPercent);
+			if($.inArray(staticModal,qListsArr)){	
+					initProgressText = initProgressPercent+'% Completed';
+					initProgressPercent = parseInt(initProgressPercent)+parseInt(incrementOfPercent);
+							
+			}
+			}else if(flag==false)
+			{	
+				//console.log('back');
+				//console.log('initProgressPercent= '+initProgressPercent);
+				initProgressPercent = parseInt(initProgressPercent)- parseInt(incrementOfPercent);
+				initProgressText = initProgressPercent+'% Completed';
+			}
+			if($('#myModal').find($('div').hasClass('.progress-bar.progress-bar-danger')))
+						{
+						$('#myModal').find('.progress-bar.progress-bar-danger').width(initProgressPercent+'%'); 	
+						$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
+						}
+			
+			
+			$( "#datepicker" ).datepicker({
+					onSelect: popupValidation,
+					dateFormat: "dd-mm-yy",
+					minDate: 0					
+			});
+			$('#timepicker1').timepicker();
 			popupValidation();		
 		}
 	}); 

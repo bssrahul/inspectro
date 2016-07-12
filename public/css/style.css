@@ -2,7 +2,6 @@
 /* CSS Document */
 
 
-@import 'bootstrap.css';
 @import 'bootstrap.min.css';
 @import 'header.css';
 @import 'content.css';
@@ -71,3 +70,6 @@ a:focus, a:hover{ outline:none;}
 	margin:0px;
 }
 
+.activeLi {
+    border: 1px solid #d73135  !important;
+}
