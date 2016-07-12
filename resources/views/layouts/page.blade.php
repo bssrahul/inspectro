@@ -22,7 +22,10 @@
 		</section>
 		@include('includes.footer')
     <!--[/content]-->
-    
+    <script type="text/javascript">
+        @yield ('scripts')
+	</script>
+		
 </div>
 
 </body>

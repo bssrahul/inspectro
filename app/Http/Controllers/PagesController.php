@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Support\Facades\Redirect;
 use DB;
 use Session;
-
+use Mail;
 class PagesController extends Controller {
     
 	public function __construct()
@@ -28,7 +28,8 @@ class PagesController extends Controller {
      * @return mixed
      */
     public function view($slug)
-    {
+	{
+		
 		//echo $slug;die;
 		if($slug!=''){
 			$pageData = DB::table('static_pages')
@@ -55,6 +56,25 @@ class PagesController extends Controller {
 		return Redirect::to('/auth/login');
     */
 	}
-	 
-
+	public function contactMail($flag=null){
+		if($flag == 'mail'){
+				$data=$_REQUEST;
+								//$userData=$data;
+				$userData['fromName']=$data['name'];
+				$userData['fromEmail']=$data['email'];
+				$userData['name']=$data['name'];
+				$userData['email']=$data['email'];
+				$userData['message']=$data['mes'];
+				$subject =$data['subject'] ;	
+				$data['message'] = 'We have recieved new Query  from '.$userData['fromName'].'('.$userData['fromEmail'].'). Kindly review the Message Given below & respond accordindly.</br></br>'.$userData['message'];
+				
+				
+				Mail::send('emails.contact', compact('data'), function($message) use ($userData, $subject) {
+			
+						$message->to($userData['email'],$userData['name'])->subject($subject);
+				});	
+				echo "success";
+				//echo "<pre>"; print_R($data);die;
+		} 
+	}
 }

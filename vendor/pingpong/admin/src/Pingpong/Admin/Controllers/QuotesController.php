@@ -36,9 +36,17 @@ return $this->redirect('quotes.index');
 public function index(Request $request)
 {
 		$request_id=$request->get('reqid');
+		$completeId=$request->get('com_req_Id');
+		if(!empty($completeId)){
+			$quoteData = $this->repository->findById($completeId);
+			$data1['status'] = 2;
+			//echo "<pre>"; print_R($data1);die;
+			$quoteData->update($data1);	
+		}
 		if(!empty($request_id)){
 			$quotes = $this->repository->allOrSearch($request->get('q'),$request_id);
 			$que_id= $quotes[0]['id'];
+			$status= $quotes[0]['status'];
 			$queReqAnsData= DB :: table ("quote_requests_answers")->where('quote_requests_id',$que_id)->get();
 			//echo "<pre>"; print_R($quotes);die;
 			if(!empty($queReqAnsData)){
@@ -118,7 +126,7 @@ public function index(Request $request)
 		//echo "<pre>"; print_r($quotes);
 		//echo "<pre>"; print_r($tempQue);die;
 		
-		return $this->view('quotes.index', compact('quotes','no','request_id','tempQue'));
+		return $this->view('quotes.index', compact('quotes','no','request_id','tempQue','status'));
 	
 	
 }
@@ -171,25 +179,32 @@ public function store(Create $request)
 		}
 		$contactMessage=$Alldata['message'];
 		//echo "<pre>"; print_R($contactMessage);die;
-		$data = array(
+		$userData = array(
 			'name'=>$contactName, 
-			'message'=>$contactMessage
+			'email'=>$contactEmail
 		);
-		/* Mail::send('vendor.pingpong.admin.emails.replytemplate', $data, function($message) use ($contactEmail, $contactName)
-		{   
-				$message->to($contactEmail, $contactName)->subject('Reply mail');
-				
-		}); */
+		$data=$userData;
+		$mailFlag=0;
+		if(!empty($userData)){
+			$subject = 'Inspectro - Reply of Quote Request';	
+			$data['message'] = $contactMessage;
+			Mail::send('emails.reply', compact('data'), function($message) use ($userData, $subject)
+			{   
+					$message->to($userData['email'],$userData['name'])->subject($subject);
+					
+			}); 
+			$mailFlag=1;
+			echo "success";
+		}
 		
-		
-		/* if(	(!empty($id))&& (!empty($email))){
+		 if(($mailFlag == 1) && (!empty($userData)) ){
 					
 			$quoteData = $this->repository->findById($id);
 			$data1['status'] = 1;
 			//echo "<pre>"; print_R($data1);die;
 			$quoteData->update($data1);	
-		} */
-		
+		} 
+		 
 		
 		return $this->redirect('quotes.index');
 			

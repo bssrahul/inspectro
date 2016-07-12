@@ -21,7 +21,9 @@ Route::get('cancelProject', 'HomeController@cancelProject');
 Route::get('pages/{slug}', [
     'as' => 'pages', 'uses' => 'PagesController@view'
 ]);
-
+Route::any('pages/{flag}', [
+     'as' => 'pages', 'uses' => 'PagesController@contactMail'
+]); 
 Route::get('sendTestMail', 'HomeController@sendTestMail');
 
 Route::get('thankyouMail', 'HomeController@thankyouMail');
