@@ -40,7 +40,7 @@ class HomeController extends Controller {
 	public function index()
 	{
 		
-		$services = DB::table('services')->select('title','id')->take(3)->get();
+		$services = DB::table('services')->select('title','id')->where('status',1)->take(7)->get();
 		//print_r($services);die;
 		$howItWorkData= DB::table('static_blocks')->where('type','process')->where('status','1')->get();
 		//echo "<pre>"; print_r($howItWorkData);die;
@@ -61,10 +61,18 @@ class HomeController extends Controller {
 	public function serviceList()
 	{
 		$serviceId=$_REQUEST['serviceId'];
-		$FirstQue = DB::table('questions')->where('service_id',$serviceId)->where('sort_que',1)->first();
 		
-		if(isset($serviceId)&& !empty($serviceId)){
-		$popup='<div class="modal-dialog popup-1">	
+		$totalQofService = DB::table('questions')->where('service_id',$serviceId)->lists('id');
+		
+		$totalQofServiceJson = json_encode($totalQofService,JSON_NUMERIC_CHECK);
+		
+	
+		
+		$FirstQue = DB::table('questions')->where('service_id',$serviceId)->where('sort_que',1)->first();
+		//print_r($FirstQue);die;
+		if(isset($serviceId)&& !empty($serviceId) && !empty($FirstQue)){
+		$popup='<div class="modal-dialog popup-1">
+				<input type="hidden" value='.$totalQofServiceJson.' id="serviceTotalQ" name="serviceTotalQ">
 				<div class="modal-content">  
 				<div class="inner-popup">	
 		<!--popup Content-->
@@ -84,6 +92,8 @@ class HomeController extends Controller {
 				</div>';
 		
 		echo $popup;
+		}else{
+			echo 0;
 		}
 		die;
 	}
@@ -153,8 +163,8 @@ class HomeController extends Controller {
 					<!--progress-->
 					<div class="top-progress">
 						  <div class="progress">
-							  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:20%">
-								20% Completed 
+							  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+								
 							  </div>
 						   </div>
 					  </div>
@@ -162,7 +172,7 @@ class HomeController extends Controller {
 				  <p class="phead queTitle"  id='.$queData->que_id.'>'.$queData->title.'</p>
 				  
 				  <div class="top-desc">
-					<p>'.$queData->description_1.'</p>
+					<p>'.@$queData->description_1.'</p>
 				  </div>
 					</div>
 		<!--/popup head-->
@@ -211,7 +221,7 @@ class HomeController extends Controller {
 											</li>';
 											
 								}else{
-									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox required" '.$checked.' data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="Lorem Ipsum is simply dummy text of the printing and typesetting industry." data-placement="top" data-toggle="tooltip" href="#" class="test">
+									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox required" '.$checked.' data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="'.$v->option_description.'" data-placement="top" data-toggle="tooltip" href="#" class="test">
 												<img width="14" height="14" alt="" src="img/tt-icon.png"> </a></li>';
 								}
 			
@@ -258,7 +268,7 @@ class HomeController extends Controller {
 											</li>';
 											
 								}else{
-									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox "  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="Lorem Ipsum is simply dummy text of the printing and typesetting industry." data-placement="top" data-toggle="tooltip" href="#" class="test">
+									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox "  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="'.$v->option_description.'" data-placement="top" data-toggle="tooltip" href="#" class="test">
 												<img width="14" height="14" alt="" src="img/tt-icon.png"> </a></li>';
 								}
 			
@@ -297,7 +307,7 @@ class HomeController extends Controller {
 	   
 			$popup .=  '</ul>
 				 <div class="bot-desc">
-					<p>'.$queData->description_1.'</p>
+					<p>'.@$queData->description_2.'</p>
 				 </div>
 				</div>
 			<!--/popup Content-->
@@ -372,6 +382,10 @@ class HomeController extends Controller {
 						$serviceDate = 'selected_date';
 						$date=$options[$k]['selected_date'];
 					 }
+					if(isset($options[$k]['selected_time'])){ 
+						//$serviceDate = 'selected_time';
+						$time=$options[$k]['selected_time'];
+					 }
 					 
 					 if(isset($options[$k]['TellusData'])){ 
 						//$serviceDate = 'selected_date';
@@ -409,8 +423,8 @@ class HomeController extends Controller {
 								<!--progress-->
 								<div class="top-progress">
 									  <div class="progress">
-										  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-											70% Completed 
+										  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+											
 										  </div>
 									   </div>
 								  </div>
@@ -435,6 +449,15 @@ class HomeController extends Controller {
 						<li><label>Best date(s) and time(s) for painting</label>
 							 <input type="text" name="date" class="childbox for_date" id="datepicker" readonly="readonly"  placeholder="Click to pick a date" value='.(@$date?$date:'').'>
 							 <div class="error-box marginL0"></div>
+						</li>
+						<li><label>At what time?</label>
+							<div class="input-group bootstrap-timepicker timepicker">
+							<input type="text" placeholder="Ex. “2pm”" id="timepicker1" class="form-control input-small" value='.(@$time?$time:'').'>
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-time"></i>
+							</span>
+							 </div>          
+							<div class="error-box"><p>Fill Details</p></div>
 						</li>
 					<ul>  
 					  </li>
@@ -461,8 +484,8 @@ class HomeController extends Controller {
 									<!--progress-->
 									<div class="top-progress">
 										  <div class="progress">
-											  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:80%">
-												80% Completed
+											  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+												
 											  </div>
 										   </div>
 									  </div>
@@ -500,8 +523,8 @@ class HomeController extends Controller {
 										<!--progress-->
 										<div class="top-progress">
 											  <div class="progress">
-												  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:90%">
-													90% Completed
+												  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+													
 												  </div>
 											   </div>
 										  </div>
@@ -538,8 +561,8 @@ class HomeController extends Controller {
 										
 												<div class="top-progress">
 												  <div class="progress">
-													  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:95%">
-														95% Completed
+													  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+														
 													  </div>
 												   </div>
 												</div>
@@ -588,8 +611,8 @@ class HomeController extends Controller {
 										<!--progress-->
 										<div class="top-progress">
 											  <div class="progress">
-												  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-													100% Completed
+												  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+													
 												  </div>
 											   </div>
 										  </div>
@@ -687,9 +710,12 @@ class HomeController extends Controller {
 					
 					if(isset($options[$k]['phone'])){ 
 					 $phone = $options[$k]['phone'];}
-					 
+					 if(isset($options[$k]['selected_date']) && isset($options[$k]['selected_time'])){ 
+					$selected_date = $options[$k]['selected_date']. " , ".$options[$k]['selected_time'] ;}
+					else
 					 if(isset($options[$k]['selected_date'])){ 
 					$selected_date = $options[$k]['selected_date'];}
+					
 					
 					if(isset($options[$k]['TellusData'])){ 
 					$TellusData = $options[$k]['TellusData'];}

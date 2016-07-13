@@ -28,7 +28,7 @@
 			@foreach ($blocks as $block)
 			<tr>
 				<td>{!! $no !!}</td>
-				<?php $destinationPath =  url().'/public/uploads/'; ?>
+				<?php $destinationPath =  url().'/uploads/'; ?>
 				<td ><img src="<?php echo $destinationPath."/".$block->image ; ?> " class="round_img" alt="Bannar Image"></td>
 				<td>@if( $block->type == 'process' )
 						{!! 'How does it Work' !!}
