@@ -1,6 +1,9 @@
 @extends('layouts.page')
 @section('content')
 	<!--[content]-->
+	@if(Session::has('flash_message'))
+    <div class="alert alert-success"><span style="text-align=center;" > {!! session('flash_message') !!}</span></div>
+	@endif
 		<?php if(!empty($pageData)){?>
 				<div class="inner-cont">
 					<?php $destinationPath =  url().'/public/uploads/'; ?>
@@ -28,7 +31,7 @@
 														{!! $errors->first('name', '<div class="text-danger">:message</div>') !!}
 												</div>
 												<div class="form-group">
-														{!! Form::text('email', null, ['class' => 'form-control required','placeholder'=>'Email']) !!}
+														{!! Form::email('email', null, ['class' => 'form-control required','placeholder'=>'Email']) !!}
 														{!! $errors->first('email', '<div class="text-danger">:message</div>') !!}
 												</div>
 												<div class="form-group">
@@ -195,6 +198,7 @@
             </div>	
 	<?php } ?>   
     <!--[/content]-->
+	
 @stop
 
 @section('scripts')

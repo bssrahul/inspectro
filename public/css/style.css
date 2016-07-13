@@ -69,9 +69,15 @@ a:focus, a:hover{ outline:none;}
 .marginL0{
 	margin:0px;
 }
-.error{
-	color:red;
+
+.error  {
+	color:red !important ;
+	font-size: 12px;
+    font-weight: normal;
+    margin: 0;
+
 }
 .activeLi {
     border: 1px solid #d73135  !important;
+
 }

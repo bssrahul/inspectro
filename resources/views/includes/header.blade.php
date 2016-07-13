@@ -10,7 +10,7 @@
                         	<div class="logo-area">
                             	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
                                 	<div class="logo">
-	                           	    	<a href="#" title="Inspectaro"><img src="{{asset('public/img/inspectaro.png')}}"  alt="Inspectaro"/></a>
+	                           	    	<a href="/inspectro/" title="Inspectaro"><img src="{{asset('public/img/inspectaro.png')}}"  alt="Inspectaro"/></a>
                                     </div>    
                                  </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">

@@ -8,7 +8,7 @@
 <tbody>
 <tr style="height: 36px;" height="36">
 <td style="width: 30px; background-color: #d73135;" width="30" valign="middle"><span style="background-color: #d73135;">&nbsp;</span></td>
-<td style="width: 500px; background-color: #d73135;" width="500" valign="middle"><span style="background-color: #d73135;"><span style="color: white; font-size: small;"><strong>Inspectro - Quote Request<br /></strong></span></span></td>
+<td style="width: 500px; background-color: #d73135;" width="500" valign="middle"><span style="background-color: #d73135;"><span style="color: white; font-size: small;"><strong>Inspectro - Reply of Quote Request<br /></strong></span></span></td>
 <td style="width: 30px; background-color: #d73135;" width="30" valign="middle"><span style="background-color: #d73135;">&nbsp;</span></td>
 </tr>
 <tr>
