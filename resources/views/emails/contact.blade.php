@@ -31,6 +31,12 @@
 </tr>
 <tr>
 <td valign="top">
+<p>{!!$data['subject']!!}</p>
+<p>&nbsp;</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
 <p>{!!$data['message']!!}</p>
 <p>&nbsp;</p>
 </td>

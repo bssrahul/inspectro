@@ -72,5 +72,7 @@ a:focus, a:hover{ outline:none;}
 }
 .error  {
 	color:red !important ;
-	
+	font-size: 12px;
+    font-weight: normal;
+    margin: 0;
 }
