@@ -64,15 +64,15 @@ class HomeController extends Controller {
 		
 		$totalQofService = DB::table('questions')->where('service_id',$serviceId)->lists('id');
 		
-		$totalQofServiceJson = json_encode($totalQofService,true);
+		$totalQofServiceJson = json_encode($totalQofService,JSON_NUMERIC_CHECK);
 		
-		
+	
 		
 		$FirstQue = DB::table('questions')->where('service_id',$serviceId)->where('sort_que',1)->first();
 		//print_r($FirstQue);die;
 		if(isset($serviceId)&& !empty($serviceId) && !empty($FirstQue)){
 		$popup='<div class="modal-dialog popup-1">
-				<input type="hidden" value="'.$totalQofServiceJson.'" id="serviceTotalQ" name="serviceTotalQ">
+				<input type="hidden" value='.$totalQofServiceJson.' id="serviceTotalQ" name="serviceTotalQ">
 				<div class="modal-content">  
 				<div class="inner-popup">	
 		<!--popup Content-->
@@ -221,7 +221,7 @@ class HomeController extends Controller {
 											</li>';
 											
 								}else{
-									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox required" '.$checked.' data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="Lorem Ipsum is simply dummy text of the printing and typesetting industry." data-placement="top" data-toggle="tooltip" href="#" class="test">
+									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox required" '.$checked.' data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="'.$v->option_description.'" data-placement="top" data-toggle="tooltip" href="#" class="test">
 												<img width="14" height="14" alt="" src="img/tt-icon.png"> </a></li>';
 								}
 			
@@ -268,7 +268,7 @@ class HomeController extends Controller {
 											</li>';
 											
 								}else{
-									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox "  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="Lorem Ipsum is simply dummy text of the printing and typesetting industry." data-placement="top" data-toggle="tooltip" href="#" class="test">
+									$popup .=   '<li class="actionPerform"><input type="checkbox" class="childbox "  data-next="'.$v->next_question_id.'" name="ck['.$k.']" value="'.$v->id.'">'.$v->answers.'<a title="'.$v->option_description.'" data-placement="top" data-toggle="tooltip" href="#" class="test">
 												<img width="14" height="14" alt="" src="img/tt-icon.png"> </a></li>';
 								}
 			

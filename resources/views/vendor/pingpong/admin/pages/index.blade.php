@@ -28,7 +28,7 @@
 			@foreach ($pages as $page)
 			<tr>
 				<td>{!! $no !!}</td>
-				<?php $destinationPath =  url().'/public/uploads/'; ?>
+				<?php $destinationPath =  url().'/uploads/'; ?>
 				<td ><img src="<?php echo $destinationPath."/".$page->bannar_image ; ?> " class="round_img" alt="Bannar Image"></td>
 			
 				<td>{!! $page->page_title !!}</td>

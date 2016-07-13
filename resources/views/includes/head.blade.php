@@ -9,7 +9,7 @@
 <script src="{{ asset('/public/js/fm.checkator.jquery.js') }}"></script> 
 <script src="{{ asset('/public/js/jquery-ui.js') }}"></script> 
 <script src="{{ asset('/public/js/bootstrap.timepicker/js/bootstrap-timepicker.js') }}"></script> 
-<script src="{{ asset('/public/js/jquery/jquery.validate.js') }}"></script> 
+<script src="{{ asset('/public/js/jquery.validate.js') }}"></script> 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -70,7 +70,7 @@
                     	<div class="search-box">
                         	<div class="head-box"><a href="" title="Home Inspection for real estate buyer ">							
                        	    	<span><img src="{{asset('public/img/search-home-icon.png')}}" alt=""/> </span>
-                           	    <p><a href="javascript:void(0)"  id="{{$services[6]->id}}" class="serviceList" title="Gewerbe">{{$services[6]->title}}</a>
+                           	    <p><a href="javascript:void(0)"  id="{{@$services[6]->id}}" class="serviceList" title="Gewerbe">{{@$services[6]->title}}</a>
 </p>
 
 							  </a>
@@ -78,15 +78,15 @@
 	
                             <form>
                             	<ul class="s-list ulserviceList">
-                                	<li><a href="javascript:void(0)"  id="{{$services[0]->id}}" class="serviceList" title="Haus"><img src="{{asset('public/img/search-icon1.png')}}"  alt="Haus"/>{{$services[0]->title}}</a></li>
-                                    <li><a href="javascript:void(0)"  id="{{$services[1]->id}}" class="serviceList" title="Wohnung"><img src="{{asset('public/img/search-icon2.png')}}"  alt="Wohnung"/>{{$services[1]->title}}</a></li>
-                                    <li><a href="javascript:void(0)"  id="{{$services[2]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon3.png')}}"  alt="Gewerbe"/>{{$services[2]->title}}</a></li>
+                                	<li><a href="javascript:void(0)"  id="{{@$services[0]->id}}" class="serviceList" title="Haus"><img src="{{asset('public/img/search-icon1.png')}}"  alt="Haus"/>{{@$services[0]->title}}</a></li>
+                                    <li><a href="javascript:void(0)"  id="{{@$services[1]->id}}" class="serviceList" title="Wohnung"><img src="{{asset('public/img/search-icon2.png')}}"  alt="Wohnung"/>{{@$services[1]->title}}</a></li>
+                                    <li><a href="javascript:void(0)"  id="{{@$services[2]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon3.png')}}"  alt="Gewerbe"/>{{@$services[2]->title}}</a></li>
 								</ul>
 								<div style="clear:both;width:100%;float:left">&nbsp;</div>
 								<ul class="s-list ulserviceList">
-								    <li><a href="javascript:void(0)"  id="{{$services[3]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon1.png')}}"  alt="Haus"/>{{$services[3]->title}}</a></li>
-                                    <li><a href="javascript:void(0)"  id="{{$services[4]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon2.png')}}"  alt="Wohnung"/>{{$services[4]->title}}</a></li>
-                                    <li><a href="javascript:void(0)"  id="{{$services[5]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon3.png')}}"  alt="Gewerbe"/>{{$services[5]->title}}</a></li>
+								    <li><a href="javascript:void(0)"  id="{{@$services[3]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon1.png')}}"  alt="Haus"/>{{@$services[3]->title}}</a></li>
+                                    <li><a href="javascript:void(0)"  id="{{@$services[4]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon2.png')}}"  alt="Wohnung"/>{{@$services[4]->title}}</a></li>
+                                    <li><a href="javascript:void(0)"  id="{{@$services[5]->id}}" class="serviceList" title="Gewerbe"><img src="{{asset('public/img/search-icon3.png')}}"  alt="Gewerbe"/>{{@$services[5]->title}}</a></li>
                                 </ul> 
 								<input type="button" value="NEXT" class="btn btn-success next" id="myBtn">
                             </form>	                    	
@@ -97,4 +97,4 @@
                   	     	
         </header>    	    	
     <!--[/Header]--> 
-	    							<?php  print_r($services[0]->id); ?>
+	    							

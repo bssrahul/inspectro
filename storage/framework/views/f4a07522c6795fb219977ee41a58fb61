@@ -83,6 +83,12 @@
   
 
  <script>
+var totalQCount;
+var incrementOfPercent;
+var qListsArr = new Array();
+var initProgressText = '0% Completed';
+var initProgressPercent = '0'; 
+ 
 var queArray = []; 
 var quoteOptionsArr = new Array();
 var flag=false;
@@ -93,7 +99,9 @@ $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();   
     $("#myBtn").click(function(){
 		if($('.serviceList').hasClass('active')){
-			$("#myModal").modal();
+			$("#myModal").modal('show');
+			
+						
 		}else{
 			alert('Please select service to proceed.');return false;
 		}
@@ -108,11 +116,7 @@ $(document).ready(function(){
 });
 });	
 
-var totalQCount;
-var incrementOfPercent;
-var qListsArr = new Array();
-var initProgressText = '0% Completed';
-var initProgressPercent = '0';
+
 
 $(document).ready(function(){
 	
@@ -120,6 +124,14 @@ $(document).ready(function(){
 	
 	popupValidation();
 	$(".serviceList").click(function(){
+		
+		
+		
+		qListsArr = new Array();
+		initProgressText = '0% Completed';
+		initProgressPercent = '0';
+		incrementOfPercent=0;
+		
 		$('.serviceList').removeClass('active');
 		$('.serviceList').parent().removeClass('activeLi');
 		$(this).addClass('active');
@@ -140,6 +152,7 @@ $(document).ready(function(){
 			},
 		success: function (data){
 				
+				//console.log(data);return;
 				if(data!=0){
 					$('#myModal').html(data);
 					var qLists = $('#myModal').find('#serviceTotalQ').val();
@@ -238,6 +251,7 @@ $(document).on('click','.nextQue,.back',function(){
 		if (typeof(Storage) !== "undefined") {
 			if($(this).hasClass('nextQue')) {
 			flag=true;
+			console.log(flag);
 			var inputType = $('.childbox').attr('type');
 			var inputName = $('.childbox').attr('name');
 			
@@ -268,7 +282,7 @@ $(document).on('click','.nextQue,.back',function(){
 					if(opId=='selected_date')
 					{
 						dateOfServ = $('.for_date').val();
-						timeOfServe=$('#timepicker').val();
+						timeOfServe=$('#timepicker1').val();
 						if(timeOfServe!='')
 						{
 							OptArray.push({'selected_date':dateOfServ,'selected_time':timeOfServe});
@@ -277,7 +291,7 @@ $(document).on('click','.nextQue,.back',function(){
 						selectDateOption=false;
 					}
 					else{
-						console.log(opId);
+						//console.log(opId);
 						OptArray.push({'serviceDate':opId});
 						selectDateOption=false;
 					}
@@ -380,14 +394,19 @@ $(document).on('click','.nextQue,.back',function(){
 					success: function (data) {
 						$('#myModal').html(data);
 						popupValidation();
+						console.log(initProgressPercent);
+						console.log(flag);
 						if(flag==true){
+							
 								progress_decrement=1;
-								//console.log('next');
-							//console.log('incrementOfPercent= '+incrementOfPercent);
-							console.log('initProgressPercent= '+initProgressPercent);
+							
+							//console.log('initProgressPercent= '+initProgressPercent);
 						if($.inArray(Qid,qListsArr)){
+								
 									if(initProgressPercent==0)
-									{if($('#myModal').find($('div').hasClass('.progress-bar.progress-bar-danger')))
+									{
+											console.log('next');
+										if($('#myModal').find($('div').hasClass('.progress-bar.progress-bar-danger')))
 										{
 											$('#myModal').find('.progress-bar.progress-bar-danger').width('0%'); 	
 											$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
@@ -403,16 +422,19 @@ $(document).on('click','.nextQue,.back',function(){
 										$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
 									}
 									initProgressPercent = parseInt(initProgressPercent)+parseInt(incrementOfPercent);	
-						}}else
+									return false;
+						}
+						}else
 						if(flag==false)
 						{
-							//console.log('back');
-							//console.log('incrementOfPercent= '+incrementOfPercent);
-							console.log('initProgressPercent= '+initProgressPercent);
-							console.log(progress_decrement);
+							// console.log('back');
+							// console.log('incrementOfPercent= '+incrementOfPercent);
+							// console.log('initProgressPercent= '+initProgressPercent);
+							// console.log(progress_decrement);
+							var backValue;
 							if(progress_decrement==1){
 								initProgressPercent = parseInt(initProgressPercent) - parseInt(incrementOfPercent);
-								progress_decrement=0;
+								backValue=initProgressPercent;
 							}
 							initProgressPercent = parseInt(initProgressPercent) - parseInt(incrementOfPercent);
 							
@@ -421,8 +443,9 @@ $(document).on('click','.nextQue,.back',function(){
 							{
 								$('#myModal').find('.progress-bar.progress-bar-danger').width(initProgressPercent+'%'); 	
 								$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
+								initProgressPercent=backValue;
 							}
-								
+							
 						}
 						
 						
@@ -536,7 +559,7 @@ function popupValidation()
 		if($('#selectAns').val()>0)
 		{
 			var nexQueId = $('option:selected', $('#selectAns')).data('next');
-			console.log(nexQueId);
+			//console.log(nexQueId);
 			setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
@@ -549,7 +572,7 @@ function popupValidation()
 		}
 		
 		$('#selectAns').change(function(){
-			console.log(opId);
+			//console.log(opId);
 			var nexQueId = $('option:selected', this).data('next');console.log(nexQueId);
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
@@ -757,7 +780,7 @@ function stQfrontStorage(staticModal)
 			$('#myModal').html(data);
 			if(flag==true){
 				progress_decrement=1;
-				//console.log('text');
+				//console.log('next');
 				//console.log('initProgressPercent= '+initProgressPercent);
 			if($.inArray(staticModal,qListsArr)){	
 					initProgressText = initProgressPercent+'% Completed';
@@ -767,17 +790,18 @@ function stQfrontStorage(staticModal)
 						$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
 					}
 					initProgressPercent = parseInt(initProgressPercent)+parseInt(incrementOfPercent);
-							
+						
 			}
 			}else if(flag==false)
 			{	
-				console.log('back');
-				console.log('initProgressPercent= '+initProgressPercent);
-				alert(progress_decrement);
+				// console.log('back');
+				// console.log('initProgressPercent= '+initProgressPercent);
+				// alert(progress_decrement);
+				var backValue;
 				if(progress_decrement==1){
-					
 							initProgressPercent = parseInt(initProgressPercent) - parseInt(incrementOfPercent);
-							progress_decrement=0;
+							backValue=initProgressPercent;
+							//progress_decrement=0;
 						}
 				initProgressPercent = parseInt(initProgressPercent)- parseInt(incrementOfPercent);
 				initProgressText = initProgressPercent+'% Completed';
@@ -785,12 +809,11 @@ function stQfrontStorage(staticModal)
 				{
 					$('#myModal').find('.progress-bar.progress-bar-danger').width(initProgressPercent+'%'); 	
 					$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
+					initProgressPercent=backValue;
 				}
 				
+				
 			}
-			
-			
-			
 			$( "#datepicker" ).datepicker({
 					onSelect: popupValidation,
 					dateFormat: "dd-mm-yy",
@@ -812,12 +835,16 @@ function sendRequest()
 {
 	$(document).on('click','#sendReq',function(){
 		
+		
 		$.ajax({
 		url: '<?php echo url('/')."/sendRequest"; ?>',
 		type: 'get',
 		data: '_token='+CSRF_TOKEN,
 		success: function (data){
-			console.log(data);
+			initProgressText = '0% Completed';
+			initProgressPercent = '0';
+			incrementOfPercent=0;
+			//console.log(data);
 		}
 	}); 
 		
@@ -837,7 +864,8 @@ function cancelProject()
 			type: 'get',
 			data: '_token='+CSRF_TOKEN,
 			success: function (data){
-				console.log(data);
+				$('#myModal').modal('hide');
+				//console.log(data);
 			}
 		}); 	
 	});	
@@ -921,8 +949,8 @@ function TellUs() {
 			var TellusData = '';
 		}
 	}
-
-
+	
+	
 </script>
 
 <style>

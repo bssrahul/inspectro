@@ -70,7 +70,7 @@ background-position:right 15px center;  -moz-appearance: none; -webkit-appearanc
 .inner-popup .popup-cont ul.plist-2 .option-txt p{ display:block; font-size:13px; line-height:20px; padding:10px 0 10px 0; }
 
 .error-box{ width:100%; float:left; text-align:center; padding:10px 0 0px 0 ; display:none; }
-.error-box p{ text-align:center; color:#ff0000;}
+.error-box p{ text-align:left; color:#ff0000;}
 
 
 /*Work Css start here*/
