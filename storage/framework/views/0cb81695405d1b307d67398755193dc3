@@ -1,25 +1,25 @@
-@extends($layout)
-
-@section('content-header')
+<?php $__env->startSection('content-header'); ?>
 	<h1>
-		All Answers ({!! $answers->count() !!})
+		All Answers (<?php echo $answers->count(); ?>)
 		&middot;
-		@if(!empty($qid))
-		<small>{!! link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid,'opt'=>$qid,'serv_id'=>$serviceid]) !!}</small>
-		@else
-		<small>{!! link_to_route('admin.answers.create', 'Add New') !!}</small>
-		@endif
+		<?php if(!empty($qid)): ?>
+		<small><?php echo link_to_route('admin.answers.create', 'Add New',['question_id'=>$qid,'opt'=>$qid,'serv_id'=>$serviceid]); ?></small>
+		<?php else: ?>
+		<small><?php echo link_to_route('admin.answers.create', 'Add New'); ?></small>
+		<?php endif; ?>
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 		<small class="searchBox">	
-			{!! link_to_route('admin.login.index', 'Home') !!}&nbsp;&nbsp;>>&nbsp;&nbsp;{!! link_to_route('admin.questions.index', ucwords($selectedServiceName[$serviceid]),['ser_id'=>$serviceid,'opt'=>$serviceid]) !!}
-			&nbsp;&nbsp;>>&nbsp;&nbsp; {!! link_to_route('admin.answers.index', ucwords($selectedQuestionName[$qid]),['ques_id' => $qid , 'serv_id'=> $serviceid ]) !!}
+			<?php echo link_to_route('admin.login.index', 'Home'); ?>&nbsp;&nbsp;>>&nbsp;&nbsp;<?php echo link_to_route('admin.questions.index', ucwords($selectedServiceName[$serviceid]),['ser_id'=>$serviceid,'opt'=>$serviceid]); ?>
+
+			&nbsp;&nbsp;>>&nbsp;&nbsp; <?php echo link_to_route('admin.answers.index', ucwords($selectedQuestionName[$qid]),['ques_id' => $qid , 'serv_id'=> $serviceid ]); ?>
+
 
 		</small>
 	<!--	<small class="searchBox">	<input  type="text" name="search" id="search" class = 'form-control searchBox'  /></small><label class="searchLabel" > Search </label> -->
 	</h1>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 	<table class="table">
 		<thead>
@@ -35,65 +35,68 @@
 			<th class="text-center">Action</th>
 		</thead>
 		<tbody>
-			@foreach ($answers as $k=>$answer)
+			<?php foreach($answers as $k=>$answer): ?>
 			<tr>
-				<td>{!! $no !!}</td>
-				<td>{!! $answer->answers !!}</td>
-				<td>{!! $answer->question->title !!}</td>
+				<td><?php echo $no; ?></td>
+				<td><?php echo $answer->answers; ?></td>
+				<td><?php echo $answer->question->title; ?></td>
 				<td>
-					@if(!empty($answer->option_description) )
-						{!! $answer->option_description !!}
-					@else
+					<?php if(!empty($answer->option_description) ): ?>
+						<?php echo $answer->option_description; ?>
+
+					<?php else: ?>
 						<span class='label label-deactive '>Not Available</span>
-					@endif
+					<?php endif; ?>
 				
 				</td>
 				<td>
-						@if($answer->next_question_id == 0)
+						<?php if($answer->next_question_id == 0): ?>
 							<span class='label label-end '>End Questionaire</span>
-						@else 
-							@if(!empty($answer->next_question_id))
-								{!! $answer->nextQuestion->title !!}
-							@else 
+						<?php else: ?> 
+							<?php if(!empty($answer->next_question_id)): ?>
+								<?php echo $answer->nextQuestion->title; ?>
+
+							<?php else: ?> 
 								<span class='label label-deactive '>Not Available</span>
-							@endif
-						@endif
+							<?php endif; ?>
+						<?php endif; ?>
 					
 				</td>
-				<td>@if($answer->custom_answer == 'text')
+				<td><?php if($answer->custom_answer == 'text'): ?>
 							<span class='label label-active'>Input Text</span>
-					@elseif($answer->custom_answer == 'date')
+					<?php elseif($answer->custom_answer == 'date'): ?>
 							<span class='label label-date'>Input Date</span>
-					@else
+					<?php else: ?>
 					  <span class='label label-deactive '>Not Allow</span>
-					@endif
+					<?php endif; ?>
 				
 				</td>
 			
 			
-				<td>{!! date('F d, Y', strtotime($answer->created_at))  !!}</td>
+				<td><?php echo date('F d, Y', strtotime($answer->created_at)); ?></td>
 				<td class="text-center">
-					@if(!empty($qid))
-						<a href="{!! route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k,'serv_id'=>$serviceid,'hd'=>$k]) !!}">Edit</a>
-					@else
-						<a href="{!! route('admin.answers.edit', [$answer->id,'opt'=>$k,'serv_id'=>$serviceid]) !!}">Edit</a>
-					@endif
+					<?php if(!empty($qid)): ?>
+						<a href="<?php echo route('admin.answers.edit', [$answer->id,'ques_id'=>$qid,'opt'=>$k,'serv_id'=>$serviceid,'hd'=>$k]); ?>">Edit</a>
+					<?php else: ?>
+						<a href="<?php echo route('admin.answers.edit', [$answer->id,'opt'=>$k,'serv_id'=>$serviceid]); ?>">Edit</a>
+					<?php endif; ?>
 					
 					&middot;
-					@include('admin::partials.modal', ['data' => $answer, 'name' => 'answers'])
+					<?php echo $__env->make('admin::partials.modal', ['data' => $answer, 'name' => 'answers'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
 			</tr>
 			<?php $no++ ;?>
-			@endforeach
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 
 	<div class="text-center">
-		{!! pagination_links($answers) !!}
-	</div>
-@stop
+		<?php echo pagination_links($answers); ?>
 
-@section('style')
+	</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('style'); ?>
 <style>
 .active{
 	color:green;
@@ -159,10 +162,10 @@
 	font-style: oblique;
 }
 </style>
-@stop
+<?php $__env->stopSection(); ?>
 
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 
 
 	<script type="text/javascript">
@@ -189,4 +192,6 @@
 	</script>
 	
 	
-@stop
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

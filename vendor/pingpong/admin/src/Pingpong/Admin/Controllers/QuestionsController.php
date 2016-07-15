@@ -15,7 +15,9 @@ class QuestionsController extends BaseController
 public function __construct(QuestionRepository $repository)
 {
 $this->repository = $repository;
+
 }
+
 /**
 * Redirect not found.
 *
@@ -206,9 +208,22 @@ public function update(Update $request, $id)
 */
 public function destroy($id)
 {
+	
 	try {
-	$this->repository->delete($id);
-	 return back();
+		
+		
+		$nextQuestionArr= DB :: table('Answers')->where('next_question_id',$id)->get();
+		//echo "<pre>"; print_r($nextQuestionArr);
+		if(!empty($nextQuestionArr)){
+			$newQuestionArr=array();
+			foreach($nextQuestionArr as $k=>$nextQuestion){
+				echo $id1=$nextQuestion->id;
+				DB::table('Answers')->where('id', $id1)->update(['next_question_id' => 0]);
+			}
+			
+		}
+		$this->repository->delete($id);
+		return back();
 
 
 	} catch (ModelNotFoundException $e) {

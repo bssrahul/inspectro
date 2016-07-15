@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2016 at 02:57 PM
+-- Generation Time: Jul 15, 2016 at 11:04 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -36,84 +36,23 @@ CREATE TABLE `answers` (
   `option_description` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `answers`
 --
 
 INSERT INTO `answers` (`id`, `question_id`, `answers`, `custom_answer`, `sort`, `next_question_id`, `option_description`, `created_at`, `updated_at`) VALUES
-(1, 2, 'dfgdgdg', '1', 0, 3, '', '2016-06-27 10:51:40', '2016-06-27 10:51:40'),
-(2, 4, 'fgfdgdfg', '1', 33, 3, '', '2016-06-27 10:52:09', '2016-06-27 10:52:09'),
-(30, 4, 'Outer Wall Painting', '0', 2, 3, '', '2016-06-27 12:57:56', '2016-06-27 12:59:37'),
-(85, 34, 'please fill it', 'text', 1, 35, '', '2016-07-08 08:11:28', '2016-07-08 08:20:30'),
-(6, 1, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:15:15', '2016-06-27 12:15:15'),
-(7, 1, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:16:00', '2016-06-27 12:16:00'),
-(8, 2, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:16:41', '2016-06-27 12:16:41'),
-(9, 2, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:17:27', '2016-06-27 12:17:27'),
-(10, 2, 'dfgdfg', '1', 2, 1, '', '2016-06-27 12:17:52', '2016-06-27 12:17:52'),
-(35, 5, 'dfgfdg', '1', 0, 2, '', '2016-06-28 08:43:21', '2016-06-28 08:43:21'),
-(29, 4, 'Door Painting', '0', 1, 3, '', '2016-06-27 12:57:56', '2016-06-27 13:27:42'),
-(36, 5, 'dfgfdgdf', '1', 4, 2, '', '2016-06-28 08:43:43', '2016-06-28 08:43:43'),
-(37, 11, '123', '1', 0, 2, '', '2016-06-28 08:59:35', '2016-06-28 08:59:35'),
-(38, 11, '2324', '0', 0, 11, '', '2016-06-28 08:59:35', '2016-06-28 08:59:35'),
-(39, 11, '123', '1', 0, 2, '', '2016-06-28 08:59:50', '2016-06-28 08:59:50'),
-(40, 11, '2324', '0', 0, 11, '', '2016-06-28 08:59:50', '2016-06-28 08:59:50'),
-(41, 11, '787989089', '0', 0, 0, '', '2016-06-28 09:00:37', '2016-06-28 09:00:57'),
-(42, 12, 'fdghdfh', '0', 0, 0, '', '2016-06-28 09:20:01', '2016-06-28 10:24:32'),
-(43, 15, 'adsad', '1', 0, 1, '', '2016-06-28 09:31:05', '2016-06-28 09:31:05'),
-(44, 15, 'fdsfsdf43532', '0', 0, 0, '', '2016-06-28 09:31:06', '2016-06-28 11:54:19'),
-(52, 15, 'menu#1', '1', 0, 2, '', '2016-06-28 12:07:26', '2016-06-28 14:05:17'),
-(51, 15, 'dsfgsdgsd', '1', 0, 4, '', '2016-06-28 11:52:34', '2016-06-28 14:05:30'),
-(47, 13, '', '0', 0, 0, '', '2016-06-28 10:24:06', '2016-06-28 13:02:44'),
-(48, 12, 'sdfgsdgd', '1', 0, 2, '', '2016-06-28 11:35:51', '2016-06-28 11:35:51'),
-(49, 12, 'dsfsd1213', '0', 0, 0, '', '2016-06-28 11:36:03', '2016-06-28 11:41:16'),
-(50, 2, 'vbmvbmbm', '0', 0, 0, '', '2016-06-28 11:41:21', '2016-06-28 13:32:58'),
-(53, 15, 'menu#1', '0', 0, 0, '', '2016-06-28 12:07:26', '2016-06-28 14:05:01'),
-(54, 12, 'cvcvc', '0', 0, 0, '', '2016-06-28 13:26:11', '2016-06-28 13:26:11'),
-(55, 12, 'bcvbcvb', '0', 0, 0, '', '2016-06-28 13:26:27', '2016-06-28 13:26:27'),
-(56, 20, '123435', '1', 1, 15, '', '2016-06-28 14:51:00', '2016-06-28 14:51:00'),
-(57, 20, '78654434', '1', 0, 0, '', '2016-06-28 14:53:03', '2016-06-28 14:53:03'),
-(58, 20, 'fdgdfg435345', '1', 0, 0, '', '2016-06-28 15:06:05', '2016-06-28 15:09:31'),
-(59, 20, 'dfgd', '0', 0, 12, '', '2016-06-28 15:06:05', '2016-06-28 15:06:05'),
-(60, 15, 'ddsfsd12343242', '1', 0, 2, '', '2016-06-28 15:15:34', '2016-06-28 15:15:44'),
-(61, 15, 'edsrfwere23432', '1', 0, 19, '', '2016-06-28 15:15:34', '2016-06-28 15:15:49'),
-(62, 15, 'dsffsd', 'date', 0, 0, '', '2016-06-28 15:32:19', '2016-06-28 15:32:19'),
-(63, 15, '123', '0', 0, 0, '', '2016-06-28 15:32:44', '2016-06-28 15:32:44'),
-(64, 15, 'sdfggg', 'text', 0, 0, '', '2016-06-28 15:33:02', '2016-06-28 15:33:02'),
-(65, 22, 'abc', '0', 0, 0, '', '2016-06-28 15:45:28', '2016-06-28 15:45:28'),
-(66, 22, 'mno', 'text', 0, 0, '', '2016-06-28 15:45:38', '2016-06-28 15:45:38'),
-(67, 22, 'date', 'date', 0, 0, '', '2016-06-28 15:45:45', '2016-06-28 15:45:45'),
-(68, 22, '1 none', '0', 1, 15, '', '2016-06-28 15:52:59', '2016-06-28 15:52:59'),
-(69, 22, '2 text', 'text', 2, 0, '', '2016-06-28 15:52:59', '2016-06-28 16:00:30'),
-(70, 22, '3 date', 'date', 0, 0, '', '2016-06-28 15:52:59', '2016-06-28 15:52:59'),
-(71, 4, 'info is processd data', 'dhfdhygfhg', 1, 0, '', '2016-06-29 07:44:23', '0000-00-00 00:00:00'),
-(72, 23, 'its gud', 'text', 0, 0, '', '2016-06-30 07:55:09', '2016-06-30 07:55:09'),
-(73, 23, 'gud one', 'date', 0, 0, '', '2016-06-30 07:55:09', '2016-06-30 07:55:09'),
-(74, 23, 'none', '0', 0, 0, '', '2016-06-30 07:55:09', '2016-06-30 07:55:09'),
-(75, 28, 'I want quotes by email ', 'text', 0, 0, '', '2016-06-30 08:06:12', '2016-06-30 08:06:12'),
-(76, 28, 'I want quotes by text message', 'text', 0, 0, '', '2016-06-30 08:06:12', '2016-06-30 08:06:12'),
-(77, 30, 'Oil Changes', '0', 0, 31, '', '2016-06-30 12:55:18', '2016-06-30 12:55:18'),
-(78, 30, 'tyres', '0', 0, 32, '', '2016-06-30 12:55:18', '2016-06-30 12:55:18'),
-(79, 31, 'yes', '0', 0, 33, '', '2016-06-30 12:56:51', '2016-06-30 12:56:51'),
-(80, 31, 'No', '0', 0, 33, '', '2016-06-30 12:56:51', '2016-06-30 12:56:51'),
-(81, 32, 'yes', '0', 0, 33, '', '2016-07-01 07:09:59', '2016-07-01 07:09:59'),
-(82, 32, 'no', '0', 0, 33, '', '2016-07-01 07:09:59', '2016-07-01 07:09:59'),
-(83, 33, 'yes', '0', 0, 0, '', '2016-07-01 09:56:21', '2016-07-01 09:56:21'),
-(84, 33, 'no', '0', 0, 0, '', '2016-07-01 09:56:21', '2016-07-01 09:56:21'),
-(86, 35, 'new', '0', 0, 36, '', '2016-07-08 08:12:16', '2016-07-08 08:12:16'),
-(87, 35, 'old', '0', 0, 36, '', '2016-07-08 08:12:16', '2016-07-08 08:12:16'),
-(88, 36, 'yes', '0', 0, 0, '', '2016-07-08 08:17:32', '2016-07-08 08:17:32'),
-(89, 36, 'no', '0', 0, 0, '', '2016-07-08 08:17:32', '2016-07-08 08:17:32'),
-(90, 37, 'Polishing1', '0', 0, 0, 'test', '2016-07-08 21:14:15', '2016-07-08 21:14:15'),
-(91, 37, 'Polishing2', '0', 0, 0, '', '2016-07-08 21:14:15', '2016-07-08 21:14:15'),
-(92, 38, '$200', '0', 0, 0, '', '2016-07-08 21:17:02', '2016-07-08 21:17:02'),
-(93, 38, '$500', '0', 0, 0, '', '2016-07-08 21:17:02', '2016-07-08 21:17:02'),
-(94, 39, 'Neubauvorhaben', '0', 1, 40, 'Beschreibung 1', '2016-07-09 14:46:57', '2016-07-09 14:50:32'),
-(95, 39, 'Sonstiges', '0', 2, 40, '', '2016-07-09 14:46:57', '2016-07-09 14:50:36'),
-(96, 40, 'Baugrundgutachten', '0', 1, 0, '', '2016-07-09 14:48:28', '2016-07-09 14:48:28'),
-(97, 40, 'Feststellung der Versickerungsfähigkeit', '0', 2, 0, '', '2016-07-09 14:48:28', '2016-07-09 14:48:28'),
-(98, 40, 'Untersuchung auf Schadstoffe', '0', 3, 0, '', '2016-07-09 14:48:28', '2016-07-09 14:48:28');
+(1, 1, '$0 - $100', '0', 0, 4, 'dasfsf', '2016-07-14 08:55:33', '2016-07-14 08:55:33'),
+(2, 1, '$200-$300', '0', 0, 4, 'sdfsfsdf', '2016-07-14 08:55:33', '2016-07-14 08:55:33'),
+(3, 2, '$200 - $500', '0', 0, 4, '', '2016-07-14 08:56:22', '2016-07-14 08:56:22'),
+(4, 2, '$501 - $1000', '0', 0, 3, '', '2016-07-14 08:56:22', '2016-07-14 08:56:22'),
+(5, 3, 'Tyre Changing', '0', 0, 1, '', '2016-07-14 08:57:41', '2016-07-14 08:57:41'),
+(6, 3, 'Engine Service', '0', 0, 1, '', '2016-07-14 08:57:42', '2016-07-14 08:57:42'),
+(7, 4, '4 hr', '0', 0, 0, '', '2016-07-14 08:58:13', '2016-07-14 08:58:13'),
+(8, 4, '5 hr', '0', 0, 0, '', '2016-07-14 08:58:13', '2016-07-14 08:58:13'),
+(11, 6, 'extra1', '0', 0, 0, '', '2016-07-14 09:15:00', '2016-07-14 12:31:14'),
+(12, 6, 'extra2', '0', 0, 0, '', '2016-07-14 09:15:01', '2016-07-14 12:31:08');
 
 -- --------------------------------------------------------
 
@@ -289,18 +228,18 @@ CREATE TABLE `options` (
 --
 
 INSERT INTO `options` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
-(1, 'site.name', 'Inspectro', '2015-12-11 04:27:18', '2016-06-15 08:45:41'),
-(2, 'site.slogan', 'Inspectro', '2015-12-11 04:27:18', '2016-06-15 08:45:41'),
-(3, 'site.description', '', '2015-12-11 04:27:18', '2016-06-15 08:45:41'),
+(1, 'site.name', 'Inspectro', '2015-12-11 04:27:18', '2016-07-13 10:19:45'),
+(2, 'site.slogan', 'Inspectro', '2015-12-11 04:27:18', '2016-07-13 10:19:45'),
+(3, 'site.description', '', '2015-12-11 04:27:18', '2016-07-13 10:19:45'),
 (4, 'site.keywords', '', '2015-12-11 04:27:18', '2016-06-15 08:45:56'),
 (5, 'tracking', '', '2015-12-11 04:27:18', '2016-06-15 08:46:02'),
-(6, 'facebook.link', '', '2015-12-11 04:27:18', '2016-06-15 08:45:50'),
-(7, 'twitter.link', '', '2015-12-11 04:27:18', '2016-06-15 08:45:50'),
+(6, 'facebook.link', 'http://www.facebook.com', '2015-12-11 04:27:18', '2016-07-13 10:09:13'),
+(7, 'twitter.link', 'http://www.instagram.com', '2015-12-11 04:27:18', '2016-07-13 10:09:13'),
 (8, 'post.permalink', '{slug}', '2015-12-11 04:27:18', '2016-06-15 08:45:57'),
-(9, 'ckfinder.prefix', 'inspectro/public/packages/pingpong/admin', '2015-12-11 04:27:18', '2016-07-12 13:51:57'),
-(10, 'admin.theme', 'default', '2015-12-11 04:27:18', '2016-07-12 13:51:57'),
+(9, 'ckfinder.prefix', 'inspectro/public/packages/pingpong/admin', '2015-12-11 04:27:18', '2016-07-13 10:16:08'),
+(10, 'admin.theme', 'default', '2015-12-11 04:27:18', '2016-07-13 10:16:08'),
 (11, 'pagination.perpage', '10', '2015-12-11 04:27:18', '2015-12-23 19:44:13'),
-(12, 'site.mission', '', '0000-00-00 00:00:00', '2016-06-15 08:45:41');
+(12, 'site.mission', '', '0000-00-00 00:00:00', '2016-07-13 10:19:45');
 
 -- --------------------------------------------------------
 
@@ -428,41 +367,18 @@ CREATE TABLE `questions` (
   `other_custom_field` int(11) NOT NULL DEFAULT '0' COMMENT 'if this is 1 the user will be allowed to enter an individual answer text with other options -> the answer text will be stored in quote_requests_answers',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `questions`
 --
 
 INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `description_2`, `sort_que`, `form_type_id`, `other_custom_field`, `created_at`, `updated_at`) VALUES
-(1, 0, 'fdsgsdg', 'dfgdfgfg', 'fdgdfgdfg', 0, 1, 0, '2016-06-25 14:08:06', '2016-06-25 14:08:06'),
-(31, 1, 'Do you bring your own oil?', 'car ', 'car', 0, 1, 0, '2016-06-30 12:25:22', '2016-06-30 12:25:22'),
-(30, 1, 'What kind of car repair do you like?', 'car', 'car', 1, 2, 0, '2016-06-30 12:22:18', '2016-06-30 12:22:18'),
-(34, 2, 'what is your budget?', 'for the youth of this era', 'for the youth of this era', 1, 1, 0, '2016-07-08 08:09:42', '2016-07-08 12:54:46'),
-(35, 2, 'what is you required style?', 'for the youth of this era', 'for the youth of this era', 0, 1, 0, '2016-07-08 08:10:14', '2016-07-08 08:10:14'),
-(5, 3, 'what is information?', 'gfdgfdg', 'dfgdfgdf', 0, 2, 0, '2016-06-27 11:44:15', '2016-06-27 11:44:15'),
-(7, 3, 'dfhbdf', 'bcvbcvvcbc', 'bcvbcbcvbc', 0, 2, 0, '2016-06-27 12:20:57', '2016-06-27 12:21:04'),
-(8, 5, 'What king of painting you want?', 'What king of painting you want?', 'What king of painting you want?', 0, 2, 0, '2016-06-27 12:51:43', '2016-06-27 12:54:48'),
-(11, 9, 'fdgdfgdf', 'fgdgdfgf', 'fdgdfgdfg', 0, 2, 0, '2016-06-28 08:56:29', '2016-06-28 08:56:29'),
-(12, 9, 'fdfdfdf', '123abc', '123', 0, 2, 0, '2016-06-28 08:59:10', '2016-06-28 10:18:35'),
-(13, 9, '67876abc12345', '67867abc123454', '678678fdghgfds', 0, 3, 0, '2016-06-28 09:01:27', '2016-06-28 09:18:06'),
-(32, 1, 'Do you bring your own tyres?', 'car', 'car', 0, 1, 0, '2016-06-30 12:25:55', '2016-06-30 12:25:55'),
-(19, 10, 'fdgfdg', 'gfdgfg', 'fdgdf', 0, 1, 0, '2016-06-28 11:47:53', '2016-06-28 11:47:53'),
-(20, 11, 'hffgh', 'hfghfgh', 'hfghfgh', 0, 1, 0, '2016-06-28 14:50:42', '2016-06-28 14:50:42'),
-(22, 12, 'new Question 1', 'new Question 1', 'new Question 1', 0, 1, 1, '2016-06-28 15:34:54', '2016-06-28 15:34:54'),
-(23, 12, 'gghghgh', 'hjgghghg', 'hghghhhg', 0, 1, 0, '2016-06-29 08:56:53', '2016-06-29 08:56:53'),
-(27, 13, 'Please confirm where You need the Services?', 'Enter your ZipCode', 'Enter your ZipCode', 0, 1, 1, '2016-06-30 08:00:29', '2016-06-30 08:00:29'),
-(28, 13, 'How Would You Like to Receive Quotes?', 'select the option to enter the details.', 'select the option to enter the details.', 0, 1, 0, '2016-06-30 08:02:06', '2016-06-30 08:02:06'),
-(29, 13, 'Please Enter your Full Name?', 'For personal details', 'For personal details', 0, 1, 1, '2016-06-30 08:03:37', '2016-06-30 08:03:37'),
-(33, 1, 'Do you have a service plan?', 'car', 'car', 0, 1, 0, '2016-06-30 12:26:30', '2016-06-30 12:26:30'),
-(36, 2, 'Do you like home service?', 'for the youth of this era', 'for the youth of this era', 0, 3, 0, '2016-07-08 08:10:45', '2016-07-08 08:30:04'),
-(37, 14, 'test1', 'test1', 'test1', 1, 2, 0, '2016-07-08 21:25:08', '2016-07-08 21:25:08'),
-(38, 14, 'test2', 'test2', 'test2', 0, 1, 0, '2016-07-08 21:25:22', '2016-07-08 21:25:22'),
-(39, 15, 'Wofür benötigen Sie den Bodengutachter?', '-', '-', 1, 1, 0, '2016-07-09 14:45:27', '2016-07-09 14:45:27'),
-(44, 14, 'dfgdfg', '', '', 3, 1, 0, '2016-07-11 15:24:02', '2016-07-11 15:24:02'),
-(41, 15, 'gdfgdf', 'dfgdfgfg', 'fdgfgfg', 0, 1, 0, '2016-07-11 11:48:12', '2016-07-11 11:48:12'),
-(42, 15, 'gdfgdf', 'dfgdfgfg', 'fdgfgfg', 4, 1, 0, '2016-07-11 11:49:59', '2016-07-11 11:49:59'),
-(43, 15, 'fdgdf', 'fdgdfg', 'dfgdf', 5, 3, 0, '2016-07-11 11:52:56', '2016-07-11 11:52:56');
+(1, 1, 'What is your budget?', '', '', 1, 1, 0, '2016-07-14 08:20:22', '2016-07-14 08:20:22'),
+(2, 1, 'Please Choose Budget', '', '', 2, 3, 0, '2016-07-14 08:20:47', '2016-07-14 08:20:47'),
+(3, 1, 'Do you want to another services ?', '', '', 3, 1, 0, '2016-07-14 08:22:09', '2016-07-14 08:22:09'),
+(4, 1, 'How much time you give to us?', '', '', 4, 1, 0, '2016-07-14 08:22:37', '2016-07-14 08:22:37'),
+(6, 1, 'extra', '', '', 6, 2, 0, '2016-07-14 09:14:42', '2016-07-14 09:14:42');
 
 -- --------------------------------------------------------
 
@@ -572,7 +488,7 @@ INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`)
 --
 
 CREATE TABLE `services` (
-  `id` int(10) UNSIGNED NOT NULL COMMENT 'id of the service. this is the key identification for the service',
+  `id` int(11) NOT NULL COMMENT 'id of the service. this is the key identification for the service',
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `status` int(11) NOT NULL DEFAULT '1',
@@ -587,10 +503,7 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `title`, `description`, `status`, `created_at`, `updated_at`, `parent_id`, `sort`) VALUES
-(1, 'Car Repair', 'Car Repair', 1, '2016-06-25 14:07:01', '2016-06-25 14:07:01', 0, 0),
-(2, 'Hair Saloon', 'Hair Saloon', 1, '2016-06-25 14:07:23', '2016-06-25 14:07:23', 0, 0),
-(14, 'Polishing', 'Polishing', 1, '2016-07-08 21:13:30', '2016-07-08 21:13:30', 0, 0),
-(15, 'Bodengutachten', 'Test Beschreibung ...Test Beschreibung ...Test Beschreibung ...', 1, '2016-07-09 14:43:42', '2016-07-09 14:43:42', 0, 0);
+(1, 'Car repairing', 'Car repairing', 1, '2016-07-14 08:20:07', '2016-07-14 08:20:07', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -648,7 +561,7 @@ INSERT INTO `static_blocks` (`id`, `type`, `title`, `description`, `long_descrip
 (3, 'work', 'Serach your requirement', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.3333</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 3333</p>\r\n', '159.step-3.png', '', '', 1, '2016-07-07 10:36:28', '2016-07-09 17:52:04'),
 (4, 'services', 'Home Inspection for real estate', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled when an unknown printer took it to make a type specimen book.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled when an unknown printer took it to make a type specimen book.</p>\r\n', '797.service-1.png', '', '', 1, '2016-07-07 10:44:37', '2016-07-08 13:08:55'),
 (5, 'services', 'Home Inspection for real estate', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled when an unknown printer took it to make a type specimen book.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled when an unknown printer took it to make a type specimen book.</p>\r\n', '378.service-2.png', '', '', 1, '2016-07-07 10:46:26', '2016-07-08 13:09:01'),
-(6, 'services', 'Home Inspection for real estate', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled when an unknown printer took it to make a type specimen book.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled when an unknown printer took it to make a type specimen book.</p>\r\n', '998.service-3.png', '', '', 1, '2016-07-07 10:49:06', '2016-07-08 13:09:09'),
+(6, 'services', 'Home Inspection for real estate', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled when an unknown printer took it to make a type specimen book.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled when an unknown printer took it to make a type specimen book.</p>\r\n', '998.service-3.png', '', '', 0, '2016-07-07 10:49:06', '2016-07-13 17:35:08'),
 (7, 'features', 'Our Features 1', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '761.feature-1.png', '', '', 1, '2016-07-07 10:54:52', '2016-07-07 18:27:26'),
 (8, 'features', 'Our Features 2', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '754.feature-2.png', '', '', 1, '2016-07-07 10:55:56', '2016-07-07 18:26:43'),
 (9, 'features', 'Our Features 3', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '805.feature-3.png', '', '', 0, '2016-07-07 10:56:30', '2016-07-08 13:41:46'),
@@ -659,10 +572,10 @@ INSERT INTO `static_blocks` (`id`, `type`, `title`, `description`, `long_descrip
 (14, 'features', 'Our Features 8', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer</p>\r\n', '633.feature-8.png', '', '', 1, '2016-07-07 11:02:32', '2016-07-11 17:06:45'),
 (15, 'testimonial', 'Testimonial', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '593.despicable-me.jpg', 'Christine Joe', 'Dallas .USA', 1, '2016-07-07 11:30:31', '2016-07-07 19:00:31'),
 (16, 'testimonial', 'Testimonial', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '151.acasfdsfds.jpg', 'Christine Robbat', 'Dallas .UK', 1, '2016-07-07 11:31:27', '2016-07-07 19:01:27'),
-(17, 'testimonial', 'Testimonial 3', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '404.imagesasdas.jpg', 'Shen Watson ', 'Sydney, AUS', 1, '2016-07-07 11:32:44', '2016-07-07 19:02:44'),
+(17, 'testimonial', 'Testimonial 3', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>\r\n', '404.imagesasdas.jpg', 'Shen Watson ', 'Sydney, AUS', 0, '2016-07-07 11:32:44', '2016-07-13 17:34:37'),
 (18, 'process', 'Receive Request', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 1111</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 1111</p>\r\n', '160.images.jpg', '', '', 1, '2016-07-09 10:02:55', '2016-07-09 17:32:55'),
-(19, 'process', 'Receive Request', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 2222</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 2222</p>\r\n', '919.acasfdsfds.jpg', '', '', 1, '2016-07-09 10:03:45', '2016-07-09 17:33:45'),
-(20, 'process', 'Receive Request', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 3333</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 3333</p>\r\n', '291.despicable-me.jpg', '', '', 1, '2016-07-09 10:04:07', '2016-07-09 17:34:07');
+(19, 'process', 'Receive Request', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 2222</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 2222</p>\r\n', '919.acasfdsfds.jpg', '', '', 0, '2016-07-09 10:03:45', '2016-07-13 17:34:22'),
+(20, 'process', 'Receive Request', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 3333</p>\r\n', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an 3333</p>\r\n', '291.despicable-me.jpg', '', '', 0, '2016-07-09 10:04:07', '2016-07-13 17:34:20');
 
 -- --------------------------------------------------------
 
@@ -742,7 +655,8 @@ INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `remember_toke
 -- Indexes for table `answers`
 --
 ALTER TABLE `answers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `question_id` (`question_id`);
 
 --
 -- Indexes for table `articles`
@@ -809,7 +723,8 @@ ALTER TABLE `permission_role`
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `service_id` (`service_id`);
 
 --
 -- Indexes for table `quote_requests`
@@ -874,7 +789,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `articles`
 --
@@ -924,7 +839,7 @@ ALTER TABLE `permission_role`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question', AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question', AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `quote_requests`
 --
@@ -949,7 +864,7 @@ ALTER TABLE `role_user`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `sqoptions`
 --
@@ -970,11 +885,23 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `answers`
+--
+ALTER TABLE `answers`
+  ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `permission_role`
 --
 ALTER TABLE `permission_role`
   ADD CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `questions`
+--
+ALTER TABLE `questions`
+  ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `role_user`

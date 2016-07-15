@@ -11,8 +11,8 @@ class Update extends Validator
         $id = Request::segment(3);
 
         $rules = [
-            'fname' => 'required|alpha',
-			'lname' => 'required|alpha',
+            'fname' => 'required|alpha|min:3',
+			'lname' => 'required|alpha|min:3',
             'email' => 'required|email|unique:users,email,' . $id,
         ];
 
@@ -28,6 +28,8 @@ class Update extends Validator
         return [
             'fname.required' => 'This field is required',
             'fname.alpha' => 'This field Should be Character only ',
+            'fname.min' => 'This field Should have minimum 3 Character  ',
+            'lname.min' => 'This field Should have minimum 3 Character  ',
             'lname.alpha' => 'This field Should be Character only ',
 			'lname.required' => 'This field is required',
             'email.required' => 'This field is required'

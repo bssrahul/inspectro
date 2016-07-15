@@ -29,7 +29,12 @@
 			<tr>
 				<td>{!! $no !!}</td>
 				<td>{!! $question->title !!}</td>
-				<td>{!! $question->description_1 !!}</td>
+				<td>@if(!empty($question->description_1))
+							{!! $question->description_1 !!}
+					@else
+					  <span class='label label-deactive '>Not Available</span>
+					@endif
+				</td>
 				<!--<td>@if($question->other_custom_field == '1')
 							<span class='label label-active'>Enable</span>
 					@else
