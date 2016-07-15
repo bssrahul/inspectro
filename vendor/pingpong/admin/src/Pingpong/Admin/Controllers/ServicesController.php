@@ -20,6 +20,7 @@ class ServicesController extends BaseController
      *
      * @return Response
      */
+	 
     protected function redirectNotFound()
     {
         return $this->redirect('services.index');

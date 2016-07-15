@@ -62,7 +62,7 @@
 				</h3>
 
 				<p>
-					All Pages
+					All Pages 
 				</p>
 			</div>
 			<div class="icon">

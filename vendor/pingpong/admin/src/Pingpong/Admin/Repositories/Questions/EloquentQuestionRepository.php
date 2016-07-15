@@ -17,6 +17,12 @@ class EloquentQuestionRepository implements QuestionRepository
         
         return new $model;
     }
+	 /* public function getMod()
+    {
+        $mod = config('admin.answer.model');
+        
+        return new $mod;
+    } */
 
     public function allOrSearch($searchQuery = null,$serviceid = null)
     {
@@ -52,9 +58,10 @@ class EloquentQuestionRepository implements QuestionRepository
 
     public function findById($id)
     {
-        return $this->getModel()->find($id);
+		return $this->getModel()->find($id);
+		
     }
-
+	
     public function findBy($key, $value, $operator = '=')
     {
         return $this->getModel()->where($key, $operator, $value)->paginate($this->perPage());
@@ -76,4 +83,8 @@ class EloquentQuestionRepository implements QuestionRepository
     {
         return $this->getModel()->create($data);
     }
+	/* public function update1(array $data)
+    {
+        return DB :: table('answer')->update($data);
+    } */
 }

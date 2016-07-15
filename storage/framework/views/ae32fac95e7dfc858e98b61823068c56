@@ -70,15 +70,23 @@
                     	<div class="search-box">
                         	<div class="head-box"><a href="" title="Home Inspection for real estate buyer ">							
                        	    	<span><img src="<?php echo e(asset('public/img/search-home-icon.png')); ?>" alt=""/> </span>
-                           	    <p>Home inspection for real estate buyer</p>
+                           	    <p><a href="javascript:void(0)"  id="<?php echo e(@$services[6]->id); ?>" class="serviceList" title="Gewerbe"><?php echo e(@$services[6]->title); ?></a>
+</p>
+
 							  </a>
                             </div>
 	
                             <form>
                             	<ul class="s-list ulserviceList">
-                                	<li><a href="javascript:void(0)"  id="<?php echo e($services[0]->id); ?>" class="serviceList" title="Haus"><img src="<?php echo e(asset('public/img/search-icon1.png')); ?>"  alt="Haus"/><?php echo e($services[0]->title); ?></a></li>
-                                    <li><a href="javascript:void(0)"  id="<?php echo e($services[1]->id); ?>" class="serviceList" title="Wohnung"><img src="<?php echo e(asset('public/img/search-icon2.png')); ?>"  alt="Wohnung"/><?php echo e($services[1]->title); ?></a></li>
-                                    <li><a href="javascript:void(0)"  id="<?php echo e($services[2]->id); ?>" class="serviceList" title="Gewerbe"><img src="<?php echo e(asset('public/img/search-icon3.png')); ?>"  alt="Gewerbe"/><?php echo e($services[2]->title); ?></a></li>
+                                	<li><a href="javascript:void(0)"  id="<?php echo e(@$services[0]->id); ?>" class="serviceList" title="Haus"><img src="<?php echo e(asset('public/img/search-icon1.png')); ?>"  alt="Haus"/><?php echo e(@$services[0]->title); ?></a></li>
+                                    <li><a href="javascript:void(0)"  id="<?php echo e(@$services[1]->id); ?>" class="serviceList" title="Wohnung"><img src="<?php echo e(asset('public/img/search-icon2.png')); ?>"  alt="Wohnung"/><?php echo e(@$services[1]->title); ?></a></li>
+                                    <li><a href="javascript:void(0)"  id="<?php echo e(@$services[2]->id); ?>" class="serviceList" title="Gewerbe"><img src="<?php echo e(asset('public/img/search-icon3.png')); ?>"  alt="Gewerbe"/><?php echo e(@$services[2]->title); ?></a></li>
+								</ul>
+								<div style="clear:both;width:100%;float:left">&nbsp;</div>
+								<ul class="s-list ulserviceList">
+								    <li><a href="javascript:void(0)"  id="<?php echo e(@$services[3]->id); ?>" class="serviceList" title="Gewerbe"><img src="<?php echo e(asset('public/img/search-icon1.png')); ?>"  alt="Haus"/><?php echo e(@$services[3]->title); ?></a></li>
+                                    <li><a href="javascript:void(0)"  id="<?php echo e(@$services[4]->id); ?>" class="serviceList" title="Gewerbe"><img src="<?php echo e(asset('public/img/search-icon2.png')); ?>"  alt="Wohnung"/><?php echo e(@$services[4]->title); ?></a></li>
+                                    <li><a href="javascript:void(0)"  id="<?php echo e(@$services[5]->id); ?>" class="serviceList" title="Gewerbe"><img src="<?php echo e(asset('public/img/search-icon3.png')); ?>"  alt="Gewerbe"/><?php echo e(@$services[5]->title); ?></a></li>
                                 </ul> 
 								<input type="button" value="NEXT" class="btn btn-success next" id="myBtn">
                             </form>	                    	
@@ -89,4 +97,4 @@
                   	     	
         </header>    	    	
     <!--[/Header]--> 
-	    							<?php  print_r($services[0]->id); ?>
+	    							
