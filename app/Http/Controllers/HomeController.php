@@ -452,7 +452,7 @@ class HomeController extends Controller {
 						</li>
 						<li><label>At what time?</label>
 							<div class="input-group bootstrap-timepicker timepicker">
-							<input type="text" placeholder="Ex. “2pm”" id="timepicker1" class="form-control input-small" value='.(@$time?$time:'').'>
+							<input type="text" placeholder="Ex. “2pm”" id="timepicker1" readonly class="form-control input-small" value='.(@$time?$time:'').'>
 							<span class="input-group-addon">
 								<i class="glyphicon glyphicon-time"></i>
 							</span>
