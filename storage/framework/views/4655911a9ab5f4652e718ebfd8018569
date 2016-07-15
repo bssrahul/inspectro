@@ -1,5 +1,8 @@
 <?php $__env->startSection('content'); ?>
 	<!--[content]-->
+	<?php if(Session::has('flash_message')): ?>
+    <div class="alert alert-success"><span style="text-align=center;" > <?php echo session('flash_message'); ?></span></div>
+	<?php endif; ?>
 		<?php if(!empty($pageData)){?>
 				<div class="inner-cont">
 					<?php $destinationPath =  url().'/public/uploads/'; ?>
@@ -30,7 +33,7 @@
 
 												</div>
 												<div class="form-group">
-														<?php echo Form::text('email', null, ['class' => 'form-control required','placeholder'=>'Email']); ?>
+														<?php echo Form::email('email', null, ['class' => 'form-control required','placeholder'=>'Email']); ?>
 
 														<?php echo $errors->first('email', '<div class="text-danger">:message</div>'); ?>
 
@@ -205,6 +208,7 @@
             </div>	
 	<?php } ?>   
     <!--[/content]-->
+	
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>

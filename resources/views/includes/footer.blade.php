@@ -55,7 +55,7 @@
                                             <li><a href="http://www.facebook.com" title="" class="fb"></a></li>
                                             <li><a href="http://www.twitter.com" title="" class="tw"></a></li>
                                             <li><a href="http://www.google.com" title="" class="gl"></a></li>
-                                            <li><a href="https://in.pinterest.com/" title="" class="pn"></a></li>
+                                            <li><a href="#" title="" class="pn"></a></li>
                                             <li><a href="http://www.instagram.com" title="" class="is"></a></li>
                                             </ul>
                                             
@@ -89,11 +89,14 @@ var qListsArr = new Array();
 var initProgressText = '0% Completed';
 var initProgressPercent = '0'; 
  
+ 
+ 
 var queArray = []; 
+var dynamicQArray = []; 
 var quoteOptionsArr = new Array();
 var flag=false;
 var CSRF_TOKEN = "<?php echo csrf_token(); ?>";		
-
+var backFlag=true;
 		
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();   
@@ -119,14 +122,8 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
-	
-	
-	
 	popupValidation();
 	$(".serviceList").click(function(){
-		
-		
-		
 		qListsArr = new Array();
 		initProgressText = '0% Completed';
 		initProgressPercent = '0';
@@ -156,7 +153,8 @@ $(document).ready(function(){
 				if(data!=0){
 					$('#myModal').html(data);
 					var qLists = $('#myModal').find('#serviceTotalQ').val();
-					qListsArr = JSON.parse(qLists);
+					dynamicQArray=qListsArr = JSON.parse(qLists);
+					
 					qListsArr.push('0','p2','p3','p4','p5');
 					
 					totalQCount = qListsArr.length;
@@ -171,8 +169,6 @@ $(document).ready(function(){
 });	
 
 $(document).on('click','.childbox',function(){
-	
-	
 	if($(this).hasClass('for_zip') || $(this).hasClass('for_email') || $(this).hasClass('for_phone') || $(this).hasClass('name')){
 		return false;
 	}
@@ -185,10 +181,7 @@ $(document).on('click','.childbox',function(){
 	if($(this).hasClass('customAnswer')){
 		$(this).parent().next('.customAnswerText').addClass('required');
 	}
-	
-	
-	
-	
+
 	if($('#email').is(':checked')){
 		$('.for_email,.for_email_label').show();
 		$('.for_phone,.for_phone_label').hide();
@@ -248,18 +241,34 @@ $(document).on('click','.nextQue,.back',function(){
 		var serviceId=$(this).data('serviceid');
 		$('.innerAns').hide();
 		var Qid=$(this).attr('data-qid');
-		if (typeof(Storage) !== "undefined") {
+		
 			if($(this).hasClass('nextQue')) {
+				skipArray();
 			flag=true;
-			console.log(flag);
+			
 			var inputType = $('.childbox').attr('type');
 			var inputName = $('.childbox').attr('name');
 			
 			if(((inputType=='checkbox' || inputType=='radio') &&  $('.childbox').is(':checked')) || ((inputType=='text' || inputType=='text') && $('.childbox').val().length > 0) || selectOption==true || selectDateOption==true || Tellusflag==true)
 			{
-				if($.inArray(backQueId,queArray)==-1)
+				//alert($.inArray($.trim(backQueId),queArray));
+				
+			/* 	if($.inArray($.trim(backQueId),queArray)==-1 && $.inArray($.trim(0),queArray)!=-1 && isNaN($.trim(backQueId))==false)
+				{
+					var ZeroIndex=$.inArray($.trim(0),queArray);
+					var newElementIndex = ZeroIndex-1;
+					queArray.splice(ZeroIndex,0,$.trim(backQueId) );
+					console.log('new!!!!!' +queArray);
+					
+				}
+				 */
+				 
+				if($.inArray($.trim(backQueId),queArray)==-1)
 				{		
+					//alert($.trim(backQueId));
 					queArray.push($.trim(backQueId));
+					console.log(queArray);
+					
 				}
 				
 				var data={};
@@ -365,25 +374,41 @@ $(document).on('click','.nextQue,.back',function(){
 			}else{
 				flag=false;
 			}
-		} else {
-				// Sorry! No Web Storage support..
-				alert('your browser is out of date! Update It');
-			}
+		
 		
 			if(Qid==0 || Qid=='p2' || Qid=='p3'|| Qid=='p4' || Qid=='p5' || Qid=='p6')
 			{
-				stQfrontStorage(Qid);	
+				
+				stQfrontStorage(Qid);
+				if($(this).hasClass('back')){
+					//alert(Qid);
+					queArray.pop();	
+					//console.log(queArray);
+				}
+							
 				return;
 			}
-		//console.log('dynamic part');
+		
 			var loadingImage="{{ asset('/public/img/ajaxloader/ajaxloader.gif') }}";
 			if(CheckArrayIndex(queArray,$.trim(Qid)) != -1 &&  CheckArrayIndex(queArray,$.trim(Qid))>0)
 			{
-				backQueIndex=CheckArrayIndex(queArray,$.trim(Qid))-1;
-				backQueId=queArray[backQueIndex];
+				console.log("qidddd"+Qid);
+				console.log(queArray);
+				queArray.pop();
+				//backQueIndex=CheckArrayIndex(queArray,$.trim(Qid))-1;
+				backQueId=queArray[queArray.length-1];
+				
+				console.log(queArray);
+				
+				
 			}else if(CheckArrayIndex(queArray,$.trim(Qid))==0)
 			{
 				backQueId='undefined';
+				//alert(backQueId);
+				queArray.pop();
+				//queArray.slice(1, -1);
+				console.log("bck"+queArray);
+				backFlag=false;	
 			}
 			popupValidation();
 			//alert(flag);
@@ -394,8 +419,8 @@ $(document).on('click','.nextQue,.back',function(){
 					success: function (data) {
 						$('#myModal').html(data);
 						popupValidation();
-						console.log(initProgressPercent);
-						console.log(flag);
+						
+						
 						if(flag==true){
 							
 								progress_decrement=1;
@@ -405,7 +430,7 @@ $(document).on('click','.nextQue,.back',function(){
 								
 									if(initProgressPercent==0)
 									{
-											console.log('next');
+											
 										if($('#myModal').find($('div').hasClass('.progress-bar.progress-bar-danger')))
 										{
 											$('#myModal').find('.progress-bar.progress-bar-danger').width('0%'); 	
@@ -427,24 +452,37 @@ $(document).on('click','.nextQue,.back',function(){
 						}else
 						if(flag==false)
 						{
-							// console.log('back');
-							// console.log('incrementOfPercent= '+incrementOfPercent);
-							// console.log('initProgressPercent= '+initProgressPercent);
-							// console.log(progress_decrement);
-							var backValue;
-							if(progress_decrement==1){
-								initProgressPercent = parseInt(initProgressPercent) - parseInt(incrementOfPercent);
-								backValue=initProgressPercent;
-							}
-							initProgressPercent = parseInt(initProgressPercent) - parseInt(incrementOfPercent);
-							
-							initProgressText = initProgressPercent+'% Completed';
-							if($('#myModal').find($('div').hasClass('.progress-bar.progress-bar-danger')))
+							if(backFlag==false)
 							{
+								initProgressPercent=0;
 								$('#myModal').find('.progress-bar.progress-bar-danger').width(initProgressPercent+'%'); 	
-								$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
-								initProgressPercent=backValue;
+								$('#myModal').find('.progress-bar.progress-bar-danger').text('0% Completed');
+								initProgressPercent=incrementOfPercent;
+								backFlag=true;
+								return false;
 							}
+							
+								if(initProgressPercent!='0'){
+								var backValue;
+								if(progress_decrement==1){
+									initProgressPercent = parseInt(initProgressPercent) - parseInt(incrementOfPercent);
+									backValue=initProgressPercent;
+								}
+								initProgressPercent = parseInt(initProgressPercent) - parseInt(incrementOfPercent);
+								
+								
+							}
+								initProgressText = initProgressPercent+'% Completed';
+								if($('#myModal').find($('div').hasClass('.progress-bar.progress-bar-danger')))
+								{
+									$('#myModal').find('.progress-bar.progress-bar-danger').width(initProgressPercent+'%'); 	
+									$('#myModal').find('.progress-bar.progress-bar-danger').text(initProgressText);
+									console.log(backValue);
+									initProgressPercent=backValue;
+									
+								}
+							
+							
 							
 						}
 						
@@ -564,7 +602,7 @@ function popupValidation()
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
 			opId = $('#selectAns').val();
-			if($.inArray(backQueId,queArray)==-1)
+			if($.inArray($.trim(backQueId),queArray)==-1)
 				{	
 					queArray.push($.trim(backQueId));
 					selectOption=true;
@@ -573,11 +611,11 @@ function popupValidation()
 		
 		$('#selectAns').change(function(){
 			//console.log(opId);
-			var nexQueId = $('option:selected', this).data('next');console.log(nexQueId);
+			var nexQueId = $('option:selected', this).data('next');
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
 			opId = $(this).val();
-			if($.inArray(backQueId,queArray)==-1)
+			if($.inArray($.trim(backQueId),queArray)==-1)
 				{	
 					queArray.push($.trim(backQueId));
 					selectOption=true;
@@ -588,7 +626,15 @@ function popupValidation()
 		
 		if(((inputType=='checkbox') || (inputType=='radio')) && $('.childbox').is(':checked'))
 		{
-			var nexQueId = $('.childbox').data('next');
+			var runTimeObj;	
+			$('.childbox').each(function(){
+				if($(this).is(':checked')){
+					runTimeObj = $(this);
+				}	
+			});
+			
+			var nexQueId = runTimeObj.data('next');
+			//var nexQueId = $('.childbox').data('next');
 			$('.nextQue').attr('data-qid',nexQueId);
 			if($('#TellUs').val()=='' && $('#customInfoYes').is(':checked')){
 				setTimeout(function(){$('.nextQue').attr('disabled',true);},100);
@@ -819,7 +865,7 @@ function stQfrontStorage(staticModal)
 					dateFormat: "dd-mm-yy",
 					minDate: 0					
 			});
-			$('#timepicker1').timepicker();
+			$('#timepicker1').timepicker({minDate: $.now()});
 			popupValidation();		
 		}
 	}); 
@@ -883,10 +929,13 @@ function ServdateTime()
 			
 			$('.drop-list').show();
 			backQueId = $('.nextQue').attr('data-current_id');
-			if($.inArray(backQueId,queArray)==-1)
+			if($.inArray($.trim(backQueId),queArray)==-1)
 			{	
-				queArray.push($.trim(backQueId));
-				selectDateOption=true;
+					//queArray.push($.trim(backQueId));
+					selectDateOption=true;
+					// console.log('seltime');
+					// console.log(queArray);
+				
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
@@ -898,18 +947,18 @@ function ServdateTime()
 				$('#datepicker').next('.error-box').show();
 				$('.nextQue').attr('disabled',true);
 				return false;
-			}
-			
-				
-
-			
+			}	
 		}else if(val=='flexible_time' || val=='next_few_days' || val=='immediate')
 		{
 			backQueId = $('.nextQue').attr('data-current_id');
-			if($.inArray(backQueId,queArray)==-1)
+			if($.inArray($.trim(backQueId),queArray)==-1)
 			{	
-				queArray.push($.trim(backQueId));
-				selectDateOption=true;
+				
+					//queArray.push($.trim(backQueId));
+					// console.log('fl_time');
+					// console.log(queArray);
+					selectDateOption=true;
+				
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
@@ -925,12 +974,16 @@ function TellUs() {
 		if($('#customInfoYes').is(':checked'))
 		{
 			backQueId = $('.nextQue').attr('data-current_id');
-			if($.inArray(backQueId,queArray)==-1)
+			if($.inArray($.trim(backQueId),queArray)==-1)
 			{	
-				queArray.push($.trim(backQueId));
+				if(flag==true){
+					//queArray.push($.trim(backQueId));
+					//console.log('customYes');
+					//console.log(queArray);
+				}
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
-			if($('#TellUs').val()==''){
+			if($.trim($('#TellUs').val())==''){
 				messageErr = 'This field is required.';
 				$('#TellUs').next('.error-box').children('p').text(messageErr);
 				$('#TellUs').next('.error-box').show();
@@ -941,15 +994,31 @@ function TellUs() {
 		}
 		if($('#customInfoNo').is(':checked')){
 			backQueId = $('.nextQue').attr('data-current_id');
-			if($.inArray(backQueId,queArray)==-1)
-			{	
-				queArray.push($.trim(backQueId));
+			if($.inArray($.trim(backQueId),queArray)==-1)
+			{	if(flag==true){
+					//queArray.push($.trim(backQueId));
+					// console.log('customNo');
+					// console.log(queArray);
+				}
+				
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
 			var TellusData = '';
 		}
 	}
+function skipArray()
+{
+	if($.inArray("0",queArray)!=-1){
+		//console.log(queArray);
+		var indexFound = $.inArray("0",queArray);
+		//alert(indexFound);
+		var newCount = parseInt(indexFound)+parseInt(5);
+		incrementOfPercent = Math.round(100/newCount);
+	}
+		
 	
+	
+}	
 	
 </script>
 
