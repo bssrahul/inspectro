@@ -169,7 +169,7 @@ $(document).ready(function(){
 });	
 
 $(document).on('click','.childbox',function(){
-	if($(this).hasClass('for_zip') || $(this).hasClass('for_email') || $(this).hasClass('for_phone') || $(this).hasClass('name')){
+	if($(this).hasClass('for_zip') || $(this).hasClass('for_email') || $(this).hasClass('for_phone') || $(this).hasClass('name') || $(this).hasClass('for_date')){
 		return false;
 	}
 	
@@ -538,10 +538,6 @@ $(document).ready(function() {
 		errorMsg('childbox','name');
 	});
 	
-	
-	
-	
-
 });
 /**
   * Function to find the index of array
@@ -799,7 +795,7 @@ function validateUsername(inputClass,fld) {
 		return false;
  
     } else if (!(fld.val()).match(illegalChars)) {
-        error = "The username contains illegal characters.";
+        error = " First and last name can only be characters.";
 		$("."+inputClass).next('.error-box').children().html(error);
 		$("."+inputClass).next('.error-box').show();
 		
@@ -865,6 +861,7 @@ function stQfrontStorage(staticModal)
 					dateFormat: "dd-mm-yy",
 					minDate: 0					
 			});
+			
 			$('#timepicker1').timepicker({minDate: $.now()});
 			popupValidation();		
 		}
@@ -930,12 +927,8 @@ function ServdateTime()
 			$('.drop-list').show();
 			backQueId = $('.nextQue').attr('data-current_id');
 			if($.inArray($.trim(backQueId),queArray)==-1)
-			{	
-					//queArray.push($.trim(backQueId));
+			{			
 					selectDateOption=true;
-					// console.log('seltime');
-					// console.log(queArray);
-				
 			}
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
@@ -947,7 +940,14 @@ function ServdateTime()
 				$('#datepicker').next('.error-box').show();
 				$('.nextQue').attr('disabled',true);
 				return false;
-			}	
+			}
+			checkTimeValid();
+			$( "#timepicker1" ).change(function() {
+				checkTimeValid();
+			});
+			
+			
+			
 		}else if(val=='flexible_time' || val=='next_few_days' || val=='immediate')
 		{
 			backQueId = $('.nextQue').attr('data-current_id');
@@ -966,9 +966,67 @@ function ServdateTime()
 		}
 	
 		
-		setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
+		//setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
 	}
 }
+
+function checkTimeValid(){
+	var d = new Date();
+				var month = d.getMonth()+1;
+				var day = d.getDate();
+				var date = new Date('2010-10-11T00:00:00+05:30');
+				function pad (str, max) {
+						str = str.toString();
+						return str.length < max ? pad("0" + str, max) : str;
+						}
+				if(month < 10)
+				{
+					month=pad(month,2);
+				}
+				var todayDate=  d.getDate() + '-' + month + '-' +  d.getFullYear();
+				
+
+				//console.log("todayDate"+todayDate);
+				//console.log("picker"+$('#datepicker').val());
+				
+				currentHour = d.getHours();
+				var time=$('#timepicker1').val();
+					var	Hr = time.split(':');
+					var	format = time.split(' ');
+					console.log(Hr[0]);
+					console.log(time);
+					var Tpkrhour = parseInt(Hr[0]);
+					
+				if($.trim(format[1])=="PM")
+				{
+					
+					Tpkrhour = 12 + parseInt(Hr[0]);
+					
+				}
+				else if($.trim(format[1])=="PM" && parseInt(Hr[0])==12)
+				{
+					Tpkrhour = 12;
+				}
+				console.log("time"+Tpkrhour);
+				console.log("currentHour"+currentHour);
+				if((Tpkrhour <= currentHour) && ($.trim($('#datepicker').val())==$.trim(todayDate)))
+					{
+						
+						messageErr= "Time should be greater than the current time";
+						console.log($('#datepicker').val());
+						$('#timepicker1').parent().next('.error-box').children('p').text(messageErr);
+						$('#timepicker1').parent().next('.error-box').show();
+						$('.nextQue').attr('disabled',true);
+						
+						return false;
+					}else{
+						$('#timepicker1').parent().next('.error-box').children('p').text('');
+						$('#timepicker1').parent().next('.error-box').hide();
+						setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
+						return false;
+					}
+}
+
 function TellUs() {
 		var nexQueId = $('.nextQue').attr('data-qid');
 		if($('#customInfoYes').is(':checked'))
