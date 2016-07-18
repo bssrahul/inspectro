@@ -81,6 +81,11 @@ public function create(Request $request)
 			$serviceid=$request->get('serv_id');
 			$questionid=$request->get('question_id');
 			
+			$sortData=DB :: table("answers")->where('question_id',$questionid)->lists('sort','id');
+			
+			$sortIndex=@(max(array_keys($sortData))+1);
+			//echo "<pre>"; print_R($sortIndex);die;
+			
 			
 		}
 		if(!empty($question)){
@@ -101,11 +106,11 @@ public function create(Request $request)
 			
 			}
 			
-			
-			$nextQuestionArr[0]=' End Questionaire ';
 			$nextQuestionArr[null]='---Select Next Question---';
+			$nextQuestionArr[0]=' End Questionaire ';
+			
 			ksort($nextQuestionArr);
-			//echo "<pre>"; print_R($qid);die;
+			//echo "<pre>"; print_R($nextQuestionArr);die;
 			//echo "<pre>"; print_R($selectedServiceName);
 			//echo "<pre>"; print_R($nextQuestionArr);die;
 			$preQuestionData=DB::table('answers')->get();
@@ -151,10 +156,10 @@ public function create(Request $request)
 		//echo "<pre>"; print_r($qid);die;
 		//echo "<pre>"; print_R($qid);die;
 		if(!empty('qid')){
-				return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','optId','nextQuestionArr','selectedServiceName','selectedQuestionName','serviceid'));
+				return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','optId','nextQuestionArr','selectedServiceName','selectedQuestionName','serviceid','sortIndex'));
 		}else{
 			$qid=$questionid;
-			return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','nextQuestionArr','selectedServiceName','serviceid'));
+			return $this->view('answers.create', compact('id','type','questionArr','questiondata','qid','nextQuestionArr','selectedServiceName','serviceid','sortIndex'));
 		}
 	
 
@@ -177,6 +182,7 @@ public function store(Create $request)
 		foreach($data['answers'] as $k=>$value){
 			$tempArr = array();
 			$tempArr['answers'] = $value;
+			$tempArr['short_name'] = $data['short_name'][$k];
 			
 			if((!empty($data['question_id'])) ){
 				$tempArr['question_id'] = $data['question_id'];
@@ -235,6 +241,8 @@ public function edit($id,REQUEST $request)
 		$optId=$request->get('opt');
 		$serviceid=$request->get('serv_id');
 		$question=$request->get('ques_id');
+		/* $sortData=DB :: table("answers")->where('question_id',$questionid)->lists('sort','id');
+		$sortIndex=@(max(array_keys($sortData))+1); */
 		$hd=$request->get('hd');
 		
 		
@@ -250,8 +258,9 @@ public function edit($id,REQUEST $request)
 				}
 			
 			}
-			$nextQuestionArr[0]=' End Questionaire ';
 			$nextQuestionArr[null]='---Select Next Question---';
+			$nextQuestionArr[0]=' End Questionaire ';
+			
 			ksort($nextQuestionArr);
 			
 			
@@ -304,6 +313,7 @@ public function update(Update $request, $id)
 		foreach($data['answers'] as $k=>$value){
 			$tempArr = array();
 			$tempArr['answers'] = $value;
+			$tempArr['short_name'] = $data['short_name'][$k];
 			if(!empty($data['question_id'])){
 				$tempArr['question_id'] = $data['question_id'];
 			}

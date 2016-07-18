@@ -26,7 +26,7 @@
 			<?php foreach($blocks as $block): ?>
 			<tr>
 				<td><?php echo $no; ?></td>
-				<?php $destinationPath =  url().'/public/uploads/'; ?>
+				<?php $destinationPath =  url().'/uploads/'; ?>
 				<td ><img src="<?php echo $destinationPath."/".$block->image ; ?> " class="round_img" alt="Bannar Image"></td>
 				<td><?php if( $block->type == 'process' ): ?>
 						<?php echo 'How does it Work'; ?>

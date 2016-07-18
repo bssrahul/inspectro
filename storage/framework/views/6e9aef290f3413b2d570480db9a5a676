@@ -18,7 +18,9 @@
 		<thead>
 			<th>No</th>
 			<th>Title</th>
+			<th>Question Short Name</th>
 			<th>Description</th>
+			<th>Sorting Key</th>
 			<!--<th>Other Input Field</th>-->
 			<th>Created At</th>
 			<th class="text-center">Action</th>
@@ -27,12 +29,41 @@
 			<?php foreach($questions as $question): ?>
 			<tr>
 				<td><?php echo $no; ?></td>
-				<td><?php echo $question->title; ?></td>
+				<td>
+					<?php 	$string = strip_tags(@$question->title);
+					 if (strlen($string) > 25) {
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+					} 
+					echo $string;?>
+				</td>
+				<td>
+					<?php 	$string = strip_tags(@ $question->short_name);
+						 if (strlen($string) > 25) {
+							echo $stringCut = substr($string, 0, 25);
+							echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						} 
+						echo $string;?>
+				</td>
 				<td><?php if(!empty($question->description_1)): ?>
-							<?php echo $question->description_1; ?>
-
+						<?php 	$string = strip_tags(@$question->description_1);
+						 if (strlen($string) > 25) {
+							echo $stringCut = substr($string, 0, 25);
+							echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						} 
+						echo $string;?>
+							
 					<?php else: ?>
 					  <span class='label label-deactive '>Not Available</span>
+					<?php endif; ?>
+				</td>
+				<td>
+					<?php if($question->sort_que == 1): ?>
+							<span class='label label-avail '>First Question</span>
+							
+					<?php else: ?>
+						<?php echo $question->sort_que; ?>
+
 					<?php endif; ?>
 				</td>
 				<!--<td><?php if($question->other_custom_field == '1'): ?>
@@ -82,6 +113,9 @@
 }
 .label-active {
     background-color: #5cb85c;
+}
+.label-avail {
+    background-color: Green;
 }
 .label {
     border-radius: 0.25em;

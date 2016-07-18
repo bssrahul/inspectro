@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2016 at 11:04 AM
+-- Generation Time: Jul 18, 2016 at 01:39 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -30,6 +30,7 @@ CREATE TABLE `answers` (
   `id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL COMMENT 'the question_id for which this is an answer',
   `answers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'text of the answer',
+  `short_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `custom_answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sort` int(11) NOT NULL COMMENT 'defines in which order the anser is displayed at the form',
   `next_question_id` int(11) NOT NULL COMMENT 'question_id of the next question if this answer is selected',
@@ -42,17 +43,29 @@ CREATE TABLE `answers` (
 -- Dumping data for table `answers`
 --
 
-INSERT INTO `answers` (`id`, `question_id`, `answers`, `custom_answer`, `sort`, `next_question_id`, `option_description`, `created_at`, `updated_at`) VALUES
-(1, 1, '$0 - $100', '0', 0, 4, 'dasfsf', '2016-07-14 08:55:33', '2016-07-14 08:55:33'),
-(2, 1, '$200-$300', '0', 0, 4, 'sdfsfsdf', '2016-07-14 08:55:33', '2016-07-14 08:55:33'),
-(3, 2, '$200 - $500', '0', 0, 4, '', '2016-07-14 08:56:22', '2016-07-14 08:56:22'),
-(4, 2, '$501 - $1000', '0', 0, 3, '', '2016-07-14 08:56:22', '2016-07-14 08:56:22'),
-(5, 3, 'Tyre Changing', '0', 0, 1, '', '2016-07-14 08:57:41', '2016-07-14 08:57:41'),
-(6, 3, 'Engine Service', '0', 0, 1, '', '2016-07-14 08:57:42', '2016-07-14 08:57:42'),
-(7, 4, '4 hr', '0', 0, 0, '', '2016-07-14 08:58:13', '2016-07-14 08:58:13'),
-(8, 4, '5 hr', '0', 0, 0, '', '2016-07-14 08:58:13', '2016-07-14 08:58:13'),
-(11, 6, 'extra1', '0', 0, 0, '', '2016-07-14 09:15:00', '2016-07-14 12:31:14'),
-(12, 6, 'extra2', '0', 0, 0, '', '2016-07-14 09:15:01', '2016-07-14 12:31:08');
+INSERT INTO `answers` (`id`, `question_id`, `answers`, `short_name`, `custom_answer`, `sort`, `next_question_id`, `option_description`, `created_at`, `updated_at`) VALUES
+(1, 1, '$0 - $100', '', '0', 0, 4, 'dasfsf', '2016-07-14 08:55:33', '2016-07-14 08:55:33'),
+(2, 1, '$200-$300', '', '0', 0, 4, 'sdfsfsdf', '2016-07-14 08:55:33', '2016-07-14 08:55:33'),
+(3, 2, '$200 - $500', '', '0', 0, 4, '', '2016-07-14 08:56:22', '2016-07-14 08:56:22'),
+(4, 2, '$501 - $1000', '', '0', 0, 3, '', '2016-07-14 08:56:22', '2016-07-14 08:56:22'),
+(5, 3, 'Tyre Changing', '', '0', 0, 1, '', '2016-07-14 08:57:41', '2016-07-14 08:57:41'),
+(6, 3, 'Engine Service', '', '0', 0, 1, '', '2016-07-14 08:57:42', '2016-07-14 08:57:42'),
+(7, 4, '4 hr', '', '0', 0, 0, '', '2016-07-14 08:58:13', '2016-07-14 08:58:13'),
+(8, 4, '5 hr', '', '0', 0, 0, '', '2016-07-14 08:58:13', '2016-07-14 08:58:13'),
+(11, 6, 'extra1', '', '0', 0, 0, '', '2016-07-14 09:15:00', '2016-07-14 12:31:14'),
+(12, 6, 'extra2', '', '0', 0, 0, '', '2016-07-14 09:15:01', '2016-07-14 12:31:08'),
+(13, 6, 'dfgdfgdf', '', '0', 0, 1, 'dfgdfgdf', '2016-07-18 11:59:40', '2016-07-18 11:59:40'),
+(14, 6, 'dfgdfgdfg', '', '0', 1, 0, 'fghfghfgh', '2016-07-18 11:59:40', '2016-07-18 11:59:40'),
+(15, 6, 'bcxvbcvb', '', '0', 0, 0, 'cbvbcvb', '2016-07-18 12:01:47', '2016-07-18 12:01:47'),
+(16, 6, 'cvbcvb', '', '0', 0, 0, '', '2016-07-18 12:01:47', '2016-07-18 12:01:47'),
+(17, 6, 'dfgdfg', 'Array', '0', 0, 0, '', '2016-07-18 12:04:58', '2016-07-18 12:04:58'),
+(18, 6, 'dfgdfg', 'dfgdfgdf', '0', 0, 0, '', '2016-07-18 12:06:33', '2016-07-18 12:06:33'),
+(19, 6, 'dfgdfgfg', 'dfgdfgdf', '0', 0, 0, 'dfgdfg', '2016-07-18 12:06:34', '2016-07-18 12:06:34'),
+(20, 6, 'dfgdfg', 'dfgdfgdf', '0', 0, 0, '', '2016-07-18 12:06:45', '2016-07-18 12:06:45'),
+(21, 6, 'dfgdfgfg', 'dfgdfgdf', '0', 0, 0, 'dfgdfg', '2016-07-18 12:06:45', '2016-07-18 12:06:45'),
+(22, 6, '1sdfd', '1dsf', '0', 0, 1, '1', '2016-07-18 12:07:15', '2016-07-18 12:12:01'),
+(23, 6, '2 text', '2', 'text', 0, 0, '2', '2016-07-18 12:07:15', '2016-07-18 13:31:02'),
+(24, 6, '3', '3', '0', 0, 0, '3', '2016-07-18 12:07:15', '2016-07-18 12:07:15');
 
 -- --------------------------------------------------------
 
@@ -176,7 +189,12 @@ INSERT INTO `localstorage` (`id`, `user_temp_id`, `service_id`, `question_id`, `
 (34, 11362, 1, 'p2', '[null]', '2016-07-11 13:18:20', '0000-00-00 00:00:00'),
 (35, 11362, 1, 'p3', '[{"zip":"17383"}]', '2016-07-11 13:18:24', '0000-00-00 00:00:00'),
 (36, 11362, 1, 'p4', '[null,{"email":"rahul.jain@mobilyte.com"}]', '2016-07-11 13:18:45', '0000-00-00 00:00:00'),
-(37, 11362, 1, 'p5', '[{"name":"Rahul Jain"}]', '2016-07-11 13:18:51', '0000-00-00 00:00:00');
+(37, 11362, 1, 'p5', '[{"name":"Rahul Jain"}]', '2016-07-11 13:18:51', '0000-00-00 00:00:00'),
+(78, 57399, 1, '1', '[1]', '2016-07-18 10:56:12', '0000-00-00 00:00:00'),
+(79, 57399, 1, '4', '[8]', '2016-07-18 10:56:14', '0000-00-00 00:00:00'),
+(80, 57399, 1, '0', '[{"selected_date":"20-07-2016","selected_time":"4:30 PM"}]', '2016-07-18 10:56:18', '0000-00-00 00:00:00'),
+(81, 57399, 1, 'p2', '[{"TellusData":"ghxagfkjs"},null]', '2016-07-18 10:56:21', '0000-00-00 00:00:00'),
+(82, 57399, 1, 'p3', '[{"zip":"87943"}]', '2016-07-18 10:56:24', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -360,6 +378,7 @@ CREATE TABLE `questions` (
   `id` int(11) NOT NULL COMMENT 'id of the question',
   `service_id` int(11) NOT NULL COMMENT 'id of the service, related to the services-table',
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'question title',
+  `short_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description_1` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the top',
   `description_2` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'description field at the bottom',
   `sort_que` int(11) NOT NULL,
@@ -373,12 +392,17 @@ CREATE TABLE `questions` (
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`id`, `service_id`, `title`, `description_1`, `description_2`, `sort_que`, `form_type_id`, `other_custom_field`, `created_at`, `updated_at`) VALUES
-(1, 1, 'What is your budget?', '', '', 1, 1, 0, '2016-07-14 08:20:22', '2016-07-14 08:20:22'),
-(2, 1, 'Please Choose Budget', '', '', 2, 3, 0, '2016-07-14 08:20:47', '2016-07-14 08:20:47'),
-(3, 1, 'Do you want to another services ?', '', '', 3, 1, 0, '2016-07-14 08:22:09', '2016-07-14 08:22:09'),
-(4, 1, 'How much time you give to us?', '', '', 4, 1, 0, '2016-07-14 08:22:37', '2016-07-14 08:22:37'),
-(6, 1, 'extra', '', '', 6, 2, 0, '2016-07-14 09:14:42', '2016-07-14 09:14:42');
+INSERT INTO `questions` (`id`, `service_id`, `title`, `short_name`, `description_1`, `description_2`, `sort_que`, `form_type_id`, `other_custom_field`, `created_at`, `updated_at`) VALUES
+(1, 1, 'What is your budget?', '', '', '', 1, 1, 0, '2016-07-14 08:20:22', '2016-07-14 08:20:22'),
+(2, 1, 'Please Choose Budget', '', '', '', 2, 3, 0, '2016-07-14 08:20:47', '2016-07-14 08:20:47'),
+(3, 1, 'Do you want to another services ?', '', '', '', 3, 1, 0, '2016-07-14 08:22:09', '2016-07-14 08:22:09'),
+(4, 1, 'How much time you give to us?', '', '', '', 4, 1, 0, '2016-07-14 08:22:37', '2016-07-14 08:22:37'),
+(6, 1, 'extra', '', '', '', 6, 2, 0, '2016-07-14 09:14:42', '2016-07-18 09:21:31'),
+(7, 1, 'fdgdf', '', '', '', 7, 1, 0, '2016-07-18 10:13:14', '2016-07-18 10:13:14'),
+(8, 1, 'fghfgh', '', 'gfhf', 'fghfgh', 8, 1, 0, '2016-07-18 11:51:23', '2016-07-18 11:51:23'),
+(9, 1, 'dgfgdf', '', 'gdfgdfgd', 'dfgdfgfg', 9, 3, 0, '2016-07-18 11:55:14', '2016-07-18 11:55:14'),
+(10, 1, 'dfgdfgdf', 'gfdgdfg', 'gdfgdfg', 'dfgdfgd', 10, 1, 0, '2016-07-18 11:59:01', '2016-07-18 11:59:01'),
+(14, 1, 'dfgdfg', 'dfgdfg', 'dfgdfg', 'dfgdfg', 11, 2, 0, '2016-07-18 13:05:34', '2016-07-18 13:05:34');
 
 -- --------------------------------------------------------
 
@@ -398,7 +422,7 @@ CREATE TABLE `quote_requests` (
   `service_request_date` varchar(255) DEFAULT NULL COMMENT '''Date specified for Hardcoded question->When do you need service''',
   `anything_else_know` text COMMENT '''If anything else should know harcoded value is yes then we have added value to it''',
   `status` int(2) NOT NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -407,7 +431,9 @@ CREATE TABLE `quote_requests` (
 --
 
 INSERT INTO `quote_requests` (`id`, `user_temp_id`, `service_id`, `full_name`, `email`, `phone_no`, `zipcode`, `selected_options`, `service_request_date`, `anything_else_know`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2525, 1, 'gfhgh', 'sukant@mobilyte.com', '', '12345', '', NULL, NULL, 0, '0000-00-00 00:00:00', '2016-07-12 19:10:03');
+(2, 57399, 1, 'Rohit', 'sukant@mobilyte.com', '', '56555', '', 'flexible_time', NULL, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 57399, 1, 'Rohit', 'sukant@mobilyte.com', '', '90823', '', '18-07-2016 , 4:45 PM', 'sadjkfhsdkajhfksadjlkfjsadlkjflksadjflkj', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 57399, 1, 'Rohit', 'rohit@gmail.com', '', '34534', '', '20-07-2016 , 4:15 AM', 'Anything else We should\nknow?', 0, '2016-07-18 16:23:37', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -417,21 +443,26 @@ INSERT INTO `quote_requests` (`id`, `user_temp_id`, `service_id`, `full_name`, `
 
 CREATE TABLE `quote_requests_answers` (
   `id` int(11) NOT NULL,
+  `user_temp_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `cp_flag` int(11) NOT NULL,
   `quote_requests_id` int(11) NOT NULL,
   `answer_id` int(11) NOT NULL,
   `custom_answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `question_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `quote_requests_answers`
 --
 
-INSERT INTO `quote_requests_answers` (`id`, `quote_requests_id`, `answer_id`, `custom_answer`, `question_id`) VALUES
-(1, 1, 77, 'abc', 30),
-(2, 1, 78, 'dfg', 30),
-(3, 1, 79, 'dfgdf', 31),
-(4, 1, 83, '', 33);
+INSERT INTO `quote_requests_answers` (`id`, `user_temp_id`, `service_id`, `cp_flag`, `quote_requests_id`, `answer_id`, `custom_answer`, `question_id`) VALUES
+(1, 0, 0, 0, 2, 1, '', 1),
+(2, 0, 0, 0, 2, 8, '', 4),
+(3, 0, 0, 0, 3, 1, '', 1),
+(4, 0, 0, 0, 3, 7, '', 4),
+(5, 0, 0, 0, 4, 1, '', 1),
+(6, 0, 0, 0, 4, 7, '', 4);
 
 -- --------------------------------------------------------
 
@@ -642,7 +673,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `last_logged_in`) VALUES
-(1, 'Sukant', 'Sharma', 'sukant@mobilyte.com', '$2y$10$BGs.S.7thTyyHviF2PbL7eOwNyJPXYO.uh2dEV25lg.RjjdzML9Q6', 'rA4VhvD5hdimKC7ZqfEQqPgXxjm27QLnFkYcDu0yolWlrqvRz6uKu7gYtVRO', '2015-12-11 07:07:11', '2016-06-29 07:24:09', '2016-06-14 06:15:43'),
+(1, 'Sukant', 'Sharma', 'sukant@mobilyte.com', '$2y$10$BGs.S.7thTyyHviF2PbL7eOwNyJPXYO.uh2dEV25lg.RjjdzML9Q6', 'bjLCiUHFEZg2EXEP46jkps5TLzPDdQj9I1QnRZ2rdBnqjTrBPMizubA2FF6e', '2015-12-11 07:07:11', '2016-07-18 09:44:52', '2016-06-14 06:15:43'),
 (2, 'Rahul', 'Jain', 'rahul.jain@mobilyte.com', '$2y$10$aRVWvTnMQJxjYnCV4fLAN.8O5ZpWK.glY296t5wpKUf0MLIIIdTEq', NULL, '2016-06-15 10:05:23', '2016-06-15 10:09:17', '0000-00-00 00:00:00'),
 (3, 'fghj', 'fghj', '26may@mailinator.com', '$2y$10$7g9fbLacyhQvNXKTVkdCtOYIrDZXSY94aJMr6D/hlzqjoyr0OW2D6', NULL, '2016-06-16 08:28:52', '2016-06-16 08:28:52', '0000-00-00 00:00:00'),
 (4, 'hjsdfgjfd', 'fdsff', 'rohitkumar.rd26@gmail.com', '$2y$10$1LLiaS1i4HuMva178gBtGOnIvxEovpIX9HN9o5/Smv/tkg6dLE4Ee', NULL, '2016-06-16 09:48:31', '2016-06-16 09:48:31', '0000-00-00 00:00:00');
@@ -737,7 +768,8 @@ ALTER TABLE `quote_requests`
 --
 ALTER TABLE `quote_requests_answers`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `question_id` (`question_id`);
 
 --
 -- Indexes for table `roles`
@@ -789,7 +821,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `articles`
 --
@@ -809,7 +841,7 @@ ALTER TABLE `form_types`
 -- AUTO_INCREMENT for table `localstorage`
 --
 ALTER TABLE `localstorage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `options`
 --
@@ -839,17 +871,17 @@ ALTER TABLE `permission_role`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question', AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the question', AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `quote_requests`
 --
 ALTER TABLE `quote_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `quote_requests_answers`
 --
 ALTER TABLE `quote_requests_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `roles`
 --
@@ -864,7 +896,7 @@ ALTER TABLE `role_user`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id of the service. this is the key identification for the service', AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `sqoptions`
 --
@@ -902,6 +934,12 @@ ALTER TABLE `permission_role`
 --
 ALTER TABLE `questions`
   ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `quote_requests_answers`
+--
+ALTER TABLE `quote_requests_answers`
+  ADD CONSTRAINT `quote_requests_answers_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `role_user`
