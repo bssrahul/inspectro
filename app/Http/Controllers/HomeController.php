@@ -718,7 +718,8 @@ class HomeController extends Controller {
 					else
 					 if(isset($options[$k]['selected_date'])){ 
 					$selected_date = $options[$k]['selected_date'];}
-					
+					 if(isset($options[$k]['serviceDate'])){ 
+					$selected_date = $options[$k]['serviceDate'];}
 					
 					if(isset($options[$k]['TellusData'])){ 
 					$TellusData = $options[$k]['TellusData'];}
@@ -728,8 +729,8 @@ class HomeController extends Controller {
 			
 		if(@$_SESSION['serviceId']!='' && @$_SESSION['userTmpId']!='' &&  @$name!='')
 		{
-			
-			$entry=DB::table('quote_requests')->insertGetId(['full_name' => $name,'service_id'=>$_SESSION['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'email'=>$email,'phone_no'=>$phone,'zipcode'=>$zip,'service_request_date'=>@$selected_date,'anything_else_know'=>@$TellusData]);
+			$_SESSION['cp_flag']=rand(14321,989899);
+			$entry=DB::table('quote_requests')->insertGetId(['full_name' => $name,'service_id'=>$_SESSION['serviceId'],'user_temp_id'=>$_SESSION['userTmpId'],'cp_flag'=>$_SESSION['cp_flag'],'email'=>$email,'phone_no'=>$phone,'zipcode'=>$zip,'service_request_date'=>@$selected_date,'anything_else_know'=>@$TellusData]);
 			
 			if($entry!='') {
 				
@@ -750,6 +751,9 @@ class HomeController extends Controller {
 							$optDataSave = array();
 							$optDataSave['question_id'] = $qid;
 							$optDataSave['quote_requests_id'] = $entry;
+							$optDataSave['user_temp_id'] = $_SESSION['userTmpId'];
+							$optDataSave['service_id'] = $_SESSION['serviceId'];
+							$optDataSave['cp_flag'] = $_SESSION['cp_flag'];
 							
 							if(@$v['answerId'] && @$v['customAnswer']){ 
 								$optDataSave['answer_id'] = $v['answerId'];
@@ -764,6 +768,7 @@ class HomeController extends Controller {
 						}
 					}
 				}
+					
 					$userData['name']  =  $name;
 					$userData['email'] =  $email;
 					
@@ -772,12 +777,13 @@ class HomeController extends Controller {
 					$adminData['fromEmail']  =  $email;
 					$adminData['email'] =  'tobias@juelke.de';
 					
-					$this->thankyouMail($userData,'user');
-					$this->thankyouMail($adminData,'admin');
+					//$this->thankyouMail($userData,'user');
+					//$this->thankyouMail($adminData,'admin');
 					DB::table('localstorage')
 							->where('service_id',$_SESSION['serviceId'])
 							->where('user_temp_id',$_SESSION['userTmpId'])
 							->delete(); 
+					
 					echo "success";
 			}
 		}
@@ -794,7 +800,14 @@ public function cancelProject()
 		DB::table('quote_requests')
 						->where('service_id',$_SESSION['serviceId'])
 						->where('user_temp_id',$_SESSION['userTmpId'])
+						->where('cp_flag',$_SESSION['cp_flag'])
 						->delete();
+		DB::table('quote_requests_answers')
+						->where('service_id',$_SESSION['serviceId'])
+						->where('user_temp_id',$_SESSION['userTmpId'])
+						->where('cp_flag',$_SESSION['cp_flag'])
+						->delete();
+		
 		DB::table('localstorage')
 						->where('service_id',$_SESSION['serviceId'])
 						->where('user_temp_id',$_SESSION['userTmpId'])
