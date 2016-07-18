@@ -27,8 +27,21 @@
 			@foreach ($services as $category)
 			<tr>
 				<td>{!! $no !!}</td>
-				<td>{!! $category->title !!}</td>
-				<td>{!! $category->description !!}</td>
+				<td>
+				<?php 	$string = strip_tags(@$category->title);
+					 if (strlen($string) > 25) {
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+					} 
+					echo $string;?>
+				</td>
+				<td>
+					<?php 	$string = strip_tags(@$category->description);
+					 if (strlen($string) > 25) {
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+					} 
+					echo $string;?></td>
 				<td>{!! date('F d, Y', strtotime($category->created_at))  !!}</td>
 				<td>@if($category->status == '1')
 							<span class='label label-active'>Active</span>

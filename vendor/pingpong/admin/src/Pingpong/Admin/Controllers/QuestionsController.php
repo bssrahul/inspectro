@@ -7,7 +7,9 @@ use Pingpong\Admin\Entities\Question;
 use Pingpong\Admin\Repositories\Questions\QuestionRepository;
 use Pingpong\Admin\Validation\Question\Create;
 use Pingpong\Admin\Validation\Question\Update;
+use Session;
 use DB;
+
 class QuestionsController extends BaseController
 {
     protected $repository;
@@ -75,11 +77,15 @@ public function create(Request $request)
 			$optId=$request->get('opt');
 			$service=DB :: table("services")->where('id',$servid)->lists('title','id');
 			$sortData=DB :: table("questions")->where('service_id',$servid)->lists('title','id');
-			$sortIndex=(count($sortData)+1);
-			//echo "<pre>"; print_R($sortIndex);die;
+			$sortIndex=@(max(array_keys($sortData))+1);
+			/* $checkSort=array();
+			foreach($sortData as $k=>$sort){
+				$checkSort[]=$k;
+			}
+			echo "<pre>"; print_R($checkSort);die; */
 		}
 	
-		//echo "<pre>"; print_R($service);
+		//echo "<pre>"; print_R($sortIndex);die;
 		//echo "<pre>"; print_R($optId);die;
 		$id=$request->get('id');
 		$type=$request->get('type');
@@ -115,6 +121,23 @@ public function store(Create $request)
 		$data = $request->all();
 		//echo "<pre>"; print_R($data);die;
 		$sid=$data['service_id'];
+		$FormSortKey=$data['sort_que'];
+		$sortData=DB :: table("questions")->where('service_id',$sid)->lists('title','id');
+		
+		$checkSort=array();
+		foreach($sortData as $k=>$sort){
+			$checkSort[]=$k;
+		}
+		if((in_array($FormSortKey,$checkSort)) && ($FormSortKey == 1) ) 
+		{
+			Session::flash('message', 'First Question Already Define. Firstly Change it'); 
+			return back();
+		}else if(in_array($FormSortKey,$checkSort)){
+			Session::flash('message', 'This Sort Key already Defined. '); 
+			return back();
+		}
+		/* echo "<pre>"; print_R($checkSort);die;
+		echo "<pre>"; print_R($data);die; */
 		if(empty($data['other_custom_field'])){
 			$data['other_custom_field']=0;
 		}
@@ -183,7 +206,23 @@ public function update(Update $request, $id)
 	//print_r($id);die;
 	try {
 		$data = $request->all();
-
+		//echo "<pre>"; print_R($data);die;
+		$sid=$data['service_id'];
+		$FormSortKey=$data['sort_que'];
+		$sortData=DB :: table("questions")->where('service_id',$sid)->lists('title','id');
+		
+		$checkSort=array();
+		foreach($sortData as $k=>$sort){
+			$checkSort[]=$k;
+		}
+		if((in_array($FormSortKey,$checkSort)) && ($FormSortKey == 1) ) 
+		{
+			Session::flash('message', 'First Question Already Define. Firstly Change it'); 
+			return back();
+		}else if((in_array($FormSortKey,$checkSort)) && ($FormSortKey != $id)){
+			Session::flash('message', 'This Sort Key already Defined. '); 
+			return back();
+		}
 		if(!empty($data['service_id'])){
 			$serid=$data['service_id'];
 		}

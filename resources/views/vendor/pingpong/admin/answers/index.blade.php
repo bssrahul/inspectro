@@ -25,6 +25,7 @@
 		<thead>
 			<th>No</th>
 			<th>Answer</th>
+			<th>Short Answer Name </th>
 			<th>Question</th>
 			<th>Option Description</th>
 			<th>Next Question</th>
@@ -38,11 +39,41 @@
 			@foreach ($answers as $k=>$answer)
 			<tr>
 				<td>{!! $no !!}</td>
-				<td>{!! $answer->answers !!}</td>
-				<td>{!! $answer->question->title !!}</td>
+				<td>
+					<?php 	$string = strip_tags(@$answer->answers);
+					 if (strlen($string) > 25) {
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+					} 
+					echo $string;?>
+				
+				</td>
+				<td>
+					<?php 	$string = strip_tags(@$answer->short_name);
+					 if (strlen($string) > 25) {
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+					} 
+					echo $string;?>
+				
+				</td>
+				<td>
+				<?php 	$string = strip_tags(@$answer->question->title);
+					 if (strlen($string) > 25) {
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+					} 
+					echo $string;?>
+				</td>
 				<td>
 					@if(!empty($answer->option_description) )
-						{!! $answer->option_description !!}
+						<?php 	$string = strip_tags(@$answer->option_description);
+						 if (strlen($string) > 25) {
+							echo $stringCut = substr($string, 0, 25);
+							echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						} 
+						echo $string;?>
+						
 					@else
 						<span class='label label-deactive '>Not Available</span>
 					@endif

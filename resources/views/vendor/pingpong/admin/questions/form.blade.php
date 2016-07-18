@@ -3,6 +3,9 @@
 @else
 {!! Form::open(['files' => true, 'route' => 'admin.questions.store', 'id'=>'QuestionForm']) !!}
 @endif
+	@if(Session::has('message'))
+    <div class="alert alert-danger"><span style="text-align=center;" > {!! Session::get('message') !!}</span></div>
+	@endif
 	
 	<div class="form-group">
 	
@@ -18,6 +21,11 @@
 		{!! Form::label('title', 'Title:') !!}
 		<input type="text" name="title" class="form-control required" value="<?php if(!empty($question->title)){ echo $question->title; }?>">
 		{!! $errors->first('title', '<div class="text-danger">:message</div>') !!}
+	</div>
+	<div class="form-group">
+		{!! Form::label('short_name', 'Question Sort Name:') !!}
+		<input type="text" name="short_name" class="form-control required" value="<?php if(!empty($question->short_name)){ echo $question->short_name; }?>">
+		{!! $errors->first('short_name', '<div class="text-danger">:message</div>') !!}
 	</div>
 	<div class="form-group">
 	

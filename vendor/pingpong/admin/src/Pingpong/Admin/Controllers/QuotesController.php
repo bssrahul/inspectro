@@ -45,8 +45,8 @@ public function index(Request $request)
 		}
 		if(!empty($request_id)){
 			$quotes = $this->repository->allOrSearch($request->get('q'),$request_id);
-			$que_id= $quotes[0]['id'];
-			$status= $quotes[0]['status'];
+			$que_id= @$quotes[0]['id'];
+			$status= @$quotes[0]['status'];
 			$queReqAnsData= DB :: table ("quote_requests_answers")->where('quote_requests_id',$que_id)->get();
 			//echo "<pre>"; print_R($quotes);die;
 			if(!empty($queReqAnsData)){
@@ -82,8 +82,8 @@ public function index(Request $request)
 								$AnsID=$v->answer_id;
 								$answerData=DB :: table('answers')->where('id',$AnsID)->get();
 								//echo "<pre>"; print_r($answerData[0]->answers);
-								$tempQue[$i]['question_id']=$questionData[0]->title;
-								$tempQue[$i]['answer_id'][$k]=$answerData[0]->answers;
+								$tempQue[$i]['question_id']=@$questionData[0]->title;
+								$tempQue[$i]['answer_id'][$k]=@$answerData[0]->answers;
 								if(!empty($v->custom_answer)){
 									$tempQue[$i]['custom_answer'][$k]=$v->custom_answer;
 								}
@@ -91,8 +91,8 @@ public function index(Request $request)
 								$AnsID=$v->answer_id;
 								$answerData=DB :: table('answers')->where('id',$AnsID)->get();
 								//echo "<pre>"; print_r($answerData[0]->answers);
-								$tempQue[$i]['question_id']=$questionData[0]->title;
-								$tempQue[$i]['answer_id'][$k]=$answerData[0]->answers;
+								$tempQue[$i]['question_id']=@$questionData[0]->title;
+								$tempQue[$i]['answer_id'][$k]=@$answerData[0]->answers;
 								//$tempQue[$i]['answer_id'][$k]=$v->answer_id;
 								$QueID=$v->question_id;
 								$questionData=DB :: table('questions')->where('id',$QueID)->get();
@@ -188,11 +188,11 @@ public function store(Create $request)
 		if(!empty($userData)){
 			$subject = 'Inspectro - Reply of Quote Request';	
 			$data['message'] = $contactMessage;
-			Mail::send('emails.reply', compact('data'), function($message) use ($userData, $subject)
+			/* Mail::send('emails.reply', compact('data'), function($message) use ($userData, $subject)
 			{   
 					$message->to($userData['email'],$userData['name'])->subject($subject);
 					
-			}); 
+			});  */
 			$mailFlag=1;
 			echo "success";
 		}

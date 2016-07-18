@@ -584,7 +584,7 @@ class HomeController extends Controller {
 															</div>
 															
 															<label class="for_email_label" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').'> What\'s your email address? </label>
-															<input type="text" name="email"   class="for_email childbox email" placeholder="Enter Email Id" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').' value='.@$email.'>
+															<input type="text" name="email"   class="for_email childbox email" placeholder="Enter Email Id" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').' autocomplete="off" value='.@$email.'>
 															<div class="error-box for_email marginL0"></div>
 													  
 															<label class="for_phone_label" '.(@$email_text=='checked'?'style="display:block;"':'style="display:none;"').'>Phone number </label>
@@ -772,8 +772,8 @@ class HomeController extends Controller {
 					$adminData['fromEmail']  =  $email;
 					$adminData['email'] =  'tobias@juelke.de';
 					
-					$this->thankyouMail($userData,'user');
-					$this->thankyouMail($adminData,'admin');
+					//$this->thankyouMail($userData,'user');
+					//$this->thankyouMail($adminData,'admin');
 					DB::table('localstorage')
 							->where('service_id',$_SESSION['serviceId'])
 							->where('user_temp_id',$_SESSION['userTmpId'])

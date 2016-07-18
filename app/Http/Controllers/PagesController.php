@@ -68,11 +68,11 @@ class PagesController extends Controller {
 				$subject =$data['subject'] ;	
 				$data['message'] = 'We have recieved new Query  from '.$userData['fromName'].'('.$userData['fromEmail'].'). Kindly review the Message Given below & respond accordindly.</br></br>'.$userData['message'];
 				
-				
+				/* 
 				 Mail::send('emails.contact', compact('data'), function($message) use ($userData, $subject) {
 			
 						$message->to($userData['email'],$userData['name'])->subject($subject);
-				});	 
+				});	 */ 
 				
 				
 				return redirect()->route('pages', ['slug'=>'contact-us'  ])->withFlashMessage('This Query Message has been Send.');

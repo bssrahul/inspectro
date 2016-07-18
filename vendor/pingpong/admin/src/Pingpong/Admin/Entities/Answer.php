@@ -8,7 +8,7 @@ class Answer extends Model
     /**
      * @var array
      */
-    protected $fillable = ['question_id','answers','custom_answer','sort','next_question_id','option_description'];
+    protected $fillable = ['question_id','answers','custom_answer','sort','next_question_id','option_description','short_name'];
 
     /**
      * @param $query
