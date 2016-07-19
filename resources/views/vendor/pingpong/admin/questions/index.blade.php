@@ -37,7 +37,7 @@
 						 $string = substr($string, 0, 25).'...';
 
 					} 
-					echo $string1;?>
+					echo $string;?>
 				</td>
 				<td>
 
@@ -48,7 +48,7 @@
 							
 
 						} 
-						echo $string2;?>
+						echo $string;?>
 				</td>
 				<td>@if(!empty($question->description_1))
 
@@ -58,7 +58,7 @@
 							 $string = substr($string, 0, 25).'...';
 						
 						} 
-						echo $string3;?>
+						echo $string;?>
 							
 							
 					@else
