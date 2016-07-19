@@ -52,6 +52,7 @@
 						} 
 						echo $string;?>
 							
+							
 					<?php else: ?>
 					  <span class='label label-deactive '>Not Available</span>
 					<?php endif; ?>

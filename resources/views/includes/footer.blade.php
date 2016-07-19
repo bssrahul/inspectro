@@ -1004,6 +1004,10 @@ function checkTimeValid(){
 				{
 					Tpkrhour = 12;
 				}
+				else if($.trim(format[1])=="AM" && parseInt(Hr[0])==12)
+				{
+					Tpkrhour = 0;
+				}
 				//console.log("time picker"+Tpkrhour);
 				//console.log("currentHour"+currentHour);
 				if((Tpkrhour <= currentHour) && ($.trim($('#datepicker').val())==$.trim(todayDate)))
