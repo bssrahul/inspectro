@@ -23,7 +23,7 @@
 		{!! $errors->first('title', '<div class="text-danger">:message</div>') !!}
 	</div>
 	<div class="form-group">
-		{!! Form::label('short_name', 'Question Sort Name:') !!}
+		{!! Form::label('short_name', 'Question Short Name:') !!}
 		<input type="text" name="short_name" class="form-control required" value="<?php if(!empty($question->short_name)){ echo $question->short_name; }?>">
 		{!! $errors->first('short_name', '<div class="text-danger">:message</div>') !!}
 	</div>

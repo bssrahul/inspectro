@@ -18,7 +18,9 @@
 		<thead>
 			<th>No</th>
 			<th>Title</th>
+			<th>Question Short Name</th>
 			<th>Description</th>
+			<th>Sorting Key</th>
 			<!--<th>Other Input Field</th>-->
 			<th>Created At</th>
 			<th class="text-center">Action</th>
@@ -27,8 +29,43 @@
 			<?php foreach($questions as $question): ?>
 			<tr>
 				<td><?php echo $no; ?></td>
-				<td><?php echo $question->title; ?></td>
-				<td><?php echo $question->description_1; ?></td>
+				<td>
+					<?php 	$string1 = strip_tags(@$question->title);
+					 if (strlen($string1) > 25) {
+						$stringCut = substr($string1, 0, 25);
+						$string1 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+					} 
+					echo $string1;?>
+				</td>
+				<td>
+					<?php 	$string2 = strip_tags(@ $question->short_name);
+						 if (strlen($string2) > 25) {
+							$stringCut = substr($string2, 0, 25);
+							$string2 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						} 
+						echo $string2;?>
+				</td>
+				<td><?php if(!empty($question->description_1)): ?>
+						<?php 	$string3 = strip_tags(@$question->description_1);
+						 if (strlen($string3) > 25) {
+							echo $stringCut = substr($string3, 0, 25);
+							echo $string3 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						} 
+						echo $string3;?>
+							
+					<?php else: ?>
+					  <span class='label label-deactive '>Not Available</span>
+					<?php endif; ?>
+				</td>
+				<td>
+					<?php if($question->sort_que == 1): ?>
+							<span class='label label-avail '>First Question</span>
+							
+					<?php else: ?>
+						<?php echo $question->sort_que; ?>
+
+					<?php endif; ?>
+				</td>
 				<!--<td><?php if($question->other_custom_field == '1'): ?>
 							<span class='label label-active'>Enable</span>
 					<?php else: ?>
@@ -52,7 +89,7 @@
 					<?php echo $__env->make('admin::partials.modal', ['data' => $question, 'name' => 'questions'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
 			</tr>
-			<?php $no++ ;?>
+			<?php $no++ ;$string='';?>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
@@ -76,6 +113,9 @@
 }
 .label-active {
     background-color: #5cb85c;
+}
+.label-avail {
+    background-color: Green;
 }
 .label {
     border-radius: 0.25em;
