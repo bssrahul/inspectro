@@ -53,6 +53,7 @@
 						} 
 						echo $string;?>
 							
+							
 					@else
 					  <span class='label label-deactive '>Not Available</span>
 					@endif
