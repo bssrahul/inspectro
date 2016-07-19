@@ -20,7 +20,7 @@
 			<th>Contact Mode</th>
 			<th>Zip Code</th>
 			<th>Request Date</th>
-			<th>Service Request Date</th>
+			<th>Service Delivary On</th>
 			<th>Offer Status</th>
 			<th class="text-center">Action</th>
 		</thead>
@@ -32,7 +32,15 @@
 				<td><?php echo $quote->email; ?>  <?php if(!empty($quote->phone_no)): ?> /  <?php echo $quote->phone_no; ?> <?php endif; ?></td>
 				<td><?php echo $quote->zipcode; ?></td>
 				<td><?php echo date('F d, Y', strtotime($quote->created_at)); ?></td>
-				<td><?php echo date('F d, Y', strtotime($quote->service_request_date)); ?></td>
+				<td>					
+					<?php 
+					if (ctype_digit($quote->service_request_date)) {
+						echo date('F d, Y', strtotime($quote->service_request_date));
+					} else {
+						echo ucfirst($quote->service_request_date);
+					}
+					?>
+				</td>
 				<td>
 					<?php if($quote->status == 0): ?>
 						<span class='label label-new'>New</span>
@@ -102,7 +110,13 @@
 		
 		</tr>
 		<tr>
-			<td><label> Service Request Date :</label></td><td ><?php echo date('F d, Y', strtotime($quote->service_request_date)); ?></td>
+			<td><label> Service Request Date :</label></td><td ><?php 
+					if (ctype_digit($quote->service_request_date)) {
+						echo date('F d, Y', strtotime($quote->service_request_date));
+					} else {
+						echo ucfirst($quote->service_request_date);
+					}
+					?></td>
 		
 		</tr>
 		
@@ -117,6 +131,11 @@
 				<tr class="mid">
 							
 				 	  <td class="td" ><?php echo "Que ".$k.".  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$tempQueData['question_id'];?></td>
+					  
+				 	 
+				 	 
+					
+					  
 				</tr>
 					<?php 
 							 foreach($tempQueData['answer_id'] as $z=> $answerData){
@@ -132,8 +151,18 @@
 									</tr><?php
 							 }
 					 } ?>	
+					 
+					  <?php if(!empty($quote->anything_else_know)){?>
+					  <tr class="mid">
+						   <td class="td" ><?php echo "Que ".++$k.".  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Anything else We should know?";?></td>
+						</tr>
+						<tr> 
+									<td class="td" >
+										<?php echo "<b>Ans:</b>.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$quote->anything_else_know;?>
+									</td>
+						</tr>
+					 <?php }?>
 				</thead>
-							
 				
 			</table>
 				</td>

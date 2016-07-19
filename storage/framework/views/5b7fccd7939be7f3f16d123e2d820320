@@ -55,6 +55,13 @@
 
 					<div class="disableOption"> <div class="inputRemove">&times;</div></div>
 				</div>
+				<div class="form-group">
+					<?php echo Form::label('short_name[0]', 'Answer short Name:'); ?>
+
+					<input type="text" name="short_name[0]" class="form-control required" value="<?php if(!empty($answer['short_name'])){ echo 	$answer['short_name']; }?>">
+					<?php echo $errors->first('short_name[0]', '<div class="text-danger">:message</div>'); ?>
+
+				</div>
 				<div class="form-group_part">
 							<label for="custom_answer[0]"> Custom Answer  :</label>
 							&nbsp;&nbsp;&nbsp;<br>
@@ -80,7 +87,7 @@
 						
 							<label for="sort[0]"> Sort Option  :</label>
 							&nbsp;&nbsp;&nbsp;
-							<input type="number" name="sort[0]" class = 'form-control'  value = "<?php if(!empty($answer['sort'])){ echo $answer['sort'];} ?>">
+							<input type="number" name="sort[0]" class = 'form-control'  value = "<?php if(@$sortIndex){ echo @$sortIndex;}else{ echo @$answer['sort'];} ?>">
 							<div class="text-danger"></div>
 						
 				
@@ -156,6 +163,10 @@ textarea.form-control {
             return false;
 	}   
 	counter++;	
+	<?php if(@$sortIndex){ ?>
+	var newCounter= counter + parseInt("<?php echo $sortIndex ;?>");
+	<?php } ?>
+	//alert(newCounter);
 	var newTextBoxDiv = $(document.createElement('div'))
 	     .attr({
 			 id:'TextBoxDiv' + counter,
@@ -167,13 +178,16 @@ textarea.form-control {
 	      ']"  value="" class="form-control required">'+
 		  '<div class="disableOption">'+
 		  ' <div class="inputRemove">&times;</div></div></div>'+
+		  '<div class="form-group"><label for="short_name['+counter+']"> Answer Sort Name:</label><input type="text" '+
+		 ' name="short_name['+counter+']" class="form-control required" value="<?php if(!empty($answer['short_name'])){ echo 	$answer['short_name']; }?>">	</div>'+
+		   
 		  '<div class="form-group_part"><label for="custom_answer['+counter+']"> Custom Answer  :</label>&nbsp;&nbsp;&nbsp;<br>	<input type="radio" name="custom_answer['+counter+']" value="0" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 0)){ echo "checked=checked";} ?> checked><span><?php echo" None ";?> </span>'+
-							'<br><input type="radio" name="custom_answer['+counter+']" value="text" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 'text')){ echo "checked=checked";} ?> ><span><?php echo" Input Text ";?> </span>'+
-							'<br><input type="radio" name="custom_answer['+counter+']" value="date" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 'date')){ echo "checked=checked";} ?> ><span><?php echo" Date ";?> </span>'+
-							'<br><span> <br> <?php echo"( If you want to use Custom Answer, Please check above box )";?> </span></div>'+
+		'<br><input type="radio" name="custom_answer['+counter+']" value="text" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 'text')){ echo "checked=checked";} ?> ><span><?php echo" Input Text ";?> </span>'+
+		'<br><input type="radio" name="custom_answer['+counter+']" value="date" <?php if((!empty($answer['custom_answer'])) && ($answer['custom_answer'] == 'date')){ echo "checked=checked";} ?> ><span><?php echo" Date ";?> </span>'+'<br><span> <br> <?php echo"( If you want to use Custom Answer, Please check above box )";?> </span></div>'+				
+							
 		  '<div class="form-group_part"><label for="next_question_id['+counter+']"> Next Qusetion  :</label><select name="next_question_id['+counter+']" class = "form-control required"><?php foreach($nextQuestionArr as $k =>$questions){ ?>'+
 		  '<option value="<?php echo $k;?>"><?php echo $questions;?></option><?php } ?></select></div><div class="form-group_part"><label for="custom_answer['+counter+']"> Sort Option  :</label>'+
-		  '&nbsp;&nbsp;&nbsp;<input type="number" name="sort['+counter+']" class = "form-control"><div class="text-danger"></div></div> <div class="form-group_part2"><label for="option_description['+counter+']"> Option Description :</label>'+
+		  '&nbsp;&nbsp;&nbsp;<input type="number" name="sort['+counter+']" class = "form-control" value="'+newCounter+'"><div class="text-danger"></div></div> <div class="form-group_part2"><label for="option_description['+counter+']"> Option Description :</label>'+
 		  '&nbsp;&nbsp;&nbsp; <input type="text" name="option_description['+counter+']" class = "form-control"  value = "<?php if(!empty($answer['option_description'])){ echo $answer['option_description'];} ?>">'+
 		  '<div class="text-danger"></div></div>');
             

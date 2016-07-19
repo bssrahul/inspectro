@@ -31,25 +31,32 @@
 			<tr>
 				<td>{!! $no !!}</td>
 				<td>
+
 					<?php 	$string = strip_tags(@$question->title);
 					 if (strlen($string) > 25) {
 						 $string = substr($string, 0, 25).'...';
+
 					} 
 					echo $string;?>
 				</td>
 				<td>
+
+
 					<?php 	$string = strip_tags(@ $question->short_name);
 						 if (strlen($string) > 25) {
 							 $string = substr($string, 0, 25).'...';
 							
+
 						} 
 						echo $string;?>
 				</td>
 				<td>@if(!empty($question->description_1))
+
+
 						<?php 	$string = strip_tags(@$question->description_1);
 						 if (strlen($string) > 25) {
 							 $string = substr($string, 0, 25).'...';
-							
+						
 						} 
 						echo $string;?>
 							
@@ -87,7 +94,7 @@
 					@include('admin::partials.modal', ['data' => $question, 'name' => 'questions'])
 				</td>
 			</tr>
-			<?php $no++ ;?>
+			<?php $no++ ;$string='';?>
 			@endforeach
 		</tbody>
 	</table>

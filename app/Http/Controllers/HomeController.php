@@ -584,7 +584,7 @@ class HomeController extends Controller {
 															</div>
 															
 															<label class="for_email_label" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').'> What\'s your email address? </label>
-															<input type="text" name="email"   class="for_email childbox email" placeholder="Enter Email Id" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').' autocomplete="off" value='.@$email.'>
+															<input type="text" name="email"   class="for_email childbox email" placeholder="Enter Email Id" '.(@$emailOnly=='checked' || @$email_text=='checked'?'style="display:block;"':'style="display:none;"').' value='.@$email.'>
 															<div class="error-box for_email marginL0"></div>
 													  
 															<label class="for_phone_label" '.(@$email_text=='checked'?'style="display:block;"':'style="display:none;"').'>Phone number </label>

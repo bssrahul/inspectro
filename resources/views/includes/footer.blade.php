@@ -562,7 +562,7 @@ function popupValidation()
 	var inputType = $('.childbox').attr('type');
 	var inputName = $('.childbox').attr('name');
 	
-	$('.drop-list').hide();
+	
 	
 	
 	$('.error-box').hide();
@@ -588,6 +588,7 @@ function popupValidation()
 		TellUs();
 		$(document).on('change', '#selectTime', function() {
 			ServdateTime();
+
 		});
 		
 		if($('#selectAns').val()>0)
@@ -915,6 +916,7 @@ function cancelProject()
 
 function ServdateTime()
 {
+       $('.drop-list').hide();
 	var selTimeVal = $('#selectTime').val();
 	if(selTimeVal!='' && typeof selTimeVal !=='undefined')
 	{
@@ -1079,5 +1081,8 @@ function skipArray()
 .innerAns{display:none;}
 .serviceList.active{
 	opacity:0.6;
+}
+.bootstrap-timepicker-widget{
+z-index:999999 !important
 }
 </style>

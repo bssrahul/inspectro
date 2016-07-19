@@ -106,7 +106,7 @@ public function create(Request $request)
 			
 			}
 			
-			$nextQuestionArr[null]='---Select Next Question---';
+			//$nextQuestionArr[null]='---Select Next Question---';
 			$nextQuestionArr[0]=' End Questionaire ';
 			
 			ksort($nextQuestionArr);
@@ -258,7 +258,7 @@ public function edit($id,REQUEST $request)
 				}
 			
 			}
-			$nextQuestionArr[null]='---Select Next Question---';
+			//$nextQuestionArr[null]='---Select Next Question---';
 			$nextQuestionArr[0]=' End Questionaire ';
 			
 			ksort($nextQuestionArr);
