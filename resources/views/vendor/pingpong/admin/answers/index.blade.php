@@ -42,8 +42,8 @@
 				<td>
 					<?php 	$string = strip_tags(@$answer->answers);
 					 if (strlen($string) > 25) {
-						echo $stringCut = substr($string, 0, 25);
-						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						 $string = substr($string, 0, 25).'...';
+						
 					} 
 					echo $string;?>
 				
@@ -51,8 +51,8 @@
 				<td>
 					<?php 	$string = strip_tags(@$answer->short_name);
 					 if (strlen($string) > 25) {
-						echo $stringCut = substr($string, 0, 25);
-						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						 $string = substr($string, 0, 25).'...';
+						
 					} 
 					echo $string;?>
 				
@@ -60,8 +60,8 @@
 				<td>
 				<?php 	$string = strip_tags(@$answer->question->title);
 					 if (strlen($string) > 25) {
-						echo $stringCut = substr($string, 0, 25);
-						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						 $string = substr($string, 0, 25).'...';
+						
 					} 
 					echo $string;?>
 				</td>
@@ -69,8 +69,8 @@
 					@if(!empty($answer->option_description) )
 						<?php 	$string = strip_tags(@$answer->option_description);
 						 if (strlen($string) > 25) {
-							echo $stringCut = substr($string, 0, 25);
-							echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+							 $string = substr($string, 0, 25).'...';
+							
 						} 
 						echo $string;?>
 						

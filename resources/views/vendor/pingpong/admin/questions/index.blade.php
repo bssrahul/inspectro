@@ -31,28 +31,35 @@
 			<tr>
 				<td>{!! $no !!}</td>
 				<td>
-					<?php 	$string1 = strip_tags(@$question->title);
-					 if (strlen($string1) > 25) {
-						$stringCut = substr($string1, 0, 25);
-						$string1 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+
+					<?php 	$string = strip_tags(@$question->title);
+					 if (strlen($string) > 25) {
+						 $string = substr($string, 0, 25).'...';
+
 					} 
 					echo $string1;?>
 				</td>
 				<td>
-					<?php 	$string2 = strip_tags(@ $question->short_name);
-						 if (strlen($string2) > 25) {
-							$stringCut = substr($string2, 0, 25);
-							$string2 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+
+
+					<?php 	$string = strip_tags(@ $question->short_name);
+						 if (strlen($string) > 25) {
+							 $string = substr($string, 0, 25).'...';
+							
+
 						} 
 						echo $string2;?>
 				</td>
 				<td>@if(!empty($question->description_1))
-						<?php 	$string3 = strip_tags(@$question->description_1);
-						 if (strlen($string3) > 25) {
-							echo $stringCut = substr($string3, 0, 25);
-							echo $string3 = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+
+
+						<?php 	$string = strip_tags(@$question->description_1);
+						 if (strlen($string) > 25) {
+							 $string = substr($string, 0, 25).'...';
+						
 						} 
 						echo $string3;?>
+							
 							
 					@else
 					  <span class='label label-deactive '>Not Available</span>
