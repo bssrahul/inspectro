@@ -632,9 +632,8 @@ function popupValidation()
 			var nexQueId = runTimeObj.data('next');
 			//var nexQueId = $('.childbox').data('next');
 			$('.nextQue').attr('data-qid',nexQueId);
-			if($('#TellUs').val()=='' && $('#customInfoYes').is(':checked')){
+			if($.trim($('#TellUs').val())=='' && $('#customInfoYes').is(':checked')){
 				setTimeout(function(){$('.nextQue').attr('disabled',true);},100);
-				
 				return false;
 			}else{
 				setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
@@ -788,7 +787,7 @@ function validateUsername(inputClass,fld) {
         return false;
  
     } else if (fld.val().length < 3) {
-        error = "Name should be greater then 3 characters.";
+        error = "Name should be greater than 3 characters.";
 		$("."+inputClass).next('.error-box').children().html(error);
 		$("."+inputClass).next('.error-box').show();
 		$('.nextQue').prop('disabled', true);
@@ -862,7 +861,7 @@ function stQfrontStorage(staticModal)
 					minDate: 0					
 			});
 			
-			$('#timepicker1').timepicker({minDate: $.now()});
+			$('#timepicker1').timepicker({defaultTime:false});
 			popupValidation();		
 		}
 	}); 
@@ -963,10 +962,9 @@ function ServdateTime()
 			$('.nextQue').attr('data-qid',nexQueId);
 			backQueId = $('.nextQue').attr('data-current_id');
 			opId = val;
+			setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
 		}
 	
-		
-		//setTimeout(function(){$('.nextQue').removeAttr('disabled')},100);
 	}
 }
 
@@ -993,11 +991,10 @@ function checkTimeValid(){
 				var time=$('#timepicker1').val();
 					var	Hr = time.split(':');
 					var	format = time.split(' ');
-					console.log(Hr[0]);
-					console.log(time);
+					
 					var Tpkrhour = parseInt(Hr[0]);
 					
-				if($.trim(format[1])=="PM")
+				if($.trim(format[1])=="PM" && parseInt(Hr[0])!=12)
 				{
 					
 					Tpkrhour = 12 + parseInt(Hr[0]);
@@ -1007,8 +1004,8 @@ function checkTimeValid(){
 				{
 					Tpkrhour = 12;
 				}
-				console.log("time"+Tpkrhour);
-				console.log("currentHour"+currentHour);
+				//console.log("time picker"+Tpkrhour);
+				//console.log("currentHour"+currentHour);
 				if((Tpkrhour <= currentHour) && ($.trim($('#datepicker').val())==$.trim(todayDate)))
 					{
 						
@@ -1032,20 +1029,14 @@ function TellUs() {
 		if($('#customInfoYes').is(':checked'))
 		{
 			backQueId = $('.nextQue').attr('data-current_id');
-			if($.inArray($.trim(backQueId),queArray)==-1)
-			{	
-				if(flag==true){
-					//queArray.push($.trim(backQueId));
-					//console.log('customYes');
-					//console.log(queArray);
-				}
-			}
+			
 			$('.nextQue').attr('data-qid',nexQueId);
 			if($.trim($('#TellUs').val())==''){
 				messageErr = 'This field is required.';
 				$('#TellUs').next('.error-box').children('p').text(messageErr);
 				$('#TellUs').next('.error-box').show();
 				$('.nextQue').attr('disabled',true);
+				console.log('checking');
 				return false;
 			}
 			

@@ -32,24 +32,23 @@
 				<td>
 					<?php 	$string = strip_tags(@$question->title);
 					 if (strlen($string) > 25) {
-						echo $stringCut = substr($string, 0, 25);
-						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+						 $string = substr($string, 0, 25).'...';
 					} 
 					echo $string;?>
 				</td>
 				<td>
 					<?php 	$string = strip_tags(@ $question->short_name);
 						 if (strlen($string) > 25) {
-							echo $stringCut = substr($string, 0, 25);
-							echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+							 $string = substr($string, 0, 25).'...';
+							
 						} 
 						echo $string;?>
 				</td>
 				<td><?php if(!empty($question->description_1)): ?>
 						<?php 	$string = strip_tags(@$question->description_1);
 						 if (strlen($string) > 25) {
-							echo $stringCut = substr($string, 0, 25);
-							echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
+							 $string = substr($string, 0, 25).'...';
+							
 						} 
 						echo $string;?>
 							
