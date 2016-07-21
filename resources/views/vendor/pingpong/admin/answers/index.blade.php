@@ -11,8 +11,8 @@
 		@endif
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 		<small class="searchBox">	
-			{!! link_to_route('admin.login.index', 'Home') !!}&nbsp;&nbsp;>>&nbsp;&nbsp;{!! link_to_route('admin.questions.index', ucwords($selectedServiceName[$serviceid]),['ser_id'=>$serviceid,'opt'=>$serviceid]) !!}
-			&nbsp;&nbsp;>>&nbsp;&nbsp; {!! link_to_route('admin.answers.index', ucwords($selectedQuestionName[$qid]),['ques_id' => $qid , 'serv_id'=> $serviceid ]) !!}
+			{!! link_to_route('admin.login.index', 'Home') !!}&nbsp;&nbsp;>>&nbsp;&nbsp;{!! link_to_route('admin.questions.index',ucwords(substr($selectedServiceName[$serviceid],0,20)),['ser_id'=>$serviceid,'opt'=>$serviceid]) !!}
+			&nbsp;&nbsp;>>&nbsp;&nbsp; {!! link_to_route('admin.answers.index', ucwords(substr($selectedQuestionName[$qid],0,20)),['ques_id' => $qid , 'serv_id'=> $serviceid ]) !!}
 
 		</small>
 	<!--	<small class="searchBox">	<input  type="text" name="search" id="search" class = 'form-control searchBox'  /></small><label class="searchLabel" > Search </label> -->
@@ -42,8 +42,8 @@
 				<td>
 					<?php 	$string = strip_tags(@$answer->answers);
 					 if (strlen($string) > 25) {
-						 $string = substr($string, 0, 25).'...';
-						
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
 					} 
 					echo $string;?>
 				
@@ -51,8 +51,8 @@
 				<td>
 					<?php 	$string = strip_tags(@$answer->short_name);
 					 if (strlen($string) > 25) {
-						 $string = substr($string, 0, 25).'...';
-						
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
 					} 
 					echo $string;?>
 				
@@ -60,8 +60,8 @@
 				<td>
 				<?php 	$string = strip_tags(@$answer->question->title);
 					 if (strlen($string) > 25) {
-						 $string = substr($string, 0, 25).'...';
-						
+						echo $stringCut = substr($string, 0, 25);
+						echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
 					} 
 					echo $string;?>
 				</td>
@@ -69,8 +69,8 @@
 					@if(!empty($answer->option_description) )
 						<?php 	$string = strip_tags(@$answer->option_description);
 						 if (strlen($string) > 25) {
-							 $string = substr($string, 0, 25).'...';
-							
+							echo $stringCut = substr($string, 0, 25);
+							echo $string = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
 						} 
 						echo $string;?>
 						
