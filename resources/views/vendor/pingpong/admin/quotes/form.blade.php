@@ -16,15 +16,16 @@
 				
 				</div>
 				<div class="form-group">
-					{!! Form::label('full_name', 'Name:') !!}
-					{!! Form::text('full_name',$name, ['class' => 'form-control required', 'readonly'=>true]) !!}
-					{!! $errors->first('full_name', '<div class="text-danger">:message</div>') !!}
-				</div>
-				<div class="form-group">
 					{!! Form::label('email', 'Email:') !!}
 					{!! Form::text('email',$email, ['class' => 'form-control required', 'readonly'=>true]) !!}
 					{!! $errors->first('email', '<div class="text-danger">:message</div>') !!}
 				</div>
+				<div class="form-group">
+					{!! Form::label('full_name', 'Name:') !!}
+					{!! Form::text('full_name',$name, ['class' => 'form-control required', 'readonly'=>true]) !!}
+					{!! $errors->first('full_name', '<div class="text-danger">:message</div>') !!}
+				</div>
+				
 				
 				<?php }  
 				if(!empty($request->phone_no)){
@@ -37,12 +38,29 @@
 					
 			<?php	} ?>
 				
-		
+			<input type="hidden" name="serviceid" value="<?php echo $service_id ;?>"
 		
 	
 			<div class="form-group">
 						{!! Form::label('message', 'Message:') !!}
-						{!! Form::textarea('message', null, ['class' => 'form-control required', 'id' => 'ckeditor']) !!}
+						<textarea name="message" class="form-control required" id="ckeditor"> 
+						<?php echo "</br></br></br><b>Kindly give a response of  these question for better service on this mail address.</b></br>" ;?>
+						<?php foreach($adminQuestion as $k=> $adminQue)
+						{
+							echo '</br><label><b> Question : </b><label><span>'.$adminQue->title.'</span><br>';
+							$finalQueArr=$adminQue->answers;
+							foreach($finalQueArr as $anskey	=> $finalQue){
+								
+									echo '<label><b> Ans'.++$anskey.' : </b><label><span>'.$finalQue->answers.'</span><br>';
+								
+								
+							}
+							//$finalQueAnsArr[$k]['Que']=$adminQue->title;
+							
+						}?>
+						
+						</textarea>
+						
 						{!! $errors->first('message', '<div class="text-danger">:message</div>') !!}
 					</div>
 	

@@ -5,7 +5,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use Pingpong\Admin\Entities\Quote;
+use Pingpong\Admin\Entities\Question;
 use Pingpong\Admin\Repositories\Quotes\QuoteRepository;
+use Pingpong\Admin\Repositories\Questions\QuestionRepository;
 use Pingpong\Admin\Validation\Quote\Create;
 use Pingpong\Admin\Validation\Quote\Update;
 use DB;
@@ -13,10 +15,12 @@ use Mail;
 class QuotesController extends BaseController
 {
     protected $repository;
+	 protected $querepository;
 
-public function __construct(QuoteRepository $repository)
+public function __construct(QuoteRepository $repository,QuestionRepository $querepository)
 {
-$this->repository = $repository;
+	$this->repository = $repository;
+	$this->querepository = $querepository;
 }
 /**
 * Redirect not found.
@@ -48,7 +52,7 @@ public function index(Request $request)
 			$que_id= @$quotes[0]['id'];
 			$status= @$quotes[0]['status'];
 			$queReqAnsData= DB :: table ("quote_requests_answers")->where('quote_requests_id',$que_id)->get();
-			//echo "<pre>"; print_R($quotes);die;
+			//echo "<pre>"; print_R($queReqAnsData);die;
 			if(!empty($queReqAnsData)){
 				$tempQue=array();
 				$temp=array();
@@ -142,21 +146,19 @@ public function create(Request $request)
 		// for no repeat a queston
 			
 		if(!empty($request->get('requestId'))){
-			echo $reqId=$request->get('requestId');
+			 $reqId=$request->get('requestId');
 					
 		}
 		$requestData= DB::table('quote_requests')->where('id',$reqId)->get();
+		$service_id=$requestData[0]->service_id;
 		
-	
-		//echo "<pre>"; print_r($requestData);die;
-		//echo "<pre>"; print_r($questiondata);
-		//end of no repeat a question	
 		
-	
-		//echo "<pre>"; print_r($qid);die;
-		//echo "<pre>"; print_R($qid);die;
+		$adminQuestion=$this->querepository->getQueAnswers($service_id);
 		
-		return $this->view('quotes.create', compact('requestData','reqId'));
+		
+		
+		
+		return $this->view('quotes.create', compact('requestData','reqId','adminQuestion','service_id'));
 		
 	
 
@@ -170,10 +172,13 @@ public function create(Request $request)
 public function store(Create $request)
 {
 		$Alldata = $request->all();
-	//	echo "<pre>"; print_R($data);die;
+		//echo "<pre>"; print_R($Alldata);die;
 		$id=$Alldata['id'];
+		//$service_id=$Alldata['serviceid'];
 		$contactName=$Alldata['full_name'];
 		$contactEmail=$Alldata['email'];
+		
+		//echo "<pre>"; print_r($finalQueAnsArr);die;
 		if(!empty($Alldata['phone_no'])){
 			$phone_no=$Alldata['phone_no'];
 		}
@@ -188,13 +193,13 @@ public function store(Create $request)
 		if(!empty($userData)){
 			$subject = 'Inspectro - Reply of Quote Request';	
 			$data['message'] = $contactMessage;
-			/* Mail::send('emails.reply', compact('data'), function($message) use ($userData, $subject)
+			 Mail::send('emails.reply', compact('data'), function($message) use ($userData, $subject)
 			{   
 					$message->to($userData['email'],$userData['name'])->subject($subject);
 					
-			});  */
+			});  
 			$mailFlag=1;
-			echo "success";
+			//echo "success";
 		}
 		
 		 if(($mailFlag == 1) && (!empty($userData)) ){
@@ -234,52 +239,11 @@ public function show($id)
 */
 public function edit($id,REQUEST $request)
 {
-		
-		$qid=$request->get('ques_id');
-		$optId=$request->get('opt');
-		$serviceid=$request->get('serv_id');
-		$question=$request->get('ques_id');
-		$hd=$request->get('hd');
-		
-		
-			$selectedQuestionName=DB :: table("questions")->where('id',$qid)->lists('title','id');
-			$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
-			$nextQuestionData=DB :: table("questions")->where('service_id',$serviceid)->lists('title','id');
-
-			$nextQuestionArr=array();
-			foreach($nextQuestionData as $k=>$nextQuestions){
-				
-				if($k != $question){
-					echo $nextQuestionArr[$k]=$nextQuestions;
-				}
-			
-			}
-			$nextQuestionArr[0]=' End Questionaire ';
-			$nextQuestionArr[null]='---Select Next Question---';
-			ksort($nextQuestionArr);
-			
-			
-		//	echo "<pre>"; print_R($question);
-			//echo "<pre>"; print_R($selectedServiceName);
-		//	echo "<pre>"; print_R($nextQuestionData);
-		//	echo "<pre>"; print_R($nextQuestionArr);die;
-		
-		
-		
-		$questionArr=DB :: table("questions")->lists('title','id');
-		$sel[]='-- Select Question --';
-		$questionArr=$sel + $questionArr;
-		//$nextQuestionArr=$questionArr;
-		
-		//echo "<pre>"; print_R($serviceid);die;
-		//echo "<pre>"; print_R($questiondata);die;
 		try {
-				$answer = $this->repository->findById($id);
-				$answer_id=$answer['id'];
-				$answerName=$answer['answers'];
-				
-				//echo "<pre>"; print_R($answer);die;
-				return $this->view('quotes.edit', compact('answer','answer_id','answerName','questionArr','nextQuestionArr','qid','optId','hd','serviceid','selectedQuestionName','selectedServiceName'));
+		
+			$quotes = $this->repository->findById($id);
+			return $this->view('quotes.edit', compact('quotes'));
+			//echo "<pre>"; print_r($quotes);die;	
 		}catch (	
 				ModelNotFoundException $e) {
 				return $this->redirectNotFound();
@@ -294,45 +258,18 @@ public function edit($id,REQUEST $request)
 */
 public function update(Update $request, $id)
 {
-	//print_r($id);die;
+	
 	try {
 		
 
 		$data = $request->all();
 		
-		if(!empty($data['qid'])){
-			$ques_id=$data['qid'];
-			$service_id=$data['service_id'];
-		}
-		//echo "<pre>"; print_R($data);die;
-		foreach($data['answers'] as $k=>$value){
-			$tempArr = array();
-			$tempArr['answers'] = $value;
-			if(!empty($data['question_id'])){
-				$tempArr['question_id'] = $data['question_id'];
-			}
-			
-			if(!empty($data['custom_answer'][$k])  ){
-				$tempArr['custom_answer'] = $data['custom_answer'][$k];
-			}else{
-				$tempArr['custom_answer'] = 0;
-			}
-			$tempArr['next_question_id'] = $data['next_question_id'][$k];
-			$tempArr['option_description'] = $data['option_description'][$k];
-			$tempArr['sort'] = $data['sort'][$k];
-			
-			//Answer::create($tempArr);
-		}
-		$data=$tempArr;
-		//echo "<pre>"; print_R($tempArr);
-		$answer = $this->repository->findById($id);
-		//echo "<pre>"; print_R($answer);die;
-		$answer->update($data);
-		if(!empty($ques_id)){
-			return $this->redirect('quotes.index',['ques_id'=>$ques_id,'serv_id'=>$service_id]);
-		}else{
-			return $this->redirect('quotes.index');
-		}
+		//echo "<pre>"; print_R($data);
+		//print_r($id);die;
+		$quote = $this->repository->findById($id);
+		$quote->update($data);
+		return $this->redirect('quotes.index');
+		
 		
 	 }
 	 catch (ModelNotFoundException $e) {
@@ -364,4 +301,6 @@ public function getTotalService()
 	//echo"<pre>"; print_r($serviceCount);die;
 	
 }
+
+
 }

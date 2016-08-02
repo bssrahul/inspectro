@@ -44,6 +44,16 @@ class EloquentQuestionRepository implements QuestionRepository
 				return $this->getModel()->latest()->paginate($this->perPage());
 		}
     }
+	
+	
+	public function getQueAnswers($serviceid = null)
+    {
+		
+		
+        if(!empty($serviceid)){
+				return $this->getModel()->where('service_id','=',$serviceid)->where('response_time_question',1)->with('answers')->get();
+		}
+    }
 
     public function search($searchQuery = null,$serviceid = null )
     {

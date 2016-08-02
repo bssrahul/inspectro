@@ -62,14 +62,14 @@ class HomeController extends Controller {
 	{
 		$serviceId=$_REQUEST['serviceId'];
 		
-		$totalQofService = DB::table('questions')->where('service_id',$serviceId)->lists('id');
-		
+		$totalQofService = DB::table('questions')->where('service_id',$serviceId)->where('response_time_question',0)->lists('id');
+		//echo "<pre>"; print_r($totalQofService);die;
 		$totalQofServiceJson = json_encode($totalQofService,JSON_NUMERIC_CHECK);
 		
 	
 		
 		$FirstQue = DB::table('questions')->where('service_id',$serviceId)->where('sort_que',1)->first();
-		//print_r($FirstQue);die;
+		//echo "<pre>"; print_r($FirstQue);die;
 		if(isset($serviceId)&& !empty($serviceId) && !empty($FirstQue)){
 		$popup='<div class="modal-dialog popup-1">
 				<input type="hidden" value='.$totalQofServiceJson.' id="serviceTotalQ" name="serviceTotalQ">

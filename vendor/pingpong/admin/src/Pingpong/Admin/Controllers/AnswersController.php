@@ -95,8 +95,8 @@ public function create(Request $request)
 			$selectedQuestionName=DB :: table("questions")->where('id',$questionid)->lists('title','id');
 		
 			$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
-			$nextQuestionData=DB :: table("questions")->where('service_id',$serviceid)->lists('title','id');
-
+			$nextQuestionData=DB :: table("questions")->where('service_id',$serviceid)->where('response_time_question',0)->lists('title','id');
+			//echo "<pre>"; print_R($nextQuestionData);die;
 			$nextQuestionArr=array();
 			foreach($nextQuestionData as $k=>$nextQuestions){
 				
@@ -248,8 +248,8 @@ public function edit($id,REQUEST $request)
 		
 			$selectedQuestionName=DB :: table("questions")->where('id',$qid)->lists('title','id');
 			$selectedServiceName=DB :: table("services")->where('id',$serviceid)->lists('title','id');
-			$nextQuestionData=DB :: table("questions")->where('service_id',$serviceid)->lists('title','id');
-
+			$nextQuestionData=DB :: table("questions")->where('service_id',$serviceid)->where('response_time_question',0)->lists('title','id');
+			//echo "<pre>"; print_R($nextQuestionData);die;
 			$nextQuestionArr=array();
 			foreach($nextQuestionData as $k=>$nextQuestions){
 				

@@ -81,8 +81,8 @@ public function create(Request $request)
 			/* $checkSort=array();
 			foreach($sortData as $k=>$sort){
 				$checkSort[]=$k;
-			}
-			echo "<pre>"; print_R($checkSort);die; */
+			}*/
+			//echo "<pre>"; print_R($sortData);die; 
 		}
 	
 		//echo "<pre>"; print_R($sortIndex);die;
@@ -122,24 +122,31 @@ public function store(Create $request)
 		//echo "<pre>"; print_R($data);die;
 		$sid=$data['service_id'];
 		$FormSortKey=$data['sort_que'];
-		$sortData=DB :: table("questions")->where('service_id',$sid)->lists('title','id');
-		
+		$sortData=DB :: table("questions")->where('service_id',$sid)->lists('title','sort_que');
+		// echo "<pre>"; print_R($sortData);die;
 		$checkSort=array();
 		foreach($sortData as $k=>$sort){
 			$checkSort[]=$k;
 		}
+		
 		if((in_array($FormSortKey,$checkSort)) && ($FormSortKey == 1) ) 
 		{
+			
 			Session::flash('message', 'First Question Already Define. Firstly Change it'); 
 			return back();
 		}else if(in_array($FormSortKey,$checkSort)){
+			
 			Session::flash('message', 'This Sort Key already Defined. '); 
 			return back();
 		}
+		//echo "<pre>"; print_R($checkSort);die;
 		/* echo "<pre>"; print_R($checkSort);die;
 		echo "<pre>"; print_R($data);die; */
 		if(empty($data['other_custom_field'])){
 			$data['other_custom_field']=0;
+		}
+		if(empty($data['response_time_question'])){
+			$data['response_time_question']=0;
 		}
 		Question::create($data);
 		//echo "<pre>"; print_R($data);die;
@@ -209,17 +216,20 @@ public function update(Update $request, $id)
 		//echo "<pre>"; print_R($data);die;
 		$sid=$data['service_id'];
 		$FormSortKey=$data['sort_que'];
-		$sortData=DB :: table("questions")->where('service_id',$sid)->lists('title','id');
-		
+		$sortData=DB :: table("questions")->where('service_id',$sid)->lists('title','sort_que');
+		$CurrentsortData=DB :: table("questions")->where('id',$id)->get();
+		$currentsort=$CurrentsortData[0]->sort_que;
+		//echo "<pre>"; print_R($CurrentsortData[0]->sort_que);die;
 		$checkSort=array();
 		foreach($sortData as $k=>$sort){
 			$checkSort[]=$k;
 		}
+		
 		if((in_array($FormSortKey,$checkSort)) && ($FormSortKey == 1) ) 
 		{
 			Session::flash('message', 'First Question Already Define. Firstly Change it'); 
 			return back();
-		}else if((in_array($FormSortKey,$checkSort)) && ($FormSortKey != $id)){
+		}else if((in_array($FormSortKey,$checkSort)) && ($FormSortKey != $currentsort)){
 			Session::flash('message', 'This Sort Key already Defined. '); 
 			return back();
 		}
@@ -228,6 +238,9 @@ public function update(Update $request, $id)
 		}
 		if(empty($data['other_custom_field'])){
 			$data['other_custom_field']=0;
+		}
+		if(empty($data['response_time_question'])){
+			$data['response_time_question']=0;
 		}
 				//echo "<pre>"; print_R($data);die;
 		$question = $this->repository->findById($id);
@@ -250,14 +263,17 @@ public function destroy($id)
 	
 	try {
 		
+		if(!empty($id)){
+			
+			$nextQuestionArr= DB :: table('answers')->where('next_question_id',$id)->get();
+			//echo "<pre>"; print_r($nextQuestionArr);die;
+		}
 		
-		$nextQuestionArr= DB :: table('Answers')->where('next_question_id',$id)->get();
-		//echo "<pre>"; print_r($nextQuestionArr);
-		if(!empty($nextQuestionArr)){
+		if(@$nextQuestionArr && !empty($nextQuestionArr)){
 			$newQuestionArr=array();
 			foreach($nextQuestionArr as $k=>$nextQuestion){
-				echo $id1=$nextQuestion->id;
-				DB::table('Answers')->where('id', $id1)->update(['next_question_id' => 0]);
+				$id1=$nextQuestion->id;
+				DB::table('answers')->where('id', $id1)->update(['next_question_id' => 0]);
 			}
 			
 		}

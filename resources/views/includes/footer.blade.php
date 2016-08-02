@@ -902,12 +902,13 @@ function sendRequest()
 function cancelProject()
 {
 	$(document).on('click','#CancelProject',function(){
+		$('#myModal').modal('hide');
 		$.ajax({
 			url: '<?php echo url('/')."/cancelProject"; ?>',
 			type: 'get',
 			data: '_token='+CSRF_TOKEN,
 			success: function (data){
-				$('#myModal').modal('hide');
+				
 				//console.log(data);
 			}
 		}); 	

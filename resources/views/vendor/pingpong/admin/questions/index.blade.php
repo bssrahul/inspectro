@@ -8,7 +8,7 @@
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 		
 		<small class="searchBox">	
-			{!! link_to_route('admin.login.index', 'Home') !!}&nbsp;&nbsp;>>&nbsp;&nbsp;{!! link_to_route('admin.questions.index', ucwords($selectedServiceName[$serviceid]),['ser_id'=>$serviceid,'opt'=>$serviceid]) !!}
+			{!! link_to_route('admin.login.index', 'Home') !!}&nbsp;&nbsp;>>&nbsp;&nbsp;{!! link_to_route('admin.questions.index', ucwords(substr( $selectedServiceName[$serviceid],0, 10)),['ser_id'=>$serviceid,'opt'=>$serviceid]) !!}
 		</small>
 	</h1>
 @stop
@@ -22,6 +22,7 @@
 			<th>Question Short Name</th>
 			<th>Description</th>
 			<th>Sorting Key</th>
+			<th>Response Time Question</th>
 			<!--<th>Other Input Field</th>-->
 			<th>Created At</th>
 			<th class="text-center">Action</th>
@@ -71,6 +72,14 @@
 							
 					@else
 						{!! $question->sort_que !!}
+					@endif
+				</td>
+				<td>
+					@if($question->response_time_question == 1)
+							<span class='label label-avail '>Response Question</span>
+							
+					@else
+						<span class='label label-deactive '>Not Available</span>
 					@endif
 				</td>
 				<!--<td>@if($question->other_custom_field == '1')

@@ -6,7 +6,7 @@
 		<small><input action="action" type="button" value="Back" onclick="history.go(-1);" /></small>
 		
 		<small class="searchBox">	
-			<?php echo link_to_route('admin.login.index', 'Home'); ?>&nbsp;&nbsp;>>&nbsp;&nbsp;<?php echo link_to_route('admin.questions.index', ucwords($selectedServiceName[$serviceid]),['ser_id'=>$serviceid,'opt'=>$serviceid]); ?>
+			<?php echo link_to_route('admin.login.index', 'Home'); ?>&nbsp;&nbsp;>>&nbsp;&nbsp;<?php echo link_to_route('admin.questions.index', ucwords(substr( $selectedServiceName[$serviceid],0, 10)),['ser_id'=>$serviceid,'opt'=>$serviceid]); ?>
 
 		</small>
 	</h1>
@@ -21,6 +21,7 @@
 			<th>Question Short Name</th>
 			<th>Description</th>
 			<th>Sorting Key</th>
+			<th>Response Time Question</th>
 			<!--<th>Other Input Field</th>-->
 			<th>Created At</th>
 			<th class="text-center">Action</th>
@@ -30,25 +31,32 @@
 			<tr>
 				<td><?php echo $no; ?></td>
 				<td>
+
 					<?php 	$string = strip_tags(@$question->title);
 					 if (strlen($string) > 25) {
 						 $string = substr($string, 0, 25).'...';
+
 					} 
 					echo $string;?>
 				</td>
 				<td>
+
+
 					<?php 	$string = strip_tags(@ $question->short_name);
 						 if (strlen($string) > 25) {
 							 $string = substr($string, 0, 25).'...';
 							
+
 						} 
 						echo $string;?>
 				</td>
 				<td><?php if(!empty($question->description_1)): ?>
+
+
 						<?php 	$string = strip_tags(@$question->description_1);
 						 if (strlen($string) > 25) {
 							 $string = substr($string, 0, 25).'...';
-							
+						
 						} 
 						echo $string;?>
 							
@@ -64,6 +72,14 @@
 					<?php else: ?>
 						<?php echo $question->sort_que; ?>
 
+					<?php endif; ?>
+				</td>
+				<td>
+					<?php if($question->response_time_question == 1): ?>
+							<span class='label label-avail '>Response Question</span>
+							
+					<?php else: ?>
+						<span class='label label-deactive '>Not Available</span>
 					<?php endif; ?>
 				</td>
 				<!--<td><?php if($question->other_custom_field == '1'): ?>
@@ -89,7 +105,7 @@
 					<?php echo $__env->make('admin::partials.modal', ['data' => $question, 'name' => 'questions'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
 			</tr>
-			<?php $no++ ;?>
+			<?php $no++ ;$string='';?>
 			<?php endforeach; ?>
 		</tbody>
 	</table>

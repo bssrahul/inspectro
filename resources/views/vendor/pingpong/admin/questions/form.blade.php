@@ -44,6 +44,16 @@
 		{!! $errors->first('other_custom_field', '<div class="text-danger">:message</div>') !!}
 		
 	</div> -->
+	 <div class="form-group">
+		
+		{!! Form::label('response_time_question ', ' Set as a Response Time Question  :  ') !!}	
+		&nbsp;&nbsp;&nbsp;
+		{!! Form::checkbox('response_time_question') !!} 
+		</br>
+		<span> <?php echo"( Are you want to ask this question at the time of send quote response)";?> </span>
+		{!! $errors->first('response_time_question', '<div class="text-danger">:message</div>') !!}
+		
+	</div> 
 	<div class="form-group">
 		{!! Form::label('description_1', 'Description 1:') !!}
 		{!! Form::textarea('description_1', null, ['class' => 'form-control ']) !!}

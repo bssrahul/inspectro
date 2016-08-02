@@ -62,6 +62,7 @@
 					</button> -->
 				
 					&middot;
+					<a href="<?php echo route('admin.quotes.edit', $quote->id); ?>">Edit</a>
 					<?php echo $__env->make('admin::partials.modal', ['data' => $quote, 'name' => 'quotes'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 				</td>
 			</tr>
@@ -111,7 +112,7 @@
 		</tr>
 		<tr>
 			<td><label> Service Request Date :</label></td><td ><?php 
-					if (ctype_digit($quote->service_request_date)) {
+					if (ctype_digit(strtotime($quote->service_request_date))) {
 						echo date('F d, Y', strtotime($quote->service_request_date));
 					} else {
 						echo ucfirst($quote->service_request_date);
